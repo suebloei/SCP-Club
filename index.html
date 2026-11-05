@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
   <title>ระบบรับสมัครสมาชิกชุมนุม - โรงเรียนสีชมพูศึกษา</title>
   
   <!-- Google Fonts: Prompt & Sarabun -->
@@ -123,13 +125,9 @@
       <div class="flex items-center gap-4 relative z-10 text-center md:text-left">
         <div class="relative group">
           <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-brand-500 via-rose-400 to-pink-300 p-1 shadow-lg shadow-brand-500/25 flex items-center justify-center transform transition group-hover:scale-105">
-            <div class="w-full h-full bg-white rounded-[14px] flex items-center justify-center overflow-hidden">
-              <!-- Lovely Icon -->
-              <div class="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center text-brand-600">
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                </svg>
-              </div>
+            <div class="w-full h-full bg-white rounded-[14px] flex items-center justify-center overflow-hidden p-1">
+              <!-- School / Club Logo Image -->
+              <img src="logo.png" alt="โลโก้โรงเรียนสีชมพูศึกษา" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center text-brand-600\'><svg class=\'w-6 h-6\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'currentColor\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2.2\' d=\'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6\'/></svg></div>';">
             </div>
           </div>
           <span class="absolute -bottom-1 -right-1 flex h-4 w-4">
@@ -285,22 +283,22 @@
 
         <!-- Form Formatted -->
         <form id="regForm" class="space-y-4" onsubmit="return false;">
-          <!-- ID Input with Fast Actions -->
+          <!-- Search by ID or Name with Auto-complete Dropdown -->
           <div>
-            <label for="studentIdInput" class="block text-xs font-bold text-brand-800 mb-1.5">
-              เลขประจำตัวนักเรียน (5 หลัก)
+            <label for="studentSearchInput" class="block text-xs font-bold text-brand-800 mb-1.5 flex items-center justify-between">
+              <span>ระบุเลขประจำตัว หรือ ชื่อ-สกุล นักเรียน</span>
+              <span class="text-[11px] font-normal text-brand-600">รหัส 5 หลัก หรือ พิมพ์ชื่อ</span>
             </label>
             <div class="relative">
               <input 
                 type="text" 
-                id="studentIdInput" 
-                maxlength="5" 
-                placeholder="เช่น 20103, 19647, 18860" 
-                class="w-full bg-brand-50/60 border-2 border-brand-200 rounded-2xl py-3 pl-4 pr-24 text-brand-900 text-lg font-mono font-bold tracking-widest placeholder-brand-300 focus:outline-none focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-100 transition shadow-inner"
+                id="studentSearchInput" 
+                placeholder="เช่น 20103 หรือ พิมพ์ชื่อ กมลภพ..." 
+                class="w-full bg-brand-50/60 border-2 border-brand-200 rounded-2xl py-3 pl-4 pr-24 text-brand-900 text-base font-semibold placeholder-brand-300 focus:outline-none focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-100 transition shadow-inner"
                 autocomplete="off"
                 autofocus
               >
-              <div class="absolute right-2 top-2 flex items-center gap-1">
+              <div class="absolute right-2 top-2 flex items-center gap-1 z-10">
                 <button type="button" id="btnRandom" title="สุ่มรหัสนักเรียนตัวอย่างเพื่อทดสอบ" class="px-2.5 py-1.5 rounded-xl bg-brand-100 hover:bg-brand-200 text-brand-700 text-xs font-bold border border-brand-200 transition">
                   สุ่ม
                 </button>
@@ -310,10 +308,15 @@
                   </svg>
                 </button>
               </div>
+
+              <!-- Auto-suggest Popup Dropdown for Name Search -->
+              <div id="suggestDropdown" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-white border border-brand-200 rounded-2xl shadow-2xl z-30 max-h-56 overflow-y-auto divide-y divide-brand-100">
+                <!-- Dynamically populated -->
+              </div>
             </div>
             <p class="text-[11px] text-brand-500/80 mt-1.5 flex items-center justify-between font-medium">
               <span>ฐานข้อมูลนักเรียน ม.1 - ม.6 (1,895 คน)</span>
-              <span id="digitCount" class="font-bold text-brand-600">0/5</span>
+              <span id="searchTypeBadge" class="font-bold text-brand-600">รหัส หรือ ชื่อ</span>
             </p>
           </div>
 
@@ -327,7 +330,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </div>
-              <p class="text-xs font-medium">กรอกเลขประจำตัว 5 หลักเพื่อค้นหานักเรียน</p>
+              <p class="text-xs font-medium">กรอกเลขประจำตัว 5 หลัก หรือพิมพ์ชื่อนักเรียน</p>
             </div>
 
             <!-- Student Found State -->
@@ -492,6 +495,7 @@
     <!-- Official Printable Format (Visible only on Print) -->
     <div class="print-only p-4 space-y-4">
       <div class="text-center space-y-1">
+        <img src="logo.png" alt="โลโก้" class="w-16 h-16 mx-auto mb-2 object-contain" onerror="this.style.display='none'">
         <h2 class="text-xl font-bold" id="printClubTitle">บัญชีรายชื่อสมาชิก ชุมนุม Trader</h2>
         <p class="text-sm">โรงเรียนสีชมพูศึกษา องค์การบริหารส่วนจังหวัดขอนแก่น</p>
         <p class="text-xs">ภาคเรียนที่ 2 ปีการศึกษา 2569</p>
@@ -547,7 +551,28 @@
       if (clubName === 'ชุมนุม Trader') {
         return 20;
       }
-      return 20; // Default capacity for all school clubs
+      return 20; // Default capacity for clubs
+    }
+
+    // Helper: Parse room string into comparable numbers (e.g., "ม.1/1" -> grade: 1, room: 1)
+    function parseClassRoom(classStr) {
+      if (!classStr) return { grade: 999, room: 999 };
+      const m = String(classStr).match(/(\d+)\s*\/\s*(\d+)/);
+      if (m) {
+        return { grade: parseInt(m[1], 10), room: parseInt(m[2], 10) };
+      }
+      return { grade: 999, room: 999 };
+    }
+
+    // Sort members array by Room ascending (1/1 before 1/2 ... before 6/1)
+    function sortMembersByRoom(list) {
+      return [...list].sort((a, b) => {
+        const roomA = parseClassRoom(a.class);
+        const roomB = parseClassRoom(b.class);
+        if (roomA.grade !== roomB.grade) return roomA.grade - roomB.grade;
+        if (roomA.room !== roomB.room) return roomA.room - roomB.room;
+        return Number(a.id) - Number(b.id);
+      });
     }
 
     let members = [];
@@ -710,19 +735,62 @@
       }, 3000);
     }
 
-    // Real-Time Student Lookup
-    const studentIdInput = document.getElementById('studentIdInput');
-    const digitCount = document.getElementById('digitCount');
+    // Real-Time Student Lookup (Search by ID OR by Name)
+    const searchInput = document.getElementById('studentSearchInput');
+    const suggestDropdown = document.getElementById('suggestDropdown');
+    const searchTypeBadge = document.getElementById('searchTypeBadge');
     const previewEmpty = document.getElementById('previewEmpty');
     const previewFound = document.getElementById('previewFound');
     const previewNotFound = document.getElementById('previewNotFound');
     const btnRegister = document.getElementById('btnRegister');
 
-    function checkStudentId(val) {
-      const trimmed = val.trim();
-      digitCount.innerText = `${trimmed.length}/5`;
+    function hideSuggestions() {
+      suggestDropdown.classList.add('hidden');
+      suggestDropdown.innerHTML = '';
+    }
 
-      if (trimmed.length < 5) {
+    function selectStudent(student) {
+      if (!student) return;
+      currentFoundStudent = student;
+      hideSuggestions();
+
+      document.getElementById('previewName').innerText = student.name;
+      document.getElementById('previewId').innerText = `เลขประจำตัว: ${student.id}`;
+      document.getElementById('previewBadge').innerText = student.class;
+      document.getElementById('previewAvatar').innerText = student.name.charAt(student.name.indexOf(' ') + 1) || student.name.charAt(0);
+
+      const quota = getClubQuota(currentClub);
+      const isAlready = members.some(m => String(m.id).trim() === student.id);
+      const statusBadge = document.getElementById('previewStatusBadge');
+
+      if (isAlready) {
+        statusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> สมัครไปแล้ว';
+        statusBadge.className = 'text-[11px] font-semibold text-rose-600 flex items-center gap-1';
+        btnRegister.disabled = true;
+        playSound('warn');
+      } else if (members.length >= quota) {
+        statusBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> ชุมนุมเต็มแล้ว (${quota} คน)`;
+        statusBadge.className = 'text-[11px] font-semibold text-rose-600 flex items-center gap-1';
+        btnRegister.disabled = true;
+        playSound('warn');
+      } else {
+        statusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> พร้อมสมัคร';
+        statusBadge.className = 'text-[11px] font-semibold text-emerald-600 flex items-center gap-1';
+        btnRegister.disabled = false;
+        playSound('found');
+      }
+
+      previewEmpty.classList.add('hidden');
+      previewFound.classList.remove('hidden');
+      previewNotFound.classList.add('hidden');
+    }
+
+    function handleStudentSearch(val) {
+      const query = val.trim();
+
+      if (!query) {
+        hideSuggestions();
+        searchTypeBadge.innerText = 'รหัส หรือ ชื่อ';
         previewEmpty.classList.remove('hidden');
         previewFound.classList.add('hidden');
         previewNotFound.classList.add('hidden');
@@ -731,57 +799,104 @@
         return;
       }
 
-      const found = studentMap.get(trimmed);
-      const quota = getClubQuota(currentClub);
+      // Case 1: Search by 5-digit Student ID
+      const isPureDigits = /^\d+$/.test(query);
 
-      if (found) {
-        currentFoundStudent = found;
-        document.getElementById('previewName').innerText = found.name;
-        document.getElementById('previewId').innerText = `เลขประจำตัว: ${found.id}`;
-        document.getElementById('previewBadge').innerText = found.class;
-        document.getElementById('previewAvatar').innerText = found.name.charAt(found.name.indexOf(' ') + 1) || found.name.charAt(0);
+      if (isPureDigits) {
+        hideSuggestions();
+        searchTypeBadge.innerText = `${query.length}/5 หลัก`;
 
-        // Check if student is already in this club
-        const isAlready = members.some(m => String(m.id).trim() === found.id);
-        const statusBadge = document.getElementById('previewStatusBadge');
-        
-        if (isAlready) {
-          statusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> สมัครไปแล้ว';
-          statusBadge.className = 'text-[11px] font-semibold text-rose-600 flex items-center gap-1';
-          btnRegister.disabled = true;
-          playSound('warn');
-        } else if (members.length >= quota) {
-          statusBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> ชุมนุมเต็มแล้ว (${quota} คน)`;
-          statusBadge.className = 'text-[11px] font-semibold text-rose-600 flex items-center gap-1';
-          btnRegister.disabled = true;
-          playSound('warn');
+        if (query.length === 5) {
+          const found = studentMap.get(query);
+          if (found) {
+            selectStudent(found);
+          } else {
+            currentFoundStudent = null;
+            previewEmpty.classList.add('hidden');
+            previewFound.classList.add('hidden');
+            previewNotFound.classList.remove('hidden');
+            btnRegister.disabled = true;
+          }
         } else {
-          statusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> พร้อมสมัคร';
-          statusBadge.className = 'text-[11px] font-semibold text-emerald-600 flex items-center gap-1';
-          btnRegister.disabled = false;
-          playSound('found');
+          currentFoundStudent = null;
+          previewEmpty.classList.remove('hidden');
+          previewFound.classList.add('hidden');
+          previewNotFound.classList.add('hidden');
+          btnRegister.disabled = true;
         }
+        return;
+      }
 
-        previewEmpty.classList.add('hidden');
-        previewFound.classList.remove('hidden');
-        previewNotFound.classList.add('hidden');
+      // Case 2: Search by Name / Surname
+      searchTypeBadge.innerText = 'ค้นหาด้วยชื่อ';
+      if (query.length >= 2) {
+        const cleanQ = query.toLowerCase();
+        const matched = Array.from(studentMap.values())
+          .filter(s => s.name.toLowerCase().includes(cleanQ))
+          .slice(0, 8); // top 8 suggestions
+
+        if (matched.length > 0) {
+          suggestDropdown.innerHTML = '';
+          matched.forEach(s => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'p-3 hover:bg-brand-50 cursor-pointer flex items-center justify-between transition text-left';
+            itemDiv.innerHTML = `
+              <div>
+                <p class="font-bold text-xs text-brand-900">${s.name}</p>
+                <p class="text-[11px] text-brand-500 font-mono">รหัส: ${s.id}</p>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-brand-100 text-brand-700 border border-brand-200">
+                ${s.class}
+              </span>
+            `;
+            itemDiv.addEventListener('click', () => {
+              searchInput.value = s.name;
+              selectStudent(s);
+            });
+            suggestDropdown.appendChild(itemDiv);
+          });
+          suggestDropdown.classList.remove('hidden');
+
+          // If single exact match
+          if (matched.length === 1 && matched[0].name.toLowerCase() === cleanQ) {
+            selectStudent(matched[0]);
+          }
+        } else {
+          suggestDropdown.innerHTML = '<div class="p-3 text-xs text-brand-400 text-center">ไม่พบชื่อที่ค้นหา</div>';
+          suggestDropdown.classList.remove('hidden');
+          currentFoundStudent = null;
+          previewEmpty.classList.add('hidden');
+          previewFound.classList.add('hidden');
+          previewNotFound.classList.remove('hidden');
+          btnRegister.disabled = true;
+        }
       } else {
-        currentFoundStudent = null;
-        previewEmpty.classList.add('hidden');
-        previewFound.classList.add('hidden');
-        previewNotFound.classList.remove('hidden');
-        btnRegister.disabled = true;
+        hideSuggestions();
       }
     }
 
-    studentIdInput.addEventListener('input', (e) => {
-      e.target.value = e.target.value.replace(/\D/g, '');
-      checkStudentId(e.target.value);
+    searchInput.addEventListener('input', (e) => {
+      handleStudentSearch(e.target.value);
     });
 
-    studentIdInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter' && !btnRegister.disabled) {
-        registerCurrentStudent();
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        if (!btnRegister.disabled && currentFoundStudent) {
+          registerCurrentStudent();
+        } else {
+          // If suggestion dropdown is open, select the first match
+          const firstOption = suggestDropdown.querySelector('div');
+          if (firstOption && !suggestDropdown.classList.contains('hidden')) {
+            firstOption.click();
+          }
+        }
+      }
+    });
+
+    // Close suggestion dropdown if clicked outside
+    document.addEventListener('click', (e) => {
+      if (!searchInput.contains(e.target) && !suggestDropdown.contains(e.target)) {
+        hideSuggestions();
       }
     });
 
@@ -790,15 +905,16 @@
       const keys = Array.from(studentMap.keys());
       if (keys.length > 0) {
         const randKey = keys[Math.floor(Math.random() * keys.length)];
-        studentIdInput.value = randKey;
-        checkStudentId(randKey);
+        const randStudent = studentMap.get(randKey);
+        searchInput.value = randStudent.id;
+        handleStudentSearch(randStudent.id);
       }
     });
 
     document.getElementById('btnClear').addEventListener('click', () => {
-      studentIdInput.value = '';
-      checkStudentId('');
-      studentIdInput.focus();
+      searchInput.value = '';
+      handleStudentSearch('');
+      searchInput.focus();
     });
 
     // Register Student Action
@@ -837,10 +953,10 @@
         colors: ['#f43073', '#ff6298', '#ffc7da', '#10b981']
       });
 
-      showToast(`สมัครสำเร็จ: ${newMember.name}`);
-      studentIdInput.value = '';
-      checkStudentId('');
-      studentIdInput.focus();
+      showToast(`สมัครสำเร็จ: ${newMember.name} (${newMember.class})`);
+      searchInput.value = '';
+      handleStudentSearch('');
+      searchInput.focus();
 
       syncMemberToSheet(newMember);
     }
@@ -909,7 +1025,7 @@
           body: JSON.stringify({
             action: 'syncAll',
             club: currentClub,
-            members: members
+            members: sortMembersByRoom(members)
           })
         });
         showToast(`คำขอซิงค์ถูกส่งไปยังชีต "${currentClub}" เรียบร้อย`);
@@ -918,7 +1034,7 @@
       }
     });
 
-    // Render Members Table
+    // Render Members Table - Sorted strictly by Classroom (1/1 before 1/2 ... before 6/1)
     function renderMembersTable() {
       const tbody = document.getElementById('memberTableBody');
       const emptyState = document.getElementById('tableEmptyState');
@@ -927,7 +1043,11 @@
 
       tbody.innerHTML = '';
 
-      let filtered = members.filter(m => {
+      // 1. Sort members by Classroom ascending
+      const sortedMembers = sortMembersByRoom(members);
+
+      // 2. Filter search and level
+      let filtered = sortedMembers.filter(m => {
         const matchSearch = m.name.toLowerCase().includes(searchVal) || 
                             String(m.id).includes(searchVal) || 
                             m.class.toLowerCase().includes(searchVal);
@@ -991,8 +1111,8 @@
           body: JSON.stringify({ action: 'delete', club: currentClub, id: id })
         });
 
-        if (studentIdInput.value.trim() === id) {
-          checkStudentId(id);
+        if (searchInput.value.trim() === id || searchInput.value.trim() === target.name) {
+          handleStudentSearch('');
         }
       }
     };
@@ -1021,14 +1141,15 @@
       document.getElementById('statSeniorRatio').innerText = total ? `คิดเป็น ${Math.round((seniorCount / total) * 100)}%` : '0%';
     }
 
-    // Export CSV (Excel compatible with UTF-8 BOM)
+    // Export CSV (Excel compatible with UTF-8 BOM, Sorted by Classroom)
     document.getElementById('btnExportCsv').addEventListener('click', () => {
       if (members.length === 0) {
         showToast('ไม่มีรายชื่อสมาชิกสำหรับส่งออก', 'warn');
         return;
       }
+      const sorted = sortMembersByRoom(members);
       let csv = '\uFEFFลำดับ,เลขประจำตัว,ชื่อ - สกุล,ระดับชั้น,ชุมนุม,เวลาที่ลงทะเบียน\n';
-      members.forEach((m, idx) => {
+      sorted.forEach((m, idx) => {
         csv += `"${idx + 1}","'${m.id}","${m.name}","${m.class}","${m.club || currentClub}","${m.timestamp || ''}"\n`;
       });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -1042,19 +1163,20 @@
       showToast('ดาวน์โหลดไฟล์ CSV เรียบร้อย');
     });
 
-    // Copy LINE formatted text
+    // Copy LINE formatted text (Sorted by Classroom)
     document.getElementById('btnCopyLine').addEventListener('click', () => {
       const quota = getClubQuota(currentClub);
       if (members.length === 0) {
         showToast('ยังไม่มีสมาชิก', 'warn');
         return;
       }
+      const sorted = sortMembersByRoom(members);
       let text = `🌸 รายชื่อสมาชิก ${currentClub} โรงเรียนสีชมพูศึกษา\n`;
       text += `📅 ข้อมูล ณ วันที่ ${new Date().toLocaleDateString('th-TH')}\n`;
-      text += `👥 สมาชิกทั้งหมด: ${members.length}/${quota} คน\n`;
+      text += `👥 สมาชิกทั้งหมด: ${sorted.length}/${quota} คน\n`;
       text += `-----------------------------------\n`;
-      members.forEach((m, i) => {
-        text += `${i + 1}. [${m.id}] ${m.name} (${m.class})\n`;
+      sorted.forEach((m, i) => {
+        text += `${i + 1}. [${m.class}] ${m.id} ${m.name}\n`;
       });
       text += `-----------------------------------\n`;
       text += `✨ ระบบรับสมัครชุมนุมออนไลน์ โรงเรียนสีชมพูศึกษา`;
@@ -1066,18 +1188,19 @@
       });
     });
 
-    // Print & PDF Preparation
+    // Print & PDF Preparation (Sorted by Classroom)
     document.getElementById('btnPrint').addEventListener('click', () => {
       document.getElementById('printDateLabel').innerText = `พิมพ์เมื่อ: ${new Date().toLocaleDateString('th-TH')} เวลา ${new Date().toLocaleTimeString('th-TH')}`;
       const printBody = document.getElementById('printTableBody');
       printBody.innerHTML = '';
-      members.forEach((m, i) => {
+      const sorted = sortMembersByRoom(members);
+      sorted.forEach((m, i) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td class="text-center">${i + 1}</td>
           <td class="text-center font-mono">${m.id}</td>
           <td>${m.name}</td>
-          <td class="text-center">${m.class}</td>
+          <td class="text-center font-bold">${m.class}</td>
           <td class="text-center">${m.timestamp || '-'}</td>
           <td class="text-center"></td>
         `;
@@ -1091,7 +1214,7 @@
       updateClubUI();
       initDatabase();
       loadLocalMembers(); // instantaneous display from cache
-      checkStudentId('');
+      handleStudentSearch('');
       
       // Automatic Fetch latest data from Google Sheets on load
       await fetchMembersFromSheet(true);
