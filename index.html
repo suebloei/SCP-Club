@@ -78,7 +78,7 @@
       box-shadow: 0 12px 30px -8px rgba(244, 48, 115, 0.18);
     }
 
-    /* Print styling matching the reference image layout */
+    /* Print styling matching exact official layout */
     @media print {
       body {
         background: white !important;
@@ -91,7 +91,7 @@
       table {
         border-collapse: collapse !important;
         width: 100% !important;
-        margin-top: 10px;
+        margin-top: 14px;
       }
       th, td {
         border: 1px solid #52525b !important;
@@ -109,7 +109,6 @@
     }
     .print-only { display: none; }
 
-    /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 7px; height: 7px; }
     ::-webkit-scrollbar-track { background: #ffeef3; }
     ::-webkit-scrollbar-thumb { background: #ffb1cb; border-radius: 9999px; }
@@ -169,10 +168,11 @@
             </svg>
             ชุมนุม:
           </span>
+          <!-- Clean club name options: without redundant 'ชุมนุม' prefix -->
           <select id="currentClubSelect" class="bg-transparent text-brand-900 font-bold text-xs sm:text-sm focus:outline-none cursor-pointer">
-            <option value="ชุมนุม Trader">ชุมนุม Trader</option>
-            <option value="ชุมนุม หุ่นยนต์">ชุมนุม หุ่นยนต์</option>
-            <option value="ชุมนุม Coding & AI">ชุมนุม Coding & AI</option>
+            <option value="Trader">Trader</option>
+            <option value="หุ่นยนต์">หุ่นยนต์</option>
+            <option value="Coding & AI">Coding & AI</option>
             <option value="custom" class="text-brand-600 font-bold">+ เพิ่มชื่อชุมนุมอื่น...</option>
           </select>
         </div>
@@ -258,7 +258,7 @@
           <span id="statTotalUnassigned" class="text-3xl sm:text-4xl font-extrabold text-rose-600 font-display">1,895</span>
           <span class="text-xs text-rose-500 font-medium">คน</span>
         </div>
-        <p id="statTotalUnassignedRatio" class="text-[11px] text-rose-500/80 mt-3 font-medium font-semibold">คิดเป็น 100%</p>
+        <p id="statTotalUnassignedRatio" class="text-[11px] text-rose-500/80 mt-3 font-semibold">คิดเป็น 100%</p>
       </div>
     </div>
 
@@ -533,8 +533,8 @@
     </div>
 
     <!-- Official Printable Format (Visible only on Print) -->
+    <!-- ปรับปรุง: ตัดส่วนกล่องสรุปชมพูขวาบนและวันเวลาพิมพ์ขวาบนออกตามภาพตัวอย่างอย่างสะอาดตา -->
     <div class="print-only p-6 space-y-6 bg-white text-gray-900 font-sans">
-      <!-- Printable Header matching the reference layout -->
       <div class="border-b-2 border-brand-500 pb-4 flex items-center justify-between gap-4">
         <div class="flex items-center gap-4">
           <img src="logo.png" alt="โลโก้โรงเรียนสีชมพูศึกษา" class="w-20 h-20 object-contain rounded-full border border-gray-200 p-1" onerror="this.style.display='none'">
@@ -555,21 +555,9 @@
             </p>
           </div>
         </div>
-
-        <!-- Summary Badges in Print Header -->
-        <div class="text-right space-y-1.5">
-          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-pink-50 border border-pink-200 text-xs font-bold text-brand-900">
-            <span id="printBadgeText">สมาชิกในชุมนุม:</span>
-            <span id="printTotalMembersBadge" class="text-brand-600 font-extrabold text-sm">0</span>
-            <span>คน</span>
-          </div>
-          <div class="text-[11px] text-gray-500" id="printDateLabel">
-            วันที่พิมพ์: -
-          </div>
-        </div>
       </div>
 
-      <!-- Member List Table matching the exact 5 columns from user reference -->
+      <!-- Member List Table matching the exact 5 columns -->
       <table class="w-full text-xs border border-gray-400">
         <thead>
           <tr class="bg-pink-100/80 text-brand-900 font-bold border-b border-gray-400">
@@ -580,9 +568,7 @@
             <th class="w-48 py-2.5 px-3 text-center" id="printCol5Header">เวลาที่สมัคร</th>
           </tr>
         </thead>
-        <tbody id="printTableBody" class="divide-y divide-gray-300">
-          <!-- Populated during print -->
-        </tbody>
+        <tbody id="printTableBody" class="divide-y divide-gray-300"></tbody>
       </table>
 
       <!-- Bottom Signatures -->
@@ -623,9 +609,16 @@
     const STORAGE_KEY_BASE = 'sichompu_club_members_2569';
     const TOTAL_SCHOOL_STUDENTS = 1895;
 
+    // Helper: Clean club name by stripping "ชุมนุม " prefix
+    function cleanClubName(str) {
+      if (!str) return 'Trader';
+      return String(str).replace(/^ชุมนุม\s*/g, '').trim();
+    }
+
     function getClubQuota(clubName) {
-      if (clubName === 'ชุมนุม Trader') return 20;
-      return 20;
+      const clean = cleanClubName(clubName);
+      if (clean === 'Trader') return 20;
+      return 20; // Default capacity for clubs
     }
 
     function parseClassRoom(classStr) {
@@ -637,6 +630,7 @@
       return { grade: 999, room: 999 };
     }
 
+    // Sort strictly by room (ม.1/1 before ม.1/2 ... before ม.6/9)
     function sortMembersByRoom(list) {
       return [...list].sort((a, b) => {
         const roomA = parseClassRoom(a.class);
@@ -647,34 +641,45 @@
       });
     }
 
+    function formatDateTime(ts) {
+      if (!ts) return '-';
+      const d = new Date(ts);
+      if (isNaN(d.getTime())) return ts;
+      return `${d.toLocaleDateString('th-TH')} ${d.toLocaleTimeString('th-TH')}`;
+    }
+
     let members = [];
     let allRegisteredMap = new Map();
     let studentMap = new Map();
     let currentFoundStudent = null;
     let activeTab = 'members'; // 'members' or 'unassigned'
 
-    let currentClub = localStorage.getItem('sichompu_current_club') || 'ชุมนุม Trader';
+    let currentClub = cleanClubName(localStorage.getItem('sichompu_current_club') || 'Trader');
     const clubSelect = document.getElementById('currentClubSelect');
     const displayClubTitle = document.getElementById('displayClubTitle');
 
     function updateClubUI() {
+      currentClub = cleanClubName(currentClub);
       let found = false;
       for (let i = 0; i < clubSelect.options.length; i++) {
-        if (clubSelect.options[i].value === currentClub) {
+        if (cleanClubName(clubSelect.options[i].value) === currentClub) {
           clubSelect.selectedIndex = i;
           found = true;
           break;
         }
       }
       if (!found && currentClub) {
+        const customOpt = clubSelect.querySelector('option[value="custom"]');
         const newOpt = new Option(currentClub, currentClub, true, true);
-        clubSelect.insertBefore(newOpt, clubSelect.options[clubSelect.options.length - 1]);
+        clubSelect.insertBefore(newOpt, customOpt);
+        clubSelect.value = currentClub;
       }
-      displayClubTitle.innerText = currentClub.toUpperCase();
-      document.title = `ระบบรับสมัครสมาชิก ${currentClub} - โรงเรียนสีชมพูศึกษา`;
+      
+      displayClubTitle.innerText = `ชุมนุม ${currentClub.toUpperCase()}`;
+      document.title = `ระบบรับสมัครสมาชิก ชุมนุม ${currentClub} - โรงเรียนสีชมพูศึกษา`;
       
       const printClubTitle = document.getElementById('printClubTitle');
-      if (printClubTitle) printClubTitle.innerText = currentClub.toUpperCase();
+      if (printClubTitle) printClubTitle.innerText = `ชุมนุม ${currentClub.toUpperCase()}`;
 
       const quota = getClubQuota(currentClub);
       const quotaMaxEl = document.getElementById('statQuotaMaxLabel');
@@ -685,6 +690,30 @@
       
       const footerQuotaEl = document.getElementById('footerQuotaLabel');
       if (footerQuotaEl) footerQuotaEl.innerText = `โควตารับสูงสุด ${quota} ที่นั่ง`;
+    }
+
+    // Fetch dynamic clubs list from Google Sheets (Auto-shares newly added clubs across all devices)
+    async function fetchClubsList() {
+      try {
+        const res = await fetch(`${WEB_APP_URL}?action=getClubsList`);
+        const json = await res.json();
+        if (json.status === 'success' && Array.isArray(json.clubs)) {
+          const customOpt = clubSelect.querySelector('option[value="custom"]');
+          const existing = Array.from(clubSelect.options).map(o => cleanClubName(o.value));
+          
+          json.clubs.forEach(c => {
+            const cleanC = cleanClubName(c);
+            if (cleanC && cleanC !== 'custom' && !existing.includes(cleanC)) {
+              const newOpt = new Option(cleanC, cleanC);
+              clubSelect.insertBefore(newOpt, customOpt);
+              existing.push(cleanC);
+            }
+          });
+          updateClubUI();
+        }
+      } catch (err) {
+        console.warn('Could not sync clubs list from sheets:', err);
+      }
     }
 
     // Tab Switching Logic
@@ -715,18 +744,19 @@
 
     clubSelect.addEventListener('change', async (e) => {
       if (e.target.value === 'custom') {
-        const customName = prompt('กรุณาระบุชื่อชุมนุมที่ต้องการสร้าง/บันทึก:', 'ชุมนุม...');
+        const customName = prompt('ระบุชื่อชุมนุมใหม่ (ไม่ต้องใส่คำว่าชุมนุม เช่น วอลเลย์บอล, ดนตรีสากล):', '');
         if (customName && customName.trim() !== '') {
-          currentClub = customName.trim();
+          currentClub = cleanClubName(customName.trim());
+          const customOpt = clubSelect.querySelector('option[value="custom"]');
           const newOpt = new Option(currentClub, currentClub, true, true);
-          clubSelect.insertBefore(newOpt, clubSelect.options[clubSelect.options.length - 1]);
+          clubSelect.insertBefore(newOpt, customOpt);
           clubSelect.value = currentClub;
         } else {
           clubSelect.value = currentClub;
           return;
         }
       } else {
-        currentClub = e.target.value;
+        currentClub = cleanClubName(e.target.value);
       }
       
       localStorage.setItem('sichompu_current_club', currentClub);
@@ -1016,7 +1046,6 @@
 
     btnRegister.addEventListener('click', registerCurrentStudent);
 
-    // Quick-Assign from Unassigned Table
     window.quickAssignStudent = function(id) {
       const quota = getClubQuota(currentClub);
       if (members.length >= quota) {
@@ -1039,7 +1068,7 @@
       members.unshift(newMember);
       saveLocalMembers();
       playSound('success');
-      showToast(`รับ ${student.name} เข้า ${currentClub} สำเร็จ`);
+      showToast(`รับ ${student.name} เข้าชุมนุม ${currentClub} สำเร็จ`);
       syncMemberToSheet(newMember);
     };
 
@@ -1133,12 +1162,10 @@
                 ${m.class}
               </span>
             </td>
-            <td class="py-3 px-3 text-center text-brand-500 text-[11px] font-mono">${m.timestamp || '-'}</td>
+            <td class="py-3 px-3 text-center text-brand-500 text-[11px] font-mono">${formatDateTime(m.timestamp)}</td>
             <td class="py-3 px-3 text-center no-print">
               <button onclick="deleteMember('${m.id}')" title="ลบออก" class="text-brand-300 hover:text-rose-600 p-1 rounded-lg hover:bg-rose-50 transition">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
+                ✕
               </button>
             </td>
           `;
@@ -1156,7 +1183,6 @@
 
       tbody.innerHTML = '';
 
-      // Compute unassigned set: in studentMap but NOT in members AND NOT in allRegisteredMap
       const enrolledIds = new Set();
       members.forEach(m => enrolledIds.add(String(m.id).trim()));
       allRegisteredMap.forEach((val, key) => enrolledIds.add(String(key).trim()));
@@ -1168,10 +1194,8 @@
         }
       });
 
-      // Sort strictly by room (1/1 before 1/2 ... before 6/1)
       const sortedUnassigned = sortMembersByRoom(unassignedList);
 
-      // Filter by search & room dropdown
       const filtered = sortedUnassigned.filter(s => {
         const matchSearch = s.name.toLowerCase().includes(searchVal) || 
                             String(s.id).includes(searchVal) || 
@@ -1217,7 +1241,6 @@
       }
     }
 
-    // Filter Listeners
     document.getElementById('searchFilter').addEventListener('input', renderMembersTable);
     document.getElementById('classFilter').addEventListener('change', renderMembersTable);
     document.getElementById('searchUnassignedFilter').addEventListener('input', renderUnassignedTable);
@@ -1251,7 +1274,6 @@
       const pct = Math.min(100, Math.round((totalInClub / quota) * 100));
       document.getElementById('statProgressBar').style.width = `${pct}%`;
 
-      // School-wide statistics
       const enrolledIds = new Set();
       members.forEach(m => enrolledIds.add(String(m.id).trim()));
       allRegisteredMap.forEach((val, key) => enrolledIds.add(String(key).trim()));
@@ -1266,19 +1288,16 @@
       document.getElementById('statTotalUnassignedRatio').innerText = `คิดเป็น ${Math.round((unassignedCount / TOTAL_SCHOOL_STUDENTS) * 100)}%`;
     }
 
-    // Export CSV (Handles both active views)
+    // Export CSV
     document.getElementById('btnExportCsv').addEventListener('click', () => {
       if (activeTab === 'members') {
-        if (members.length === 0) {
-          showToast('ไม่มีรายชื่อสมาชิกสำหรับส่งออก', 'warn');
-          return;
-        }
+        if (members.length === 0) return showToast('ไม่มีรายชื่อสมาชิกสำหรับส่งออก', 'warn');
         const sorted = sortMembersByRoom(members);
         let csv = '\uFEFFลำดับ,เลขประจำตัว,ชื่อ - สกุล,ระดับชั้น,เวลาที่สมัคร\n';
         sorted.forEach((m, idx) => {
-          csv += `"${idx + 1}","'${m.id}","${m.name}","${m.class}","${m.timestamp || ''}"\n`;
+          csv += `"${idx + 1}","'${m.id}","${m.name}","${m.class}","${formatDateTime(m.timestamp)}"\n`;
         });
-        downloadBlob(csv, `รายชื่อ_${currentClub}_สีชมพูศึกษา_${new Date().toISOString().slice(0,10)}.csv`);
+        downloadBlob(csv, `รายชื่อ_ชุมนุม${currentClub}_สีชมพูศึกษา_${new Date().toISOString().slice(0,10)}.csv`);
       } else {
         const enrolledIds = new Set();
         members.forEach(m => enrolledIds.add(String(m.id).trim()));
@@ -1316,7 +1335,7 @@
       if (activeTab === 'members') {
         if (members.length === 0) return showToast('ยังไม่มีสมาชิก', 'warn');
         const sorted = sortMembersByRoom(members);
-        let text = `🌸 รายชื่อสมาชิก ${currentClub} โรงเรียนสีชมพูศึกษา\n`;
+        let text = `🌸 รายชื่อสมาชิก ชุมนุม ${currentClub} โรงเรียนสีชมพูศึกษา\n`;
         text += `📅 ข้อมูล ณ วันที่ ${new Date().toLocaleDateString('th-TH')}\n`;
         text += `👥 สมาชิกทั้งหมด: ${sorted.length}/${quota} คน\n`;
         text += `-----------------------------------\n`;
@@ -1339,23 +1358,19 @@
         let text = `⚠️ สรุปยอดนักเรียนที่ยังไม่มีชุมนุม โรงเรียนสีชมพูศึกษา\n`;
         text += `📅 ณ วันที่ ${new Date().toLocaleDateString('th-TH')}\n`;
         text += `📌 คงเหลือค้างลงทะเบียน: ${sorted.length} คน (จากทั้งหมด 1,895 คน)\n`;
-        text += `-----------------------------------\n`;
-        text += `(สามารถส่งออกไฟล์ Excel จากระบบเพื่อติดตามรายห้องได้ครับ)`;
+        text += `-----------------------------------\n(สามารถส่งออกไฟล์ Excel จากระบบเพื่อติดตามรายห้องได้ครับ)`;
         navigator.clipboard.writeText(text).then(() => showToast('คัดลอกข้อความสำหรับ LINE สำเร็จ'));
       }
     });
 
-    // Print & PDF Preparation (Exact match to reference layout)
+    // Print & PDF Preparation
     document.getElementById('btnPrint').addEventListener('click', () => {
       const printBody = document.getElementById('printTableBody');
       printBody.innerHTML = '';
-      document.getElementById('printDateLabel').innerText = `พิมพ์เมื่อ: ${new Date().toLocaleDateString('th-TH')} เวลา ${new Date().toLocaleTimeString('th-TH')}`;
 
       if (activeTab === 'members') {
-        document.getElementById('printClubTitle').innerText = currentClub.toUpperCase();
+        document.getElementById('printClubTitle').innerText = `ชุมนุม ${currentClub.toUpperCase()}`;
         document.getElementById('printClubSubtitle').innerText = 'ระบบรับสมัครสมาชิกชุมนุมออนไลน์ • ภาคเรียนที่ 2 ปีการศึกษา 2569';
-        document.getElementById('printBadgeText').innerText = 'สมาชิกในชุมนุม:';
-        document.getElementById('printTotalMembersBadge').innerText = members.length;
         document.getElementById('printCol5Header').innerText = 'เวลาที่สมัคร';
 
         const sorted = sortMembersByRoom(members);
@@ -1367,14 +1382,13 @@
             <td class="py-2 px-3 text-center border-r border-gray-400 font-mono font-bold">${m.id}</td>
             <td class="py-2 px-4 text-left border-r border-gray-400 font-semibold">${m.name}</td>
             <td class="py-2 px-3 text-center border-r border-gray-400 font-bold text-pink-700">${m.class}</td>
-            <td class="py-2 px-3 text-center font-mono text-[11px] text-gray-700">${m.timestamp || '-'}</td>
+            <td class="py-2 px-3 text-center font-mono text-[11px] text-gray-700">${formatDateTime(m.timestamp)}</td>
           `;
           printBody.appendChild(tr);
         });
       } else {
         document.getElementById('printClubTitle').innerText = 'บัญชีรายชื่อนักเรียนที่ยังไม่มีชุมนุม (ค้างลงทะเบียน)';
         document.getElementById('printClubSubtitle').innerText = 'รายชื่อนักเรียนที่ต้องติดตามเข้าชุมนุม • โรงเรียนสีชมพูศึกษา';
-        document.getElementById('printBadgeText').innerText = 'ยังไม่มีชุมนุม:';
         document.getElementById('printCol5Header').innerText = 'สถานะ';
 
         const enrolledIds = new Set();
@@ -1387,7 +1401,6 @@
         });
 
         const sorted = sortMembersByRoom(unassignedList);
-        document.getElementById('printTotalMembersBadge').innerText = sorted.length;
 
         sorted.forEach((s, i) => {
           const tr = document.createElement('tr');
@@ -1407,10 +1420,13 @@
     });
 
     window.addEventListener('DOMContentLoaded', async () => {
-      updateClubUI();
       initDatabase();
+      updateClubUI();
       loadLocalMembers();
       handleStudentSearch('');
+      
+      // Auto-sync existing clubs from Google Sheets (so clubs like "วอลเลย์บอล" appear on all devices)
+      await fetchClubsList();
       await fetchMembersFromSheet(true);
     });
   </script>
