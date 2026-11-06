@@ -7,6 +7,13 @@
   <link rel="apple-touch-icon" href="logo.png">
   <title>ระบบรับสมัครสมาชิกกิจกรรมชุมนุม - โรงเรียนสีชมพูศึกษา</title>
   
+  <!-- PWA & Mobile Web App Meta Tags -->
+  <meta name="theme-color" content="#f43073">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="ชุมนุมสีชมพู">
+  <link rel="manifest" href="manifest.json">
+  
   <!-- Google Fonts: Prompt & Chakra Petch -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -156,6 +163,13 @@
 
       <!-- Controls -->
       <div class="flex flex-wrap items-center justify-center gap-2.5 relative z-10 no-print">
+        <button id="btnInstallApp" title="ติดตั้งแอปลงบนหน้าจอหลัก (PWA)" class="px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-semibold bg-gradient-to-r from-brand-500 to-rose-500 hover:from-brand-600 hover:to-rose-600 text-white shadow-md shadow-brand-500/25 transition flex items-center gap-1.5 active:scale-95">
+          <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          <span>ติดตั้งแอป</span>
+        </button>
+
         <button id="btnFetchSheet" title="ดึงข้อมูลล่าสุดจาก Google Sheets" class="px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-semibold bg-white hover:bg-brand-50 text-brand-700 border border-brand-200 shadow-sm transition flex items-center gap-1.5 active:scale-95">
           <svg id="syncIcon" class="w-4 h-4 text-brand-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -508,6 +522,13 @@
       </div>
     </div>
 
+        <!-- Footer Credits (จบภายในหนึ่งบรรทัด) -->
+    <footer class="no-print pt-2 pb-4 text-center">
+      <p class="text-[10px] sm:text-xs text-brand-700/80 font-medium whitespace-nowrap overflow-hidden text-ellipsis tracking-tight">
+        พัฒนาโดย นายนพคุณ สืบเลย และนายปัญญา คำสะไมล์ โรงเรียนสีชมพูศึกษา องค์การบริหารส่วนจังหวัดขอนแก่น
+      </p>
+    </footer>
+
     <!-- Official Printable Format -->
     <!-- ปรับปรุง: ตัดกล่องชมพูสรุปขวาบน และตัดตำแหน่ง ครู วิทยฐานะ... ด้านล่างออกตามที่ต้องการ -->
     <div class="print-only p-6 space-y-6 bg-white text-gray-900 font-sans">
@@ -560,6 +581,64 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- PWA Install Guidance Modal -->
+  <div id="installModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm no-print transition-opacity">
+    <div class="glass-card rounded-3xl p-6 sm:p-7 max-w-md w-full shadow-2xl space-y-4 border-2 border-brand-200 animate-in fade-in zoom-in duration-200">
+      <div class="flex items-center justify-between pb-3 border-b border-brand-100">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-brand-500 text-white flex items-center justify-center shadow-md shadow-brand-500/30 font-bold">
+            📱
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-brand-900">ติดตั้งแอปพลิเคชัน</h3>
+            <p class="text-xs text-brand-500 font-medium">เข้าใช้งานสะดวกรวดเร็วจากหน้าจอหลัก</p>
+          </div>
+        </div>
+        <button id="btnCloseInstallModal" class="text-brand-400 hover:text-brand-700 p-1 rounded-xl hover:bg-brand-50 transition">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs text-brand-800">
+        <!-- Direct Install Button for Android / Chrome / Edge -->
+        <div id="directInstallBlock" class="p-3.5 rounded-2xl bg-brand-50 border border-brand-200 space-y-2">
+          <p class="font-bold text-brand-900 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            สำหรับ Android หรือ คอมพิวเตอร์ (Chrome / Edge):
+          </p>
+          <button id="btnTriggerInstall" class="w-full py-2.5 px-4 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs shadow-sm transition active:scale-95 flex items-center justify-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            <span>กดเพื่อติดตั้งทันที</span>
+          </button>
+        </div>
+
+        <!-- iOS Instructions -->
+        <div class="p-3.5 rounded-2xl bg-pink-50/70 border border-pink-200 space-y-2">
+          <p class="font-bold text-brand-900 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-brand-500"></span>
+            สำหรับ iPhone / iPad (Safari):
+          </p>
+          <ol class="list-decimal list-inside space-y-1 text-[11px] text-brand-700 font-medium">
+            <li>เปิดเว็บไซต์นี้ด้วยเบราว์เซอร์ <strong>Safari</strong></li>
+            <li>กดปุ่ม <strong>แชร์ (Share)</strong> <span class="inline-block px-1.5 py-0.5 rounded bg-white border border-brand-200 text-brand-800 font-bold">⎋ หรือ [↑]</span> ที่แถบเมนูด้านล่าง</li>
+            <li>เลื่อนลงแล้วเลือก <strong>"เพิ่มไปยังหน้าจอโฮม" (Add to Home Screen)</strong></li>
+            <li>กด <strong>"เพิ่ม" (Add)</strong> ที่มุมขวาบน</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="pt-2 text-center">
+        <button id="btnDismissInstallModal" class="px-5 py-2 rounded-xl bg-white hover:bg-brand-50 text-brand-700 text-xs font-semibold border border-brand-200 transition">
+          ปิดหน้าต่างนี้
+        </button>
+      </div>
+    </div>
   </div>
 
   <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
@@ -1655,6 +1734,87 @@
 
       window.print();
     });
+
+
+    // ================= PWA Installation & Service Worker =================
+    let deferredPrompt = null;
+    const btnInstallApp = document.getElementById('btnInstallApp');
+    const installModal = document.getElementById('installModal');
+    const directInstallBlock = document.getElementById('directInstallBlock');
+    const btnTriggerInstall = document.getElementById('btnTriggerInstall');
+    const btnCloseInstallModal = document.getElementById('btnCloseInstallModal');
+    const btnDismissInstallModal = document.getElementById('btnDismissInstallModal');
+
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then((reg) => {
+          console.log('Service Worker registered successfully:', reg.scope);
+        }).catch((err) => {
+          console.log('Service Worker registration skipped/failed:', err);
+        });
+      });
+    }
+
+    // Capture beforeinstallprompt event (Chrome, Android, Edge)
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (btnInstallApp) {
+        btnInstallApp.classList.remove('hidden');
+      }
+      if (directInstallBlock) {
+        directInstallBlock.classList.remove('hidden');
+      }
+    });
+
+    // Handle App Installed event
+    window.addEventListener('appinstalled', () => {
+      deferredPrompt = null;
+      showToast('ติดตั้งแอปลงบนหน้าจอหลักสำเร็จแล้ว 🎉');
+      if (installModal) installModal.classList.add('hidden');
+    });
+
+    function openInstallModal() {
+      if (deferredPrompt) {
+        // Trigger native prompt directly if available
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        // Show guidance modal (especially for iOS or manual install)
+        if (installModal) installModal.classList.remove('hidden');
+      }
+    }
+
+    if (btnInstallApp) {
+      btnInstallApp.addEventListener('click', openInstallModal);
+    }
+    if (btnTriggerInstall) {
+      btnTriggerInstall.addEventListener('click', () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          deferredPrompt = null;
+        } else {
+          showToast('กรุณากดเมนูของเบราว์เซอร์ แล้วเลือก "ติดตั้งแอป" หรือ "เพิ่มไปยังหน้าจอหลัก"', 'info');
+        }
+      });
+    }
+    if (btnCloseInstallModal) {
+      btnCloseInstallModal.addEventListener('click', () => installModal.classList.add('hidden'));
+    }
+    if (btnDismissInstallModal) {
+      btnDismissInstallModal.addEventListener('click', () => installModal.classList.add('hidden'));
+    }
+    if (installModal) {
+      installModal.addEventListener('click', (e) => {
+        if (e.target === installModal) installModal.classList.add('hidden');
+      });
+    }
 
     window.addEventListener('DOMContentLoaded', async () => {
       initDatabase();
