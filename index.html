@@ -985,6 +985,24 @@
       return { valid: true };
     }
 
+    // ตรวจสอบชุมนุมเดิมที่นักเรียนเคยสมัครไว้
+    function getStudentCurrentEnrollment(studentId) {
+      const sid = String(studentId).trim();
+      if (members.some(m => String(m.id).trim() === sid)) {
+        return { club: currentClub, isCurrent: true };
+      }
+      if (allRegisteredMap.has(sid)) {
+        const reg = allRegisteredMap.get(sid);
+        const cleanRegClub = cleanClubName(reg.club);
+        if (cleanRegClub === cleanClubName(currentClub)) {
+          return { club: cleanRegClub, isCurrent: true };
+        } else {
+          return { club: cleanRegClub, isCurrent: false };
+        }
+      }
+      return null;
+    }
+
     function selectStudent(student) {
       if (!student) return;
       currentFoundStudent = student;
@@ -995,28 +1013,52 @@
       document.getElementById('previewBadge').innerText = student.class;
       document.getElementById('previewAvatar').innerText = student.name.charAt(student.name.indexOf(' ') + 1) || student.name.charAt(0);
 
-      const isAlready = members.some(m => String(m.id).trim() === student.id);
       const statusBadge = document.getElementById('previewStatusBadge');
       const noticeStatus = document.getElementById('previewNoticeStatus');
+      const btnRegisterText = document.getElementById('btnRegisterText');
       const eligibility = validateEligibility(student, currentClub);
+      const enrollment = getStudentCurrentEnrollment(student.id);
 
-      if (isAlready) {
+      if (enrollment && enrollment.isCurrent) {
         statusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> สมัครไปแล้ว';
         statusBadge.className = 'text-[11px] font-semibold text-rose-600 flex items-center gap-1';
-        noticeStatus.innerHTML = '<span class="text-rose-600 font-bold">เคยสมัครในชุมนุมนี้แล้ว</span>';
+        noticeStatus.innerHTML = '<span class="text-rose-600 font-bold">เคยสมัครในชุมนุมนี้เรียบร้อยแล้ว</span>';
+        btnRegisterText.innerText = 'สมัครในชุมนุมนี้แล้ว';
         btnRegister.disabled = true;
+        btnRegister.className = "w-full py-3.5 px-5 rounded-2xl bg-gray-300 text-gray-500 font-bold text-base cursor-not-allowed flex items-center justify-center gap-2";
         playSound('warn');
+      } else if (enrollment && !enrollment.isCurrent) {
+        statusBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> อยู่ชุมนุม ${enrollment.club}`;
+        statusBadge.className = 'text-[11px] font-semibold text-amber-700 flex items-center gap-1';
+        
+        if (!eligibility.valid) {
+          noticeStatus.innerHTML = `<span class="text-amber-700 font-bold">⚠️ อยู่ชุมนุม "${enrollment.club}"</span><br><span class="text-rose-600 font-medium">ไม่สามารถย้ายได้: ${eligibility.reason}</span>`;
+          btnRegisterText.innerText = 'คุณสมบัติไม่ตรงตามเกณฑ์';
+          btnRegister.disabled = true;
+          btnRegister.className = "w-full py-3.5 px-5 rounded-2xl bg-gray-300 text-gray-500 font-bold text-base cursor-not-allowed flex items-center justify-center gap-2";
+          playSound('warn');
+        } else {
+          noticeStatus.innerHTML = `<span class="text-amber-700 font-bold">⚠️ เคยสมัครในชุมนุม "${enrollment.club}" แล้ว</span><br><span class="text-emerald-700 text-[10px]">หากยืนยันจะย้าย ระบบจะลบออกจาก "${enrollment.club}" ให้อัตโนมัติ</span>`;
+          btnRegisterText.innerText = `ยืนยันย้ายเข้า ${currentClub} (ลบจาก ${enrollment.club})`;
+          btnRegister.disabled = false;
+          btnRegister.className = "w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-amber-500 via-rose-500 to-pink-500 text-white font-bold text-sm shadow-lg shadow-rose-500/30 hover:shadow-rose-500/40 hover:brightness-105 active:scale-[0.98] transition flex items-center justify-center gap-2";
+          playSound('found');
+        }
       } else if (!eligibility.valid) {
         statusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> ไม่ตรงตามเกณฑ์';
         statusBadge.className = 'text-[11px] font-semibold text-amber-600 flex items-center gap-1';
         noticeStatus.innerHTML = `<span class="text-rose-600 font-bold">⚠️ ${eligibility.reason}</span>`;
+        btnRegisterText.innerText = 'คุณสมบัติไม่ตรงตามเกณฑ์';
         btnRegister.disabled = true;
+        btnRegister.className = "w-full py-3.5 px-5 rounded-2xl bg-gray-300 text-gray-500 font-bold text-base cursor-not-allowed flex items-center justify-center gap-2";
         playSound('warn');
       } else {
         statusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> พร้อมสมัคร';
         statusBadge.className = 'text-[11px] font-semibold text-emerald-600 flex items-center gap-1';
         noticeStatus.innerHTML = '<span class="text-emerald-600 font-bold">คุณสมบัติตรงตามเกณฑ์ ✓</span>';
+        btnRegisterText.innerText = 'บันทึกสมัครเข้าชุมนุม';
         btnRegister.disabled = false;
+        btnRegister.className = "w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-brand-500 via-rose-500 to-pink-500 text-white font-bold text-base shadow-lg shadow-brand-500/30 hover:shadow-brand-500/40 hover:brightness-105 active:scale-[0.98] transition flex items-center justify-center gap-2";
         playSound('found');
       }
 
@@ -1146,9 +1188,23 @@
         showToast(eligibility.reason, 'error');
         return;
       }
-      if (members.some(m => String(m.id).trim() === currentFoundStudent.id)) {
+
+      const enrollment = getStudentCurrentEnrollment(currentFoundStudent.id);
+      let isTransfer = false;
+      let oldClubName = '';
+
+      if (enrollment && enrollment.isCurrent) {
         showToast('นักเรียนคนนี้สมัครชุมนุมนี้เรียบร้อยแล้ว', 'warn');
         return;
+      }
+
+      if (enrollment && !enrollment.isCurrent) {
+        isTransfer = true;
+        oldClubName = enrollment.club;
+        const confirmMsg = `นักเรียน "${currentFoundStudent.name}" (${currentFoundStudent.class}) ได้ลงทะเบียนในชุมนุม "${oldClubName}" ไว้แล้ว\n\nหากยืนยันสมัครเข้า "${currentClub}" ระบบจะทำการลบนักเรียนออกจาก "${oldClubName}" ให้อัตโนมัติ\n\nคุณต้องการยืนยันการย้ายชุมนุมหรือไม่?`;
+        if (!confirm(confirmMsg)) {
+          return;
+        }
       }
 
       const now = new Date();
@@ -1162,8 +1218,29 @@
         timestamp: thaiTime
       };
 
+      if (isTransfer && oldClubName) {
+        try {
+          const oldStorageKey = `${STORAGE_KEY_BASE}_${encodeURIComponent(oldClubName)}`;
+          let oldList = JSON.parse(localStorage.getItem(oldStorageKey) || '[]');
+          oldList = oldList.filter(m => String(m.id).trim() !== currentFoundStudent.id);
+          localStorage.setItem(oldStorageKey, JSON.stringify(oldList));
+        } catch(e) {}
+      }
+
       members.unshift(newMember);
       saveLocalMembers();
+
+      allRegisteredMap.set(currentFoundStudent.id, {
+        id: currentFoundStudent.id,
+        name: currentFoundStudent.name,
+        class: currentFoundStudent.class,
+        club: currentClub,
+        timestamp: thaiTime
+      });
+
+      renderMembersTable();
+      renderUnassignedTable();
+      updateStats();
 
       playSound('success');
       confetti({
@@ -1173,12 +1250,32 @@
         colors: ['#f43073', '#ff6298', '#ffc7da', '#10b981']
       });
 
-      showToast(`สมัครสำเร็จ: ${newMember.name} (${newMember.class})`);
+      if (isTransfer) {
+        showToast(`ย้ายจาก "${oldClubName}" มาเข้า "${currentClub}" สำเร็จ`);
+      } else {
+        showToast(`สมัครสำเร็จ: ${newMember.name} (${newMember.class})`);
+      }
+
       searchInput.value = '';
       handleStudentSearch('');
       searchInput.focus();
 
-      syncMemberToSheet(newMember);
+      if (isTransfer) {
+        fetch(WEB_APP_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'delete', club: oldClubName, id: newMember.id })
+        });
+        fetch(WEB_APP_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'register', club: currentClub, member: newMember })
+        });
+      } else {
+        syncMemberToSheet(newMember);
+      }
     }
 
     btnRegister.addEventListener('click', registerCurrentStudent);
