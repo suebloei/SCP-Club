@@ -95,26 +95,42 @@
         color: black !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
+        margin: 0 !important;
+        padding: 0 !important;
       }
-      .no-print { display: none !important; }
-      .print-only { display: block !important; }
+      .no-print, header, footer, .glass-card, .glass-nav { 
+        display: none !important; 
+      }
+      .print-only { 
+        display: block !important; 
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
       table {
         border-collapse: collapse !important;
         width: 100% !important;
-        margin-top: 14px;
+        margin-top: 6px !important;
       }
       th, td {
-        border: 1px solid #52525b !important;
-        padding: 8px 10px !important;
-        color: #18181b !important;
+        border: 1px solid #4b5563 !important;
+        padding: 2.8px 5px !important;
+        color: #111827 !important;
+        font-size: 10.5px !important;
+        line-height: 1.25 !important;
       }
       th {
         background-color: #fce7f3 !important;
         font-weight: bold !important;
+        padding: 3.5px 5px !important;
+      }
+      .signature-box {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
       @page {
         size: A4 portrait;
-        margin: 15mm 12mm 15mm 12mm;
+        margin: 6mm 10mm 6mm 10mm;
       }
     }
     .print-only { display: none; }
@@ -130,7 +146,7 @@
   <div class="max-w-6xl mx-auto w-full space-y-5">
     
     <!-- Top Header Card -->
-    <header class="glass-nav rounded-3xl p-5 sm:p-7 shadow-pink-soft relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+    <header class="glass-nav rounded-3xl p-5 sm:p-7 shadow-pink-soft relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 no-print">
       <div class="flex items-center gap-4 relative z-10 text-center md:text-left">
         <div class="relative group">
           <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-brand-500 via-rose-400 to-pink-300 p-1 shadow-lg shadow-brand-500/25 flex items-center justify-center transform transition group-hover:scale-105">
@@ -366,7 +382,7 @@
       </div>
 
       <!-- Right Column: Tabs (Members & Unassigned) -->
-      <div class="lg:col-span-7 glass-card rounded-3xl p-6 sm:p-7 shadow-pink-soft space-y-4">
+      <div class="lg:col-span-7 glass-card rounded-3xl p-6 sm:p-7 shadow-pink-soft space-y-4 no-print">
         
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-brand-100">
           <div class="flex items-center gap-1.5 p-1 bg-brand-50/80 rounded-2xl border border-brand-200 shadow-inner">
@@ -566,53 +582,58 @@
     </footer>
 
     <!-- Official Printable Format -->
-    <!-- ปรับปรุง: ตัดกล่องชมพูสรุปขวาบน และตัดตำแหน่ง ครู วิทยฐานะ... ด้านล่างออกตามที่ต้องการ -->
-    <div class="print-only p-6 space-y-6 bg-white text-gray-900 font-sans">
-      <div class="border-b-2 border-brand-500 pb-4 flex items-center justify-between gap-4">
-        <div class="flex items-center gap-4">
-          <img src="logo.png" alt="โลโก้โรงเรียนสีชมพูศึกษา" class="w-20 h-20 object-contain rounded-full border border-gray-200 p-1" onerror="this.style.display='none'">
+    <div class="print-only space-y-3 bg-white text-gray-900 font-sans">
+      <div class="border-b-2 border-brand-500 pb-2.5 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <img src="logo.png" alt="โลโก้โรงเรียนสีชมพูศึกษา" class="w-14 h-14 object-contain rounded-full border border-gray-200 p-0.5" onerror="this.style.display='none'">
           <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-pink-100 text-pink-800 border border-pink-200">
+            <div class="flex items-center gap-2 mb-0.5">
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-pink-100 text-pink-800 border border-pink-200">
                 🌸 โรงเรียนสีชมพูศึกษา
               </span>
-              <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium">
+              <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium">
                 รับสมัครออนไลน์
               </span>
             </div>
-            <h1 class="text-2xl font-extrabold text-brand-900 tracking-tight" id="printClubTitle">
+            <h1 class="text-xl font-extrabold text-brand-900 tracking-tight" id="printClubTitle">
               ชุมนุม TRADER
             </h1>
-            <p class="text-xs text-gray-600 mt-0.5" id="printClubSubtitle">
+            <p class="text-[11px] text-gray-600" id="printClubSubtitle">
               ระบบรับสมัครสมาชิกชุมนุมออนไลน์ • ภาคเรียนที่ 2 ปีการศึกษา 2569
             </p>
           </div>
         </div>
       </div>
 
-      <!-- Member List Table matching the exact 5 columns -->
+      <!-- Member List Table (ตัดคอลัมน์เวลาที่สมัครออกตามต้องการ เพื่อความกระชับและสวยงาม) -->
       <table class="w-full text-xs border border-gray-400">
         <thead>
           <tr class="bg-pink-100/80 text-brand-900 font-bold border-b border-gray-400">
-            <th class="w-14 py-2.5 px-3 text-center border-r border-gray-400">ลำดับ</th>
-            <th class="w-28 py-2.5 px-3 text-center border-r border-gray-400">เลขประจำตัว</th>
-            <th class="py-2.5 px-4 text-left border-r border-gray-400">ชื่อ - สกุล</th>
-            <th class="w-24 py-2.5 px-3 text-center border-r border-gray-400">ระดับชั้น</th>
-            <th class="w-48 py-2.5 px-3 text-center" id="printCol5Header">เวลาที่สมัคร</th>
+            <th class="w-14 py-2 px-2.5 text-center border-r border-gray-400">ลำดับ</th>
+            <th class="w-32 py-2 px-3 text-center border-r border-gray-400">เลขประจำตัว</th>
+            <th class="py-2 px-4 text-left border-r border-gray-400">ชื่อ - สกุล</th>
+            <th class="w-28 py-2 px-3 text-center border-r border-gray-400">ระดับชั้น</th>
+            <th class="w-32 py-2 px-3 text-center">หมายเหตุ</th>
           </tr>
         </thead>
         <tbody id="printTableBody" class="divide-y divide-gray-300"></tbody>
       </table>
 
-      <!-- Bottom Signatures (ตัดตำแหน่ง ครู วิทยฐานะ ออกแล้ว เหลือช่องลงชื่อและชื่อ-สกุล) -->
-      <div class="pt-8 flex justify-end">
-        <div class="text-center w-72 space-y-7">
-          <p class="text-xs text-gray-800">
-            ลงชื่อ....................................................... ครูที่ปรึกษาชุมนุม
-          </p>
-          <p class="text-xs font-bold text-gray-900" id="printAdvisorName">
-            ( นายนพคุณ สืบเลย )
-          </p>
+      <!-- Bottom Signatures (จัดตำแหน่งชื่อให้อยู่ตรงกึ่งกลางแนวเส้นจุดไข่ปลาอย่างสมบูรณ์แบบ) -->
+      <div class="pt-4 flex justify-end signature-box">
+        <div class="text-xs text-gray-800 font-sans">
+          <div class="flex items-center">
+            <span class="whitespace-nowrap">ลงชื่อ</span>
+            <span class="inline-block border-b border-dotted border-gray-600 w-48 mx-1.5"></span>
+            <span class="whitespace-nowrap">ครูที่ปรึกษาชุมนุม</span>
+          </div>
+          <div class="flex items-center mt-1.5">
+            <span class="whitespace-nowrap invisible" aria-hidden="true">ลงชื่อ</span>
+            <span class="inline-block w-48 mx-1.5 text-center font-bold text-gray-900" id="printAdvisorName">
+              ( นายนพคุณ สืบเลย )
+            </span>
+            <span class="whitespace-nowrap invisible" aria-hidden="true">ครูที่ปรึกษาชุมนุม</span>
+          </div>
         </div>
       </div>
     </div>
@@ -923,6 +944,7 @@
 
     function formatDateTime(ts) {
       if (!ts) return '-';
+      if (typeof ts === 'string' && (ts.includes('256') || ts.includes('/25'))) return ts;
       const d = new Date(ts);
       if (isNaN(d.getTime())) return ts;
       return `${d.toLocaleDateString('th-TH')} ${d.toLocaleTimeString('th-TH')}`;
@@ -1908,59 +1930,35 @@
     });
 
     // Print & PDF Preparation
+        // Print & PDF Preparation (พิมพ์เฉพาะส่วนสมาชิกชุมนุม จบในหน้าแรกอย่างสวยงาม)
     document.getElementById('btnPrint').addEventListener('click', () => {
       const printBody = document.getElementById('printTableBody');
       printBody.innerHTML = '';
 
-      if (activeTab === 'members') {
-        document.getElementById('printClubTitle').innerText = `ชุมนุม ${currentClub.toUpperCase()}`;
-        document.getElementById('printClubSubtitle').innerText = 'ระบบรับสมัครสมาชิกชุมนุมออนไลน์ • ภาคเรียนที่ 2 ปีการศึกษา 2569';
-        document.getElementById('printCol5Header').innerText = 'เวลาที่สมัคร';
+      const meta = getClubMeta(currentClub);
+      document.getElementById('printClubTitle').innerText = `ชุมนุม ${currentClub.toUpperCase()}`;
+      document.getElementById('printClubSubtitle').innerText = `ระบบรับสมัครสมาชิกชุมนุมออนไลน์ • ภาคเรียนที่ 2 ปีการศึกษา 2569 • กลุ่มสาระฯ ${meta.dept}`;
+      
+      document.getElementById('printAdvisorName').innerText = `( ${meta.advisor || 'ครูที่ปรึกษาชุมนุม'} )`;
 
-        const sorted = sortMembersByRoom(members);
-        sorted.forEach((m, i) => {
-          const tr = document.createElement('tr');
-          tr.className = (i % 2 === 1) ? 'bg-gray-50' : 'bg-white';
-          tr.innerHTML = `
-            <td class="py-2 px-3 text-center border-r border-gray-400 font-mono">${i + 1}</td>
-            <td class="py-2 px-3 text-center border-r border-gray-400 font-mono font-bold">${m.id}</td>
-            <td class="py-2 px-4 text-left border-r border-gray-400 font-semibold">${m.name}</td>
-            <td class="py-2 px-3 text-center border-r border-gray-400 font-bold text-pink-700">${m.class}</td>
-            <td class="py-2 px-3 text-center font-mono text-[11px] text-gray-700">${formatDateTime(m.timestamp)}</td>
-          `;
-          printBody.appendChild(tr);
-        });
-      } else {
-        document.getElementById('printClubTitle').innerText = 'บัญชีรายชื่อนักเรียนที่ยังไม่มีชุมนุม (ค้างลงทะเบียน)';
-        document.getElementById('printClubSubtitle').innerText = 'รายชื่อนักเรียนที่ต้องติดตามเข้าชุมนุม • โรงเรียนสีชมพูศึกษา';
-        document.getElementById('printCol5Header').innerText = 'สถานะ';
-
-        const enrolledIds = new Set();
-        members.forEach(m => enrolledIds.add(String(m.id).trim()));
-        allRegisteredMap.forEach((val, key) => enrolledIds.add(String(key).trim()));
-
-        const unassignedList = [];
-        studentMap.forEach(student => {
-          if (!enrolledIds.has(String(student.id).trim())) {
-            unassignedList.push(student);
-          }
-        });
-
-        const sorted = sortMembersByRoom(unassignedList);
-
-        sorted.forEach((s, i) => {
-          const tr = document.createElement('tr');
-          tr.className = (i % 2 === 1) ? 'bg-gray-50' : 'bg-white';
-          tr.innerHTML = `
-            <td class="py-2 px-3 text-center border-r border-gray-400 font-mono">${i + 1}</td>
-            <td class="py-2 px-3 text-center border-r border-gray-400 font-mono font-bold">${s.id}</td>
-            <td class="py-2 px-4 text-left border-r border-gray-400 font-semibold">${s.name}</td>
-            <td class="py-2 px-3 text-center border-r border-gray-400 font-bold text-rose-700">${s.class}</td>
-            <td class="py-2 px-3 text-center font-bold text-rose-600 text-xs">ยังไม่มีชุมนุม</td>
-          `;
-          printBody.appendChild(tr);
-        });
+      const sorted = sortMembersByRoom(members);
+      if (sorted.length === 0) {
+        showToast('ยังไม่มีสมาชิกในชุมนุมนี้สำหรับพิมพ์เอกสาร', 'warn');
+        return;
       }
+
+      sorted.forEach((m, i) => {
+        const tr = document.createElement('tr');
+        tr.className = (i % 2 === 1) ? 'bg-gray-50' : 'bg-white';
+        tr.innerHTML = `
+          <td class="py-1.5 px-2 text-center border-r border-gray-400 font-mono">${i + 1}</td>
+          <td class="py-1.5 px-3 text-center border-r border-gray-400 font-mono font-bold">${m.id}</td>
+          <td class="py-1.5 px-4 text-left border-r border-gray-400 font-semibold">${m.name}</td>
+          <td class="py-1.5 px-3 text-center border-r border-gray-400 font-bold text-pink-700">${m.class}</td>
+          <td class="py-1.5 px-2 text-center text-gray-400 text-[10px]"></td>
+        `;
+        printBody.appendChild(tr);
+      });
 
       window.print();
     });
