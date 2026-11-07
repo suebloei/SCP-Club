@@ -197,6 +197,27 @@
     ::-webkit-scrollbar-track { background: #ffeef3; }
     ::-webkit-scrollbar-thumb { background: #ffb1cb; border-radius: 9999px; }
     ::-webkit-scrollbar-thumb:hover { background: #f43073; }
+  
+    /* Universal Responsive & Orientation Adaptability */
+    @media (max-width: 640px) {
+      .glass-card { padding: 1rem !important; }
+      header.glass-nav { padding: 1rem !important; }
+      h1#displayClubTitle { font-size: 1.5rem !important; }
+    }
+    @media (min-width: 641px) and (max-width: 1024px) {
+      .glass-card { padding: 1.25rem !important; }
+    }
+    @media (orientation: landscape) and (max-height: 700px) {
+      body { padding: 0.5rem !important; }
+      .max-w-6xl { max-width: 100% !important; }
+      header.glass-nav { padding: 0.75rem 1rem !important; }
+    }
+    /* Smooth responsiveness for tables and inputs */
+    table th, table td { white-space: nowrap; }
+    @media (min-width: 768px) {
+      table th, table td { white-space: normal; }
+    }
+
   </style>
 </head>
 <body class="p-3 sm:p-6 md:p-8 flex flex-col justify-between selection:bg-brand-200 selection:text-brand-900">
@@ -277,7 +298,6 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
         </svg>
         <span>1. รับสมัคร</span>
-        <span id="navBadgeMembers" class="px-2 py-0.5 rounded-full text-[10px] bg-white/20 text-white font-mono">0 คน</span>
       </button>
 
       <button id="btnMainTabAtt" type="button" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 text-brand-700 hover:text-brand-900 hover:bg-brand-50 whitespace-nowrap active:scale-95">
@@ -285,7 +305,6 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         <span>2. เช็คชื่อ</span>
-        <span class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800 font-bold">29 ต.ค. 69</span>
       </button>
 
       <button id="btnMainTabReport" type="button" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 text-brand-700 hover:text-brand-900 hover:bg-brand-50 whitespace-nowrap active:scale-95">
@@ -293,7 +312,6 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
         <span>3. รายงาน</span>
-        <span id="navBadgePassPct" class="px-2 py-0.5 rounded-full text-[10px] bg-blue-100 text-blue-800 font-bold">สรุปผล</span>
       </button>
     </div>
 
@@ -898,15 +916,75 @@
       </div>
     </div>
 
-<!-- Footer Credits (จบภายในหนึ่งบรรทัด) -->
+
+
+
+    <!-- Footer Credits (จบภายในหนึ่งบรรทัด) -->
     <footer class="no-print pt-2 pb-4 text-center">
       <p class="text-[10px] sm:text-xs text-brand-700/80 font-medium whitespace-nowrap overflow-hidden text-ellipsis tracking-tight">
         พัฒนาโดย นายนพคุณ สืบเลย และนายปัญญา คำสะไมล์ โรงเรียนสีชมพูศึกษา องค์การบริหารส่วนจังหวัดขอนแก่น
       </p>
     </footer>
 
+        <!-- Official Printable Format -->
+    <div class="print-only print-reg-section space-y-3 bg-white text-gray-900 font-sans" id="printRegSection">
+      <div class="border-b-2 border-brand-500 pb-2.5 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <img src="logo.png" alt="โลโก้โรงเรียนสีชมพูศึกษา" class="w-14 h-14 object-contain rounded-full border border-gray-200 p-0.5" onerror="this.style.display='none'">
+          <div>
+            <div class="flex items-center gap-2 mb-0.5">
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-pink-100 text-pink-800 border border-pink-200">
+                🌸 โรงเรียนสีชมพูศึกษา
+              </span>
+              <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium">
+                รับสมัครออนไลน์
+              </span>
+            </div>
+            <h1 class="text-xl font-extrabold text-brand-900 tracking-tight" id="printClubTitle">
+              ชุมนุม TRADER
+            </h1>
+            <p class="text-[11px] text-gray-600" id="printClubSubtitle">
+              ระบบรับสมัครสมาชิกชุมนุมออนไลน์ • ภาคเรียนที่ 2 ปีการศึกษา 2569
+            </p>
+          </div>
+        </div>
+      </div>
 
-<!-- (เอาหน้าว่างที่ปริ้นท์ออก) -->
+      <!-- Member List Table (ตัดคอลัมน์เวลาที่สมัครออกตามต้องการ เพื่อความกระชับและสวยงาม) -->
+      <table class="w-full text-xs border border-gray-400">
+        <thead>
+          <tr class="bg-pink-100/80 text-brand-900 font-bold border-b border-gray-400">
+            <th class="w-14 py-2 px-2.5 text-center border-r border-gray-400">ลำดับ</th>
+            <th class="w-32 py-2 px-3 text-center border-r border-gray-400">เลขประจำตัว</th>
+            <th class="py-2 px-4 text-left border-r border-gray-400">ชื่อ - สกุล</th>
+            <th class="w-28 py-2 px-3 text-center border-r border-gray-400">ระดับชั้น</th>
+            <th class="w-32 py-2 px-3 text-center">หมายเหตุ</th>
+          </tr>
+        </thead>
+        <tbody id="printTableBody" class="divide-y divide-gray-300"></tbody>
+      </table>
+
+      <!-- Bottom Signatures (จัดตำแหน่งชื่อให้อยู่ตรงกึ่งกลางแนวเส้นจุดไข่ปลาอย่างสมบูรณ์แบบ) -->
+      <div class="pt-4 flex justify-end signature-box">
+        <div class="text-xs text-gray-800 font-sans">
+          <div class="flex items-center">
+            <span class="whitespace-nowrap">ลงชื่อ</span>
+            <span class="inline-block border-b border-dotted border-gray-600 w-48 mx-1.5"></span>
+            <span class="whitespace-nowrap">ครูที่ปรึกษาชุมนุม</span>
+          </div>
+          <div class="flex items-center mt-1.5">
+            <span class="whitespace-nowrap invisible" aria-hidden="true">ลงชื่อ</span>
+            <span class="inline-block w-48 mx-1.5 text-center font-bold text-gray-900" id="printAdvisorName">
+              ( นายนพคุณ สืบเลย )
+            </span>
+            <span class="whitespace-nowrap invisible" aria-hidden="true">ครูที่ปรึกษาชุมนุม</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
   
     <!-- Official Printable Format for Attendance Report -->
     <div class="print-only print-att-section space-y-3 bg-white text-gray-900 font-sans" id="printAttSection" style="display:none;">
@@ -3461,8 +3539,7 @@
       });
     }
 
-    // Save Attendance & Topic
-// Save Attendance & Topic (Matrix Format W1-W20)
+    // Save Attendance & Topic (Matrix Format W1-W20 with student records)
     const btnSaveAttendance = document.getElementById('btnSaveAttendance');
     if (btnSaveAttendance) {
       btnSaveAttendance.addEventListener('click', async () => {
@@ -3477,9 +3554,8 @@
         members.forEach(m => {
           const sid = String(m.id).trim();
           const checkedRadio = document.querySelector(`input[name="att_${sid}_w${selectedWeek}"]:checked`);
-          currentWeekRecords[sid] = checkedRadio ? checkedRadio.value : 'มา'; // ค่าเริ่มต้นเป็น "มา"
+          currentWeekRecords[sid] = checkedRadio ? checkedRadio.value : 'มา';
           
-          // บันทึกลงหน่วยความจำชั่วคราวในเครื่องด้วย
           if (!attData.records[sid]) attData.records[sid] = {};
           attData.records[sid][selectedWeek] = currentWeekRecords[sid];
         });
@@ -3492,7 +3568,6 @@
         saveBtn.innerText = 'กำลังบันทึกลงชีต...';
 
         try {
-          // ส่งข้อมูลกิจกรรมและสถานะการมาเรียนไปยัง Google Sheets
           await fetch(WEB_APP_URL, {
             method: 'POST',
             mode: 'no-cors',
