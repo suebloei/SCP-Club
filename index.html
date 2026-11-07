@@ -128,6 +128,10 @@
         page-break-inside: avoid !important;
         break-inside: avoid !important;
       }
+      .print-att-section {
+        page-break-before: always !important;
+        break-before: page !important;
+      }
       @page {
         size: A4 portrait;
         margin: 6mm 10mm 6mm 10mm;
@@ -212,7 +216,36 @@
       </div>
     </header>
 
-    <!-- Learning Area Filter Bar (8 กลุ่มสาระฯ) -->
+    <!-- Main Module Navigation Tabs (รับสมัคร / เช็คชื่อ / รายงาน) -->
+    <div class="glass-card rounded-2xl p-2 shadow-pink-soft no-print flex items-center justify-center sm:justify-start gap-2 border-2 border-brand-200 overflow-x-auto">
+      <button id="btnMainTabReg" type="button" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center gap-2 bg-gradient-to-r from-brand-500 to-rose-500 text-white shadow-md shadow-brand-500/25 whitespace-nowrap active:scale-95">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+        </svg>
+        <span>1. รับสมัครกิจกรรม</span>
+        <span id="navBadgeMembers" class="px-2 py-0.5 rounded-full text-[10px] bg-white/20 text-white font-mono">0 คน</span>
+      </button>
+
+      <button id="btnMainTabAtt" type="button" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 text-brand-700 hover:text-brand-900 hover:bg-brand-50 whitespace-nowrap active:scale-95">
+        <svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>2. เช็คชื่อการมาเรียน (20 สัปดาห์)</span>
+        <span class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800 font-bold">29 ต.ค. 69</span>
+      </button>
+
+      <button id="btnMainTabReport" type="button" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 text-brand-700 hover:text-brand-900 hover:bg-brand-50 whitespace-nowrap active:scale-95">
+        <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        <span>3. รายงานและสถิติ (เกณฑ์ 80%)</span>
+        <span id="navBadgePassPct" class="px-2 py-0.5 rounded-full text-[10px] bg-blue-100 text-blue-800 font-bold">สรุปผล</span>
+      </button>
+    </div>
+
+
+    <div id="moduleRegistration" class="space-y-5">
+<!-- Learning Area Filter Bar (8 กลุ่มสาระฯ) -->
     <div class="glass-card rounded-2xl p-3.5 shadow-sm no-print space-y-2">
       <div class="flex items-center justify-between text-xs font-bold text-brand-800 px-1">
         <span class="flex items-center gap-1.5">
@@ -431,7 +464,7 @@
                   <th class="py-3 px-3">เลขประจำตัว</th>
                   <th class="py-3 px-3">ชื่อ - สกุล</th>
                   <th class="py-3 px-3 text-center">ระดับชั้น</th>
-                  <th class="py-3 px-3 text-center">เวลาที่สมัคร</th>
+                  
                   <th class="py-3 px-3 text-center w-14 no-print">ลบ</th>
                 </tr>
               </thead>
@@ -574,7 +607,244 @@
       </div>
     </div>
 
-        <!-- Footer Credits (จบภายในหนึ่งบรรทัด) -->
+        
+</div>
+
+    <!-- ================= MODULE 2: ATTENDANCE (เช็คชื่อ 20 สัปดาห์) ================= -->
+    <div id="moduleAttendance" class="space-y-5 hidden no-print">
+      <!-- Week Selector & Activity Banner -->
+      <div class="glass-card rounded-3xl p-5 sm:p-6 shadow-pink-soft space-y-4 border-t-4 border-t-emerald-500">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3 border-b border-brand-100">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-emerald-500/25">
+              📅
+            </div>
+            <div class="space-y-1.5">
+              <div class="flex flex-wrap items-center gap-2">
+                <div class="flex items-center gap-1.5 bg-emerald-50/90 px-2.5 py-1 rounded-xl border border-emerald-200 shadow-sm">
+                  <label for="attDeptSelect" class="text-xs font-bold text-emerald-950 whitespace-nowrap">กลุ่มสาระฯ:</label>
+                  <select id="attDeptSelect" class="bg-white border border-emerald-300 rounded-lg py-1 px-2 text-xs font-bold text-brand-900 focus:outline-none focus:border-emerald-500 shadow-sm cursor-pointer"></select>
+                </div>
+                <div class="flex items-center gap-1.5 bg-emerald-50/90 px-2.5 py-1 rounded-xl border border-emerald-200 shadow-sm">
+                  <label for="attClubSelect" class="text-xs font-bold text-emerald-950 whitespace-nowrap">ชุมนุม:</label>
+                  <select id="attClubSelect" class="bg-white border-2 border-emerald-400 rounded-lg py-1 px-2.5 text-xs sm:text-sm font-extrabold text-brand-900 focus:outline-none focus:border-emerald-600 shadow-sm cursor-pointer"></select>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 hidden md:inline" id="attClubDeptLabel">
+                  กลุ่มสาระฯ วิทยาศาสตร์และเทคโนโลยี
+                </span>
+                <span class="text-xs text-brand-600 font-medium hidden lg:inline">• ภาคเรียนที่ 2/2569 (20 สัปดาห์)</span>
+              </div>
+              <h2 class="text-xl sm:text-2xl font-extrabold text-brand-900 tracking-tight">
+                บันทึกการเช็คชื่อการมาเรียน
+              </h2>
+            </div>
+          </div>
+
+          <!-- Week Quick Picker -->
+          <div class="flex flex-wrap items-center gap-2">
+            <label for="attWeekSelect" class="text-xs font-bold text-brand-800 whitespace-nowrap">เลือกสัปดาห์:</label>
+            <select id="attWeekSelect" class="bg-white border-2 border-emerald-300 rounded-xl py-2 px-3 text-xs sm:text-sm font-extrabold text-brand-900 focus:outline-none focus:border-emerald-500 shadow-sm cursor-pointer"></select>
+            <button id="btnPrevWeek" title="สัปดาห์ก่อนหน้า" class="p-2 rounded-xl bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 transition">◀</button>
+            <button id="btnNextWeek" title="สัปดาห์ถัดไป" class="p-2 rounded-xl bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 transition">▶</button>
+          </div>
+        </div>
+
+        <!-- Activity & Topic Input Box -->
+        <div class="p-4 rounded-2xl bg-gradient-to-r from-emerald-50/70 via-teal-50/50 to-emerald-50/70 border border-emerald-200 space-y-2">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <label for="attActivityInput" class="text-xs font-bold text-emerald-950 flex items-center gap-1.5">
+              <span>📖 กิจกรรมการเรียนรู้ / เนื้อหาที่จัดกิจกรรมในสัปดาห์นี้:</span>
+            </label>
+            <span id="attWeekDateLabel" class="text-xs font-bold text-emerald-700 bg-white px-2.5 py-0.5 rounded-lg border border-emerald-200">
+              วันพฤหัสบดีที่ 29 ตุลาคม 2569
+            </span>
+          </div>
+          <div class="relative">
+            <input 
+              type="text" 
+              id="attActivityInput" 
+              placeholder="เช่น ปฐมนิเทศ แนะนำกิจกรรมชุมนุม และข้อตกลงการเรียนรู้ หรือ การวางแผนการเงินเบื้องต้น..." 
+              class="w-full bg-white border border-emerald-300 rounded-xl py-2.5 px-3.5 text-xs sm:text-sm text-brand-900 placeholder-brand-300 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 transition shadow-inner font-medium"
+            >
+          </div>
+          <p class="text-[11px] text-emerald-700/80 font-medium">
+            💡 ข้อมูลกิจกรรมจะถูกบันทึกคู่กับผลการเช็คชื่อในสัปดาห์นี้โดยอัตโนมัติ เพื่อนำไปออกรายงานสรุปกิจกรรมชุมนุม
+          </p>
+        </div>
+
+        <!-- Attendance Controls & Stats -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+          <!-- Quick Status Filters & Counters -->
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs font-bold text-brand-800">สรุปสัปดาห์นี้:</span>
+            <span class="px-2.5 py-1 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-1">
+              <span>มา</span> <strong id="statAttPresent" class="font-mono">0</strong>
+            </span>
+            <span class="px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200 flex items-center gap-1">
+              <span>สาย</span> <strong id="statAttLate" class="font-mono">0</strong>
+            </span>
+            <span class="px-2.5 py-1 rounded-xl text-xs font-bold bg-blue-100 text-blue-800 border border-blue-200 flex items-center gap-1">
+              <span>ลา</span> <strong id="statAttLeave" class="font-mono">0</strong>
+            </span>
+            <span class="px-2.5 py-1 rounded-xl text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200 flex items-center gap-1">
+              <span>ขาด</span> <strong id="statAttAbsent" class="font-mono">0</strong>
+            </span>
+            <span class="px-2.5 py-1 rounded-xl text-xs font-bold bg-purple-100 text-purple-800 border border-purple-200 flex items-center gap-1">
+              <span>กิจกรรม</span> <strong id="statAttActivity" class="font-mono">0</strong>
+            </span>
+          </div>
+
+          <!-- Quick Action Buttons -->
+          <div class="flex items-center gap-2">
+            <button id="btnMarkAllPresent" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition active:scale-95 flex items-center gap-1">
+              <span>✓ มาทั้งหมด</span>
+            </button>
+            <button id="btnSaveAttendance" type="button" class="px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-brand-500 to-rose-500 hover:from-brand-600 hover:to-rose-600 text-white shadow-sm transition active:scale-95 flex items-center gap-1">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+              </svg>
+              <span>บันทึกเช็คชื่อ</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Attendance Table -->
+      <div class="glass-card rounded-3xl p-5 sm:p-6 shadow-pink-soft space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-brand-900" id="attTableTitle">
+            รายชื่อสมาชิกชุมนุมสำหรับเช็คชื่อ
+          </span>
+          <span class="text-xs text-brand-600 font-medium" id="attTableMemberCount">
+            0 คน
+          </span>
+        </div>
+
+        <div class="overflow-x-auto rounded-2xl border border-brand-200 bg-white shadow-sm">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-brand-50/90 text-brand-900 border-b border-brand-200 font-bold uppercase text-[11px] tracking-wider">
+              <tr>
+                <th class="py-3 px-3.5 text-center w-12">ลำดับ</th>
+                <th class="py-3 px-3 text-center w-24">เลขประจำตัว</th>
+                <th class="py-3 px-4">ชื่อ - สกุล</th>
+                <th class="py-3 px-3 text-center w-20">ระดับชั้น</th>
+                <th class="py-3 px-4 text-center w-96">สถานะการมาเรียนในสัปดาห์นี้</th>
+              </tr>
+            </thead>
+            <tbody id="attTableBody" class="divide-y divide-brand-100 text-brand-900"></tbody>
+          </table>
+          <div id="attEmptyState" class="hidden py-12 text-center text-brand-400 space-y-2">
+            <p class="text-sm font-semibold text-brand-800">ยังไม่มีสมาชิกในชุมนุมนี้</p>
+            <p class="text-xs text-brand-500">กรุณารับสมัครสมาชิกในแท็บ "1. รับสมัครกิจกรรม" ก่อนเช็คชื่อครับ</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ================= MODULE 3: REPORT & EVALUATION (เกณฑ์ 80%) ================= -->
+    <div id="moduleReport" class="space-y-5 hidden no-print">
+      <!-- Report Header & KPI Cards -->
+      <div class="glass-card rounded-3xl p-5 sm:p-6 shadow-pink-soft space-y-4 border-t-4 border-t-blue-500">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3 border-b border-brand-100">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-blue-500/25">
+              📊
+            </div>
+            <div class="space-y-1.5">
+              <div class="flex flex-wrap items-center gap-2">
+                <div class="flex items-center gap-1.5 bg-blue-50/90 px-2.5 py-1 rounded-xl border border-blue-200 shadow-sm">
+                  <label for="repDeptSelect" class="text-xs font-bold text-blue-950 whitespace-nowrap">กลุ่มสาระฯ:</label>
+                  <select id="repDeptSelect" class="bg-white border border-blue-300 rounded-lg py-1 px-2 text-xs font-bold text-brand-900 focus:outline-none focus:border-blue-500 shadow-sm cursor-pointer"></select>
+                </div>
+                <div class="flex items-center gap-1.5 bg-blue-50/90 px-2.5 py-1 rounded-xl border border-blue-200 shadow-sm">
+                  <label for="repClubSelect" class="text-xs font-bold text-blue-950 whitespace-nowrap">ชุมนุม:</label>
+                  <select id="repClubSelect" class="bg-white border-2 border-blue-400 rounded-lg py-1 px-2.5 text-xs sm:text-sm font-extrabold text-brand-900 focus:outline-none focus:border-blue-600 shadow-sm cursor-pointer"></select>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-100 text-blue-800 border border-blue-200 hidden md:inline" id="repClubDeptLabel">
+                  กลุ่มสาระฯ วิทยาศาสตร์และเทคโนโลยี
+                </span>
+                <span class="text-xs text-brand-600 font-medium hidden lg:inline">• เกณฑ์ผ่าน: &ge; 80% (16/20 สัปดาห์)</span>
+              </div>
+              <h2 class="text-xl sm:text-2xl font-extrabold text-brand-900 tracking-tight">
+                รายงานสรุปเวลาเรียนและการประเมินผลกิจกรรมชุมนุม
+              </h2>
+            </div>
+          </div>
+
+          <!-- Report Action Buttons -->
+          <div class="flex items-center gap-2">
+            <button id="btnExportReportCsv" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-white hover:bg-brand-50 text-brand-700 border border-brand-200 shadow-sm transition active:scale-95 flex items-center gap-1.5">
+              <span>📥 โหลดรายงาน CSV</span>
+            </button>
+            <button id="btnPrintReport" type="button" class="px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md shadow-blue-500/25 transition active:scale-95 flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+              </svg>
+              <span>พิมพ์แบบบันทึกเวลาเรียน</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI Stat Grid (Evaluation 80%) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="p-3.5 rounded-2xl bg-brand-50/70 border border-brand-200 text-center">
+            <span class="text-xs font-bold text-brand-700">สมาชิกทั้งหมด</span>
+            <p class="text-2xl font-extrabold text-brand-900 font-display mt-1" id="repTotalMembers">0</p>
+            <span class="text-[10px] text-brand-500">คนในชุมนุมนี้</span>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-center">
+            <span class="text-xs font-bold text-emerald-800">ผ่านเกณฑ์ 80% (ผ)</span>
+            <p class="text-2xl font-extrabold text-emerald-700 font-display mt-1" id="repPassCount">0</p>
+            <span class="text-[10px] text-emerald-600 font-bold" id="repPassPct">0% ของสมาชิก</span>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-center">
+            <span class="text-xs font-bold text-rose-800">ไม่ผ่านเกณฑ์ (มผ)</span>
+            <p class="text-2xl font-extrabold text-rose-700 font-display mt-1" id="repFailCount">0</p>
+            <span class="text-[10px] text-rose-600 font-bold" id="repFailPct">0% ของสมาชิก</span>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-purple-50 border border-purple-200 text-center">
+            <span class="text-xs font-bold text-purple-800">สัปดาห์ที่เช็คแล้ว</span>
+            <p class="text-2xl font-extrabold text-purple-700 font-display mt-1" id="repRecordedWeeks">0 / 20</p>
+            <span class="text-[10px] text-purple-600">สัปดาห์ที่บันทึกผลแล้ว</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Attendance Matrix Table (Scrollable with Sticky Left Columns) -->
+      <div class="glass-card rounded-3xl p-5 sm:p-6 shadow-pink-soft space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h3 class="text-sm font-bold text-brand-900">
+              ตารางสรุปบันทึกเวลาเรียนตลอด 20 สัปดาห์ (Attendance Matrix)
+            </h3>
+            <p class="text-[11px] text-brand-500">
+              สัญลักษณ์: มา (✓) • สาย (ส) • ลา (ล) • ขาด (ข) • กิจกรรม (ก) • ผลการประเมิน: ผ่าน (ผ) / ไม่ผ่าน (มผ) • เกณฑ์ผ่าน &ge; 16 สัปดาห์ (80%)
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <input type="text" id="repSearchInput" placeholder="ค้นหาชื่อ, เลขประจำตัว..." class="bg-brand-50/60 border border-brand-200 rounded-xl py-1.5 px-3 text-xs text-brand-900 focus:outline-none focus:border-brand-500 transition">
+          </div>
+        </div>
+
+        <div class="overflow-y-auto rounded-2xl border border-brand-200 bg-white shadow-inner max-h-[600px]">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-brand-50/95 text-brand-900 border-b border-brand-200 font-bold sticky top-0 z-20 text-[10.5px]">
+              <tr id="repTableHeaderRow"></tr>
+            </thead>
+            <tbody id="repTableBody" class="divide-y divide-gray-200 text-brand-900 font-sans"></tbody>
+          </table>
+          <div id="repEmptyState" class="hidden py-12 text-center text-brand-400 space-y-1">
+            <p class="text-sm font-semibold text-brand-700">ไม่มีข้อมูลสมาชิกในชุมนุมนี้</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- Footer Credits (จบภายในหนึ่งบรรทัด) -->
     <footer class="no-print pt-2 pb-4 text-center">
       <p class="text-[10px] sm:text-xs text-brand-700/80 font-medium whitespace-nowrap overflow-hidden text-ellipsis tracking-tight">
         พัฒนาโดย นายนพคุณ สืบเลย และนายปัญญา คำสะไมล์ โรงเรียนสีชมพูศึกษา องค์การบริหารส่วนจังหวัดขอนแก่น
@@ -582,7 +852,7 @@
     </footer>
 
     <!-- Official Printable Format -->
-    <div class="print-only space-y-3 bg-white text-gray-900 font-sans">
+    <div class="print-only print-reg-section space-y-3 bg-white text-gray-900 font-sans" id="printRegSection">
       <div class="border-b-2 border-brand-500 pb-2.5 flex items-center justify-between gap-4">
         <div class="flex items-center gap-3.5">
           <img src="logo.png" alt="โลโก้โรงเรียนสีชมพูศึกษา" class="w-14 h-14 object-contain rounded-full border border-gray-200 p-0.5" onerror="this.style.display='none'">
@@ -639,6 +909,59 @@
     </div>
 
   </div>
+
+  
+    <!-- Official Printable Format for Attendance Report -->
+    <div class="print-only print-att-section space-y-3 bg-white text-gray-900 font-sans" id="printAttSection" style="display:none;">
+      <div class="border-b-2 border-brand-500 pb-2 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <img src="logo.png" alt="โลโก้โรงเรียนสีชมพูศึกษา" class="w-12 h-12 object-contain rounded-full border border-gray-200 p-0.5" onerror="this.style.display='none'">
+          <div>
+            <div class="flex items-center gap-2 mb-0.5">
+              <span class="text-[10.5px] font-bold px-2 py-0.5 rounded-full bg-pink-100 text-pink-800 border border-pink-200">
+                🌸 โรงเรียนสีชมพูศึกษา
+              </span>
+              <span class="text-[10.5px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200 font-medium">
+                รายงานเวลาเรียนและกิจกรรมชุมนุม (เกณฑ์ 80%)
+              </span>
+            </div>
+            <h1 class="text-lg font-extrabold text-brand-900 tracking-tight" id="printAttClubTitle">
+              ชุมนุม TRADER
+            </h1>
+            <p class="text-[10.5px] text-gray-600" id="printAttClubSubtitle">
+              ภาคเรียนที่ 2 ปีการศึกษา 2569 • 20 สัปดาห์ (เริ่มต้น 29 ตุลาคม 2569)
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Printable 20-Week Attendance Table (แสดงเฉพาะ ลำดับ, ชื่อ - สกุล, สัปดาห์ 1-20 และสรุปผล ผ/มผ) -->
+      <table class="w-full text-[9.5px] border border-gray-400 border-collapse">
+        <thead>
+          <tr class="bg-pink-100/90 text-brand-900 font-bold border-b border-gray-400" id="printAttHeaderRow"></tr>
+        </thead>
+        <tbody id="printAttTableBody" class="divide-y divide-gray-300"></tbody>
+      </table>
+
+      <!-- Bottom Signatures for Attendance Report (จัดตำแหน่งชื่อให้อยู่ตรงกึ่งกลางแนวเส้นจุดไข่ปลา) -->
+      <div class="pt-3 flex justify-end signature-box">
+        <div class="text-[11px] text-gray-800 font-sans">
+          <div class="flex items-center">
+            <span class="whitespace-nowrap">ลงชื่อ</span>
+            <span class="inline-block border-b border-dotted border-gray-600 w-48 mx-1.5"></span>
+            <span class="whitespace-nowrap">ครูที่ปรึกษาชุมนุม</span>
+          </div>
+          <div class="flex items-center mt-1.5">
+            <span class="whitespace-nowrap invisible" aria-hidden="true">ลงชื่อ</span>
+            <span class="inline-block w-48 mx-1.5 text-center font-bold text-gray-900" id="printAttAdvisorName">
+              ( นายนพคุณ สืบเลย )
+            </span>
+            <span class="whitespace-nowrap invisible" aria-hidden="true">ครูที่ปรึกษาชุมนุม</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
   <!-- School Overview Dashboard Modal (76 ชุมนุม) -->
   <div id="dashboardModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/60 backdrop-blur-sm no-print transition-all">
@@ -942,13 +1265,51 @@
       });
     }
 
+    
     function formatDateTime(ts) {
-      if (!ts) return '-';
-      if (typeof ts === 'string' && (ts.includes('256') || ts.includes('/25'))) return ts;
-      const d = new Date(ts);
-      if (isNaN(d.getTime())) return ts;
-      return `${d.toLocaleDateString('th-TH')} ${d.toLocaleTimeString('th-TH')}`;
+      if (!ts || ts === '-') return '-';
+      let d;
+      if (typeof ts === 'string') {
+        // If it contains day names like Sun, Mon, Tue etc., or GMT
+        if (ts.includes('GMT') || ts.match(/^(Sun|Mon|Tue|Wed|Thu|Fri|Sat)/i)) {
+          d = new Date(ts);
+        } else if (ts.includes('/')) {
+          // e.g. "29/10/2026" or "29/10/2569"
+          const parts = ts.split(' ')[0].split('/');
+          if (parts.length === 3) {
+            let day = parseInt(parts[0], 10);
+            let month = parseInt(parts[1], 10);
+            let year = parseInt(parts[2], 10);
+            if (year < 2400) year += 543; // convert to Buddhist Era if Gregorian
+            const months = ['', 'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+            if (month >= 1 && month <= 12) {
+              return `${day} ${months[month]} ${year}`;
+            }
+          }
+        } else if (ts.includes('-')) {
+          // e.g. "2026-10-29"
+          d = new Date(ts);
+        } else {
+          d = new Date(ts);
+        }
+      } else {
+        d = new Date(ts);
+      }
+
+      if (isNaN(d.getTime())) return String(ts).split(' ')[0];
+
+      try {
+        const day = d.getDate();
+        const month = d.getMonth() + 1;
+        let year = d.getFullYear();
+        if (year < 2400) year += 543;
+        const months = ['', 'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+        return `${day} ${months[month]} ${year}`;
+      } catch (e) {
+        return d.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' });
+      }
     }
+
 
     let members = [];
     let allRegisteredMap = new Map();
@@ -998,6 +1359,7 @@
     // Populate club select options filtered by department
     function populateClubSelect(autoSelectFirst = false) {
       clubSelect.innerHTML = '';
+      
       let clubs = Object.values(OFFICIAL_CLUBS).filter(c => {
         if (selectedDeptFilter === 'all') return true;
         return c.dept === selectedDeptFilter;
@@ -1010,7 +1372,8 @@
         return a.name.localeCompare(b.name, 'th');
       });
 
-      document.getElementById('clubCountInDeptLabel').innerText = `แสดง ${clubs.length} ชุมนุม (${selectedDeptFilter === 'all' ? 'ทุกกลุ่มสาระ' : selectedDeptFilter})`;
+      const deptLabel = document.getElementById('clubCountInDeptLabel');
+      if (deptLabel) deptLabel.innerText = `แสดง ${clubs.length} ชุมนุม (${selectedDeptFilter === 'all' ? 'ทุกกลุ่มสาระ' : selectedDeptFilter})`;
 
       clubs.forEach(c => {
         const opt = document.createElement('option');
@@ -1025,6 +1388,9 @@
       customOpt.innerText = '+ เพิ่มชื่อชุมนุมอื่น...';
       clubSelect.appendChild(customOpt);
 
+      // Populate cascading dropdowns in Attendance & Report tabs
+      initCascadingSelectors();
+
       if (autoSelectFirst && clubs.length > 0) {
         currentClub = clubs[0].name;
         clubSelect.value = currentClub;
@@ -1034,6 +1400,95 @@
         fetchMembersFromSheet(true);
       } else {
         updateClubUI();
+      }
+    }
+
+    // Initialize cascading Department selectors for Attendance and Report
+    function initCascadingSelectors() {
+      const attDeptSelect = document.getElementById('attDeptSelect');
+      const repDeptSelect = document.getElementById('repDeptSelect');
+
+      const populateDepts = (sel) => {
+        if (!sel) return;
+        const currentVal = sel.value || 'all';
+        sel.innerHTML = '<option value="all">ทุกกลุ่มสาระฯ (76 ชุมนุม)</option>';
+        DEPARTMENTS.forEach(d => {
+          const count = Object.values(OFFICIAL_CLUBS).filter(c => c.dept === d).length;
+          const opt = document.createElement('option');
+          opt.value = d;
+          opt.innerText = `${d} (${count})`;
+          sel.appendChild(opt);
+        });
+        sel.value = currentVal;
+      };
+
+      populateDepts(attDeptSelect);
+      populateDepts(repDeptSelect);
+
+      const meta = getClubMeta(currentClub);
+      populateAttClubsByDept(attDeptSelect ? attDeptSelect.value : (meta.dept || 'all'), currentClub);
+      populateRepClubsByDept(repDeptSelect ? repDeptSelect.value : (meta.dept || 'all'), currentClub);
+    }
+
+    function populateAttClubsByDept(dept, targetClub = null) {
+      const attClubSelect = document.getElementById('attClubSelect');
+      if (!attClubSelect) return;
+      attClubSelect.innerHTML = '';
+
+      let clubs = Object.values(OFFICIAL_CLUBS).filter(c => {
+        if (!dept || dept === 'all') return true;
+        return c.dept === dept;
+      });
+
+      clubs.sort((a, b) => {
+        if (a.name === 'Trader') return -1;
+        if (b.name === 'Trader') return 1;
+        return a.name.localeCompare(b.name, 'th');
+      });
+
+      clubs.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.name;
+        opt.innerText = `${c.name} (${c.dept})`;
+        attClubSelect.appendChild(opt);
+      });
+
+      const toSelect = targetClub || currentClub;
+      if (clubs.some(c => c.name === toSelect)) {
+        attClubSelect.value = toSelect;
+      } else if (clubs.length > 0) {
+        attClubSelect.value = clubs[0].name;
+      }
+    }
+
+    function populateRepClubsByDept(dept, targetClub = null) {
+      const repClubSelect = document.getElementById('repClubSelect');
+      if (!repClubSelect) return;
+      repClubSelect.innerHTML = '';
+
+      let clubs = Object.values(OFFICIAL_CLUBS).filter(c => {
+        if (!dept || dept === 'all') return true;
+        return c.dept === dept;
+      });
+
+      clubs.sort((a, b) => {
+        if (a.name === 'Trader') return -1;
+        if (b.name === 'Trader') return 1;
+        return a.name.localeCompare(b.name, 'th');
+      });
+
+      clubs.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.name;
+        opt.innerText = `${c.name} (${c.dept})`;
+        repClubSelect.appendChild(opt);
+      });
+
+      const toSelect = targetClub || currentClub;
+      if (clubs.some(c => c.name === toSelect)) {
+        repClubSelect.value = toSelect;
+      } else if (clubs.length > 0) {
+        repClubSelect.value = clubs[0].name;
       }
     }
 
@@ -1059,10 +1514,43 @@
       displayClubTitle.innerText = `ชุมนุม ${currentClub.toUpperCase()}`;
       document.title = `ระบบรับสมัครสมาชิก ชุมนุม ${currentClub} - โรงเรียนสีชมพูศึกษา`;
       
-      document.getElementById('infoClubDept').innerText = `กลุ่มสาระฯ ${meta.dept}`;
-      document.getElementById('infoClubPlace').innerText = `📍 ${meta.place || 'โรงเรียนสีชมพูศึกษา'}`;
-      document.getElementById('infoClubGrade').innerText = `🎓 ${meta.gradeText}`;
-      document.getElementById('infoClubAdvisor').innerText = `👨‍🏫 ${meta.advisor}`;
+      const infoClubDept = document.getElementById('infoClubDept');
+      if (infoClubDept) infoClubDept.innerText = `กลุ่มสาระฯ ${meta.dept}`;
+      const infoClubPlace = document.getElementById('infoClubPlace');
+      if (infoClubPlace) infoClubPlace.innerText = `📍 ${meta.place || 'โรงเรียนสีชมพูศึกษา'}`;
+      const infoClubGrade = document.getElementById('infoClubGrade');
+      if (infoClubGrade) infoClubGrade.innerText = `🎓 ${meta.gradeText}`;
+      const infoClubAdvisor = document.getElementById('infoClubAdvisor');
+      if (infoClubAdvisor) infoClubAdvisor.innerText = `👨‍🏫 ${meta.advisor}`;
+
+      // Synchronize Cascading Department & Club Dropdowns
+      const attDeptSelect = document.getElementById('attDeptSelect');
+      const repDeptSelect = document.getElementById('repDeptSelect');
+      const attClubSelect = document.getElementById('attClubSelect');
+      const repClubSelect = document.getElementById('repClubSelect');
+
+      if (attDeptSelect && meta.dept && attDeptSelect.value !== 'all' && attDeptSelect.value !== meta.dept) {
+        attDeptSelect.value = meta.dept;
+      }
+      if (repDeptSelect && meta.dept && repDeptSelect.value !== 'all' && repDeptSelect.value !== meta.dept) {
+        repDeptSelect.value = meta.dept;
+      }
+
+      populateAttClubsByDept(attDeptSelect ? attDeptSelect.value : 'all', currentClub);
+      populateRepClubsByDept(repDeptSelect ? repDeptSelect.value : 'all', currentClub);
+
+      if (attClubSelect) attClubSelect.value = currentClub;
+      if (repClubSelect) repClubSelect.value = currentClub;
+
+      const attBadge = document.getElementById('attClubBadge');
+      if (attBadge) attBadge.innerText = `ชุมนุม ${currentClub.toUpperCase()}`;
+      const attDeptLbl = document.getElementById('attClubDeptLabel');
+      if (attDeptLbl) attDeptLbl.innerText = `กลุ่มสาระฯ ${meta.dept}`;
+
+      const repBadge = document.getElementById('repClubBadge');
+      if (repBadge) repBadge.innerText = `ชุมนุม ${currentClub.toUpperCase()} (${meta.dept})`;
+      const repDeptLbl = document.getElementById('repClubDeptLabel');
+      if (repDeptLbl) repDeptLbl.innerText = `กลุ่มสาระฯ ${meta.dept}`;
 
       const printClubTitle = document.getElementById('printClubTitle');
       if (printClubTitle) printClubTitle.innerText = `ชุมนุม ${currentClub.toUpperCase()}`;
@@ -1080,6 +1568,7 @@
       if (footerQuotaEl) footerQuotaEl.innerText = `โควตารับสูงสุด ${quota} ที่นั่ง`;
 
       if (currentFoundStudent) selectStudent(currentFoundStudent);
+      if (typeof updateReportKPIs === 'function') updateReportKPIs();
     }
 
     async function fetchClubsList() {
@@ -1219,11 +1708,70 @@
       });
     }
 
+    
+    function normalizeMembers(arr) {
+      if (!Array.isArray(arr)) return [];
+      return arr.map(m => {
+        let id = String(m.id || '').trim();
+        let name = String(m.name || '').trim();
+        let cls = String(m.class || '').trim();
+        let ts = String(m.timestamp || '').trim();
+
+        // Check if properties are shifted (id is a timestamp string like 'Mon May 11...')
+        if (id.includes('GMT') || id.includes('2026') || id.match(/^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)/)) {
+          // Shifted: name is actually id, class is actually name, timestamp is actually class
+          const realId = name;
+          const realName = cls;
+          const realClass = ts;
+          const realTs = id; // the timestamp
+          
+          // Verify against studentMap if available
+          if (studentMap && studentMap.has(realId)) {
+            const st = studentMap.get(realId);
+            return {
+              id: realId,
+              name: st.name,
+              class: st.class,
+              club: m.club || currentClub,
+              timestamp: realTs
+            };
+          }
+          return {
+            id: realId,
+            name: realName,
+            class: realClass,
+            club: m.club || currentClub,
+            timestamp: realTs
+          };
+        }
+
+        // If id is in studentMap, ensure name and class are correct from studentMap
+        if (studentMap && studentMap.has(id)) {
+          const st = studentMap.get(id);
+          return {
+            id: id,
+            name: st.name,
+            class: st.class,
+            club: m.club || currentClub,
+            timestamp: ts || m.timestamp || '-'
+          };
+        }
+
+        return {
+          id: id,
+          name: name,
+          class: cls,
+          club: m.club || currentClub,
+          timestamp: ts || '-'
+        };
+      });
+    }
+
     function loadLocalMembers() {
       try {
         const clubStorageKey = `${STORAGE_KEY_BASE}_${encodeURIComponent(currentClub)}`;
         const saved = localStorage.getItem(clubStorageKey);
-        members = saved ? JSON.parse(saved) : [];
+        members = saved ? normalizeMembers(JSON.parse(saved)) : [];
       } catch (e) {
         members = [];
       }
@@ -1238,6 +1786,8 @@
       renderMembersTable();
       renderUnassignedTable();
       updateStats();
+      if (typeof updateReportKPIs === 'function') updateReportKPIs();
+      if (typeof updateMemberNavBadge === 'function') updateMemberNavBadge();
     }
 
     function showToast(msg, type = 'success') {
@@ -1520,7 +2070,7 @@
       }
 
       const now = new Date();
-      const thaiTime = now.toLocaleDateString('th-TH') + ' ' + now.toLocaleTimeString('th-TH');
+      const thaiTime = now.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' });
       
       const newMember = {
         id: currentFoundStudent.id,
@@ -1603,7 +2153,7 @@
       }
 
       const now = new Date();
-      const thaiTime = now.toLocaleDateString('th-TH') + ' ' + now.toLocaleTimeString('th-TH');
+      const thaiTime = now.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' });
       const newMember = {
         id: student.id,
         name: student.name,
@@ -1642,7 +2192,7 @@
         const res = await fetch(`${WEB_APP_URL}?action=getMembers&club=${encodeURIComponent(currentClub)}`);
         const json = await res.json();
         if (json.status === 'success' && Array.isArray(json.data)) {
-          members = json.data;
+          members = normalizeMembers(json.data);
           saveLocalMembers();
           if (!isAuto) showToast(`ดึงข้อมูลสำเร็จ ${json.data.length} รายการ (${currentClub})`);
         }
@@ -1706,7 +2256,7 @@
                 ${m.class}
               </span>
             </td>
-            <td class="py-3 px-3 text-center text-brand-500 text-[11px] font-mono">${formatDateTime(m.timestamp)}</td>
+            
             <td class="py-3 px-3 text-center no-print">
               <button onclick="deleteMember('${m.id}')" title="ลบออก" class="text-brand-300 hover:text-rose-600 p-1 rounded-lg hover:bg-rose-50 transition">
                 ✕
@@ -2538,17 +3088,751 @@
       });
     }
 
+    
+    // =========================================================================
+    // MODULE NAVIGATION & ATTENDANCE 20 WEEKS LOGIC
+    // =========================================================================
+    let currentMainTab = 'reg'; // 'reg', 'att', 'report'
+    let selectedWeek = 1;
+    
+    // 20 Weeks Dates starting 29 Oct 2569 (2026-10-29)
+    const WEEKS_DATA = [
+      { week: 1, iso: '2026-10-29', date: '29 ต.ค. 2569', fullDate: 'วันพฤหัสบดีที่ 29 ตุลาคม 2569' },
+      { week: 2, iso: '2026-11-05', date: '5 พ.ย. 2569', fullDate: 'วันพฤหัสบดีที่ 5 พฤศจิกายน 2569' },
+      { week: 3, iso: '2026-11-12', date: '12 พ.ย. 2569', fullDate: 'วันพฤหัสบดีที่ 12 พฤศจิกายน 2569' },
+      { week: 4, iso: '2026-11-19', date: '19 พ.ย. 2569', fullDate: 'วันพฤหัสบดีที่ 19 พฤศจิกายน 2569' },
+      { week: 5, iso: '2026-11-26', date: '26 พ.ย. 2569', fullDate: 'วันพฤหัสบดีที่ 26 พฤศจิกายน 2569' },
+      { week: 6, iso: '2026-12-03', date: '3 ธ.ค. 2569', fullDate: 'วันพฤหัสบดีที่ 3 ธันวาคม 2569' },
+      { week: 7, iso: '2026-12-10', date: '10 ธ.ค. 2569', fullDate: 'วันพฤหัสบดีที่ 10 ธันวาคม 2569' },
+      { week: 8, iso: '2026-12-17', date: '17 ธ.ค. 2569', fullDate: 'วันพฤหัสบดีที่ 17 ธันวาคม 2569' },
+      { week: 9, iso: '2026-12-24', date: '24 ธ.ค. 2569', fullDate: 'วันพฤหัสบดีที่ 24 ธันวาคม 2569' },
+      { week: 10, iso: '2026-12-31', date: '31 ธ.ค. 2569', fullDate: 'วันพฤหัสบดีที่ 31 ธันวาคม 2569' },
+      { week: 11, iso: '2027-01-07', date: '7 ม.ค. 2570', fullDate: 'วันพฤหัสบดีที่ 7 มกราคม 2570' },
+      { week: 12, iso: '2027-01-14', date: '14 ม.ค. 2570', fullDate: 'วันพฤหัสบดีที่ 14 มกราคม 2570' },
+      { week: 13, iso: '2027-01-21', date: '21 ม.ค. 2570', fullDate: 'วันพฤหัสบดีที่ 21 มกราคม 2570' },
+      { week: 14, iso: '2027-01-28', date: '28 ม.ค. 2570', fullDate: 'วันพฤหัสบดีที่ 28 มกราคม 2570' },
+      { week: 15, iso: '2027-02-04', date: '4 ก.พ. 2570', fullDate: 'วันพฤหัสบดีที่ 4 กุมภาพันธ์ 2570' },
+      { week: 16, iso: '2027-02-11', date: '11 ก.พ. 2570', fullDate: 'วันพฤหัสบดีที่ 11 กุมภาพันธ์ 2570' },
+      { week: 17, iso: '2027-02-18', date: '18 ก.พ. 2570', fullDate: 'วันพฤหัสบดีที่ 18 กุมภาพันธ์ 2570' },
+      { week: 18, iso: '2027-02-25', date: '25 ก.พ. 2570', fullDate: 'วันพฤหัสบดีที่ 25 กุมภาพันธ์ 2570' },
+      { week: 19, iso: '2027-03-04', date: '4 มี.ค. 2570', fullDate: 'วันพฤหัสบดีที่ 4 มีนาคม 2570' },
+      { week: 20, iso: '2027-03-11', date: '11 มี.ค. 2570', fullDate: 'วันพฤหัสบดีที่ 11 มีนาคม 2570' }
+    ];
+
+    // Find week closest to current date automatically
+    function getClosestWeekNumber() {
+      const now = new Date();
+      let closestWeek = 1;
+      let minDiff = Infinity;
+      WEEKS_DATA.forEach(w => {
+        const d = new Date(w.iso);
+        const diff = Math.abs(now.getTime() - d.getTime());
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestWeek = w.week;
+        }
+      });
+      return closestWeek;
+    }
+
+    // Attendance data storage key per club
+    function getAttStorageKey() {
+      return `sichompu_club_attendance_${encodeURIComponent(cleanClubName(currentClub))}_2569`;
+    }
+
+    function loadAttendanceData() {
+      try {
+        const raw = localStorage.getItem(getAttStorageKey());
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return { activities: {}, records: {} };
+    }
+
+    function saveAttendanceData(attData) {
+      localStorage.setItem(getAttStorageKey(), JSON.stringify(attData));
+      updateReportKPIs();
+    }
+
+    // Switch Main Tabs: 'reg', 'att', 'report'
+    function switchMainModuleTab(tab) {
+      currentMainTab = tab;
+      const btnReg = document.getElementById('btnMainTabReg');
+      const btnAtt = document.getElementById('btnMainTabAtt');
+      const btnRep = document.getElementById('btnMainTabReport');
+
+      const modReg = document.getElementById('moduleRegistration');
+      const modAtt = document.getElementById('moduleAttendance');
+      const modRep = document.getElementById('moduleReport');
+
+      // Reset styles
+      const activeClass = 'px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center gap-2 bg-gradient-to-r from-brand-500 to-rose-500 text-white shadow-md shadow-brand-500/25 whitespace-nowrap active:scale-95';
+      const inactiveClass = 'px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 text-brand-700 hover:text-brand-900 hover:bg-brand-50 whitespace-nowrap active:scale-95';
+
+      if (btnReg) btnReg.className = (tab === 'reg') ? activeClass : inactiveClass;
+      if (btnAtt) btnAtt.className = (tab === 'att') ? activeClass : inactiveClass;
+      if (btnRep) btnRep.className = (tab === 'report') ? activeClass : inactiveClass;
+
+      if (tab === 'reg') {
+        if (modReg) modReg.classList.remove('hidden');
+        if (modAtt) modAtt.classList.add('hidden');
+        if (modRep) modRep.classList.add('hidden');
+      } else if (tab === 'att') {
+        if (modReg) modReg.classList.add('hidden');
+        if (modAtt) modAtt.classList.remove('hidden');
+        if (modRep) modRep.classList.add('hidden');
+        renderAttendanceUI();
+      } else if (tab === 'report') {
+        if (modReg) modReg.classList.add('hidden');
+        if (modAtt) modAtt.classList.add('hidden');
+        if (modRep) modRep.classList.remove('hidden');
+        renderReportUI();
+      }
+    }
+
+    const btnMainTabReg = document.getElementById('btnMainTabReg');
+    const btnMainTabAtt = document.getElementById('btnMainTabAtt');
+    const btnMainTabReport = document.getElementById('btnMainTabReport');
+
+    if (btnMainTabReg) btnMainTabReg.addEventListener('click', () => switchMainModuleTab('reg'));
+    if (btnMainTabAtt) btnMainTabAtt.addEventListener('click', () => switchMainModuleTab('att'));
+    if (btnMainTabReport) btnMainTabReport.addEventListener('click', () => switchMainModuleTab('report'));
+
+    // Populate Week Selector & Auto-select closest week
+    function initWeekSelector() {
+      selectedWeek = getClosestWeekNumber();
+      const select = document.getElementById('attWeekSelect');
+      if (!select) return;
+      select.innerHTML = '';
+      WEEKS_DATA.forEach(w => {
+        const opt = document.createElement('option');
+        opt.value = w.week;
+        opt.innerText = `สัปดาห์ที่ ${w.week} (${w.date})`;
+        select.appendChild(opt);
+      });
+      select.value = selectedWeek;
+      select.addEventListener('change', (e) => {
+        selectedWeek = parseInt(e.target.value, 10);
+        renderAttendanceUI();
+      });
+
+      // Hook cascading selectors in Attendance & Report tabs
+      const attDeptSelect = document.getElementById('attDeptSelect');
+      const attClubSelect = document.getElementById('attClubSelect');
+      const repDeptSelect = document.getElementById('repDeptSelect');
+      const repClubSelect = document.getElementById('repClubSelect');
+      
+      if (attDeptSelect) {
+        attDeptSelect.addEventListener('change', (e) => {
+          const dept = e.target.value;
+          populateAttClubsByDept(dept, null);
+          const firstInList = attClubSelect.value;
+          if (firstInList) {
+            currentClub = cleanClubName(firstInList);
+            localStorage.setItem('sichompu_current_club', currentClub);
+            updateClubUI();
+            loadLocalMembers();
+            renderAttendanceUI();
+            fetchMembersFromSheet(true);
+          }
+        });
+      }
+
+      if (attClubSelect) {
+        attClubSelect.addEventListener('change', async (e) => {
+          currentClub = cleanClubName(e.target.value);
+          localStorage.setItem('sichompu_current_club', currentClub);
+          updateClubUI();
+          loadLocalMembers();
+          renderAttendanceUI();
+          await fetchMembersFromSheet(true);
+        });
+      }
+
+      if (repDeptSelect) {
+        repDeptSelect.addEventListener('change', (e) => {
+          const dept = e.target.value;
+          populateRepClubsByDept(dept, null);
+          const firstInList = repClubSelect.value;
+          if (firstInList) {
+            currentClub = cleanClubName(firstInList);
+            localStorage.setItem('sichompu_current_club', currentClub);
+            updateClubUI();
+            loadLocalMembers();
+            renderReportUI();
+            fetchMembersFromSheet(true);
+          }
+        });
+      }
+
+      if (repClubSelect) {
+        repClubSelect.addEventListener('change', async (e) => {
+          currentClub = cleanClubName(e.target.value);
+          localStorage.setItem('sichompu_current_club', currentClub);
+          updateClubUI();
+          loadLocalMembers();
+          renderReportUI();
+          await fetchMembersFromSheet(true);
+        });
+      }
+    }
+
+    const btnPrevWeek = document.getElementById('btnPrevWeek');
+    const btnNextWeek = document.getElementById('btnNextWeek');
+    if (btnPrevWeek) {
+      btnPrevWeek.addEventListener('click', () => {
+        if (selectedWeek > 1) {
+          selectedWeek--;
+          document.getElementById('attWeekSelect').value = selectedWeek;
+          renderAttendanceUI();
+        }
+      });
+    }
+    if (btnNextWeek) {
+      btnNextWeek.addEventListener('click', () => {
+        if (selectedWeek < 20) {
+          selectedWeek++;
+          document.getElementById('attWeekSelect').value = selectedWeek;
+          renderAttendanceUI();
+        }
+      });
+    }
+
+    // Render Attendance UI for Current Week
+    function renderAttendanceUI() {
+      const meta = getClubMeta(currentClub);
+      const wInfo = WEEKS_DATA[selectedWeek - 1];
+
+      const clubBadge = document.getElementById('attClubBadge');
+      if (clubBadge) clubBadge.innerText = `ชุมนุม ${currentClub.toUpperCase()}`;
+
+      const dateLabel = document.getElementById('attWeekDateLabel');
+      if (dateLabel) dateLabel.innerText = wInfo.fullDate;
+
+      const titleEl = document.getElementById('attTableTitle');
+      if (titleEl) titleEl.innerText = `รายชื่อสมาชิกชุมนุม ${currentClub} (สัปดาห์ที่ ${selectedWeek} - ${wInfo.date})`;
+
+      const countEl = document.getElementById('attTableMemberCount');
+      if (countEl) countEl.innerText = `จำนวน ${members.length} คน`;
+
+      const attData = loadAttendanceData();
+      const activityInput = document.getElementById('attActivityInput');
+      if (activityInput) {
+        activityInput.value = attData.activities[selectedWeek] || '';
+      }
+
+      const tbody = document.getElementById('attTableBody');
+      const emptyState = document.getElementById('attEmptyState');
+      tbody.innerHTML = '';
+
+      if (members.length === 0) {
+        if (emptyState) emptyState.classList.remove('hidden');
+        updateWeekStatsCounters({});
+        return;
+      }
+      if (emptyState) emptyState.classList.add('hidden');
+
+      const sortedMembers = sortMembersByRoom(members);
+      const statuses = [
+        { code: 'มา', label: 'มา', color: 'peer-checked:bg-emerald-600 peer-checked:text-white peer-checked:border-emerald-600 text-emerald-800 border-emerald-300 hover:bg-emerald-50' },
+        { code: 'สาย', label: 'สาย', color: 'peer-checked:bg-amber-500 peer-checked:text-white peer-checked:border-amber-500 text-amber-800 border-amber-300 hover:bg-amber-50' },
+        { code: 'ลา', label: 'ลา', color: 'peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600 text-blue-800 border-blue-300 hover:bg-blue-50' },
+        { code: 'ขาด', label: 'ขาด', color: 'peer-checked:bg-rose-600 peer-checked:text-white peer-checked:border-rose-600 text-rose-800 border-rose-300 hover:bg-rose-50' },
+        { code: 'กิจกรรม', label: 'กิจกรรม', color: 'peer-checked:bg-purple-600 peer-checked:text-white peer-checked:border-purple-600 text-purple-800 border-purple-300 hover:bg-purple-50' }
+      ];
+
+      const weekRecs = {};
+      let needsAutoInit = false;
+
+      sortedMembers.forEach((m, idx) => {
+        const studentId = String(m.id).trim();
+        if (!attData.records[studentId]) attData.records[studentId] = {};
+        
+        // ค่าเริ่มต้นของทุกคนในชุมนุมเป็น "มา" (Default = มา)
+        if (!attData.records[studentId][selectedWeek]) {
+          attData.records[studentId][selectedWeek] = 'มา';
+          needsAutoInit = true;
+        }
+        const currentStatus = attData.records[studentId][selectedWeek];
+        weekRecs[studentId] = currentStatus;
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-brand-50/50 transition';
+
+        let buttonsHtml = '<div class="flex items-center justify-center gap-1 sm:gap-1.5">';
+        statuses.forEach(st => {
+          const isChecked = (currentStatus === st.code) ? 'checked' : '';
+          buttonsHtml += `
+            <label class="cursor-pointer">
+              <input type="radio" name="att_${studentId}_w${selectedWeek}" value="${st.code}" ${isChecked} onchange="onStudentStatusChange('${studentId}', '${st.code}')" class="hidden peer">
+              <span class="inline-block px-2.5 py-1 rounded-xl text-xs font-bold border ${st.color} transition shadow-sm select-none">
+                ${st.label}
+              </span>
+            </label>
+          `;
+        });
+        buttonsHtml += '</div>';
+
+        tr.innerHTML = `
+          <td class="py-2.5 px-3.5 text-center text-brand-500 font-mono">${idx + 1}</td>
+          <td class="py-2.5 px-3 text-center font-mono font-bold text-brand-700">${m.id}</td>
+          <td class="py-2.5 px-4 font-semibold text-brand-900">${m.name}</td>
+          <td class="py-2.5 px-3 text-center">
+            <span class="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-brand-100 text-brand-700 border border-brand-200">
+              ${m.class}
+            </span>
+          </td>
+          <td class="py-2.5 px-4 text-center">${buttonsHtml}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      if (needsAutoInit) {
+        saveAttendanceData(attData);
+      }
+      updateWeekStatsCounters(weekRecs);
+    }
+
+    // Change single student status
+    window.onStudentStatusChange = function(studentId, statusCode) {
+      const attData = loadAttendanceData();
+      if (!attData.records[studentId]) attData.records[studentId] = {};
+      attData.records[studentId][selectedWeek] = statusCode;
+      saveAttendanceData(attData);
+
+      // Collect updated week stats
+      const weekRecs = {};
+      members.forEach(m => {
+        const sid = String(m.id).trim();
+        weekRecs[sid] = (attData.records[sid] && attData.records[sid][selectedWeek]) ? attData.records[sid][selectedWeek] : '';
+      });
+      updateWeekStatsCounters(weekRecs);
+      playSound('found');
+    };
+
+    function updateWeekStatsCounters(weekRecs) {
+      let present = 0, late = 0, leave = 0, absent = 0, activity = 0;
+      Object.values(weekRecs).forEach(st => {
+        if (st === 'มา') present++;
+        else if (st === 'สาย') late++;
+        else if (st === 'ลา') leave++;
+        else if (st === 'ขาด') absent++;
+        else if (st === 'กิจกรรม') activity++;
+      });
+      const elP = document.getElementById('statAttPresent');
+      const elL = document.getElementById('statAttLate');
+      const elLe = document.getElementById('statAttLeave');
+      const elA = document.getElementById('statAttAbsent');
+      const elAct = document.getElementById('statAttActivity');
+      if (elP) elP.innerText = present;
+      if (elL) elL.innerText = late;
+      if (elLe) elLe.innerText = leave;
+      if (elA) elA.innerText = absent;
+      if (elAct) elAct.innerText = activity;
+    }
+
+    // Mark All Present
+    const btnMarkAllPresent = document.getElementById('btnMarkAllPresent');
+    if (btnMarkAllPresent) {
+      btnMarkAllPresent.addEventListener('click', () => {
+        if (members.length === 0) return showToast('ยังไม่มีสมาชิกสำหรับเช็คชื่อ', 'warn');
+        const attData = loadAttendanceData();
+        members.forEach(m => {
+          const sid = String(m.id).trim();
+          if (!attData.records[sid]) attData.records[sid] = {};
+          attData.records[sid][selectedWeek] = 'มา';
+        });
+        saveAttendanceData(attData);
+        renderAttendanceUI();
+        playSound('success');
+        showToast(`บันทึก "มาทั้งหมด" ในสัปดาห์ที่ ${selectedWeek} เรียบร้อยแล้ว`);
+      });
+    }
+
+    // Save Attendance & Topic
+    const btnSaveAttendance = document.getElementById('btnSaveAttendance');
+    if (btnSaveAttendance) {
+      btnSaveAttendance.addEventListener('click', () => {
+        const attData = loadAttendanceData();
+        const activityInput = document.getElementById('attActivityInput');
+        if (activityInput) {
+          attData.activities[selectedWeek] = activityInput.value.trim();
+        }
+        saveAttendanceData(attData);
+        playSound('success');
+        showToast(`บันทึกผลการเช็คชื่อสัปดาห์ที่ ${selectedWeek} เรียบร้อย`);
+
+        // Background sync to Google Sheets (Approach 1: Att_<ClubName>)
+        fetch(WEB_APP_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'saveAttendance',
+            club: currentClub,
+            week: selectedWeek,
+            activity: attData.activities[selectedWeek] || '',
+            attendance: attData
+          })
+        }).then(() => {
+          console.log(`Saved attendance for ${currentClub} to Google Sheets`);
+        }).catch(e => console.warn('Sync attendance failed:', e));
+      });
+    }
+
+    // Auto-save activity topic on input change
+    const attActivityInput = document.getElementById('attActivityInput');
+    if (attActivityInput) {
+      attActivityInput.addEventListener('change', () => {
+        const attData = loadAttendanceData();
+        attData.activities[selectedWeek] = attActivityInput.value.trim();
+        saveAttendanceData(attData);
+      });
+    }
+
+    // =========================================================================
+    // MODULE 3: REPORT & ATTENDANCE MATRIX & 80% EVALUATION
+    // =========================================================================
+    function updateReportKPIs() {
+      const attData = loadAttendanceData();
+      const totalMembers = members.length;
+      const elTot = document.getElementById('repTotalMembers');
+      if (elTot) elTot.innerText = totalMembers;
+
+      let recordedWeeksSet = new Set();
+      Object.keys(attData.activities || {}).forEach(w => recordedWeeksSet.add(Number(w)));
+      Object.values(attData.records || {}).forEach(rec => {
+        Object.keys(rec || {}).forEach(w => recordedWeeksSet.add(Number(w)));
+      });
+      const elRec = document.getElementById('repRecordedWeeks');
+      if (elRec) elRec.innerText = `${recordedWeeksSet.size} / 20`;
+
+      let passCount = 0;
+      let failCount = 0;
+
+      members.forEach(m => {
+        const sid = String(m.id).trim();
+        const rec = attData.records[sid] || {};
+        let presentCount = 0;
+        for (let w = 1; w <= 20; w++) {
+          const st = rec[w];
+          if (st === 'มา' || st === 'กิจกรรม' || st === 'สาย') {
+            presentCount++;
+          }
+        }
+        // 80% criteria = at least 16 out of 20
+        if (presentCount >= 16) passCount++;
+        else failCount++;
+      });
+
+      const passPct = totalMembers > 0 ? Math.round((passCount / totalMembers) * 100) : 0;
+      const failPct = totalMembers > 0 ? Math.round((failCount / totalMembers) * 100) : 0;
+
+      const elPass = document.getElementById('repPassCount');
+      const elPassPct = document.getElementById('repPassPct');
+      const elFail = document.getElementById('repFailCount');
+      const elFailPct = document.getElementById('repFailPct');
+
+      if (elPass) elPass.innerText = passCount;
+      if (elPassPct) elPassPct.innerText = `${passPct}% ของสมาชิก`;
+      if (elFail) elFail.innerText = failCount;
+      if (elFailPct) elFailPct.innerText = `${failPct}% ของสมาชิก`;
+
+      const navBadgePassPct = document.getElementById('navBadgePassPct');
+      if (navBadgePassPct) navBadgePassPct.innerText = `ผ่าน ${passPct}%`;
+    }
+
+    function renderReportUI() {
+      const meta = getClubMeta(currentClub);
+      const repClubBadge = document.getElementById('repClubBadge');
+      if (repClubBadge) repClubBadge.innerText = `ชุมนุม ${currentClub.toUpperCase()} (${meta.dept})`;
+
+      updateReportKPIs();
+
+      // Build Table Header Row with 20 Weeks
+      const headerRow = document.getElementById('repTableHeaderRow');
+      if (!headerRow) return;
+
+      let hHtml = `
+        <th class="py-2.5 px-2 text-center w-10 sticky left-0 bg-brand-50 z-30 border-r border-brand-200">ลำดับ</th>
+        <th class="py-2.5 px-2 text-center w-20 sticky left-10 bg-brand-50 z-30 border-r border-brand-200">รหัส</th>
+        <th class="py-2.5 px-3 text-left w-36 sticky left-28 bg-brand-50 z-30 border-r border-brand-200">ชื่อ - สกุล</th>
+        <th class="py-2.5 px-2 text-center w-14 border-r border-brand-200">ชั้น</th>
+      `;
+
+      for (let w = 1; w <= 20; w++) {
+        hHtml += `<th class="py-2 px-1 text-center w-7 border-r border-brand-200 font-mono" title="${WEEKS_DATA[w-1].date}">W${w}</th>`;
+      }
+
+      hHtml += `
+        <th class="py-2 px-1 text-center w-9 bg-emerald-50 text-emerald-800 font-bold border-r border-brand-200">มา</th>
+        <th class="py-2 px-1 text-center w-9 bg-amber-50 text-amber-800 font-bold border-r border-brand-200">สาย</th>
+        <th class="py-2 px-1 text-center w-9 bg-blue-50 text-blue-800 font-bold border-r border-brand-200">ลา</th>
+        <th class="py-2 px-1 text-center w-9 bg-rose-50 text-rose-800 font-bold border-r border-brand-200">ขาด</th>
+        <th class="py-2 px-1 text-center w-9 bg-purple-50 text-purple-800 font-bold border-r border-brand-200">กิจ</th>
+        <th class="py-2 px-1.5 text-center w-14 font-bold border-r border-brand-200">ร้อยละ</th>
+        <th class="py-2 px-2 text-center w-16 font-bold">ผล 80%</th>
+      `;
+      headerRow.innerHTML = hHtml;
+
+      const tbody = document.getElementById('repTableBody');
+      const emptyState = document.getElementById('repEmptyState');
+      const searchVal = document.getElementById('repSearchInput') ? document.getElementById('repSearchInput').value.toLowerCase().trim() : '';
+      tbody.innerHTML = '';
+
+      if (members.length === 0) {
+        if (emptyState) emptyState.classList.remove('hidden');
+        return;
+      }
+      if (emptyState) emptyState.classList.add('hidden');
+
+      const attData = loadAttendanceData();
+      const sortedMembers = sortMembersByRoom(members);
+
+      const filtered = sortedMembers.filter(m => {
+        return m.name.toLowerCase().includes(searchVal) || String(m.id).includes(searchVal) || m.class.toLowerCase().includes(searchVal);
+      });
+
+      filtered.forEach((m, idx) => {
+        const sid = String(m.id).trim();
+        const rec = attData.records[sid] || {};
+
+        let countP = 0, countL = 0, countLe = 0, countA = 0, countAct = 0;
+        let weekTds = '';
+
+        for (let w = 1; w <= 20; w++) {
+          const st = rec[w] || '';
+          let symbol = '-';
+          let cellClass = 'text-gray-300';
+          if (st === 'มา') {
+            symbol = '✓';
+            cellClass = 'text-emerald-700 font-bold bg-emerald-50/50';
+            countP++;
+          } else if (st === 'สาย') {
+            symbol = 'ส';
+            cellClass = 'text-amber-700 font-bold bg-amber-50/50';
+            countL++;
+          } else if (st === 'ลา') {
+            symbol = 'ล';
+            cellClass = 'text-blue-700 font-bold bg-blue-50/50';
+            countLe++;
+          } else if (st === 'ขาด') {
+            symbol = 'ข';
+            cellClass = 'text-rose-700 font-bold bg-rose-50/50';
+            countA++;
+          } else if (st === 'กิจกรรม') {
+            symbol = 'ก';
+            cellClass = 'text-purple-700 font-bold bg-purple-50/50';
+            countAct++;
+          }
+
+          weekTds += `<td class="py-2 px-1 text-center font-mono border-r border-gray-200 ${cellClass}">${symbol}</td>`;
+        }
+
+        const totalAttended = countP + countAct + countL;
+        const pct = Math.round((totalAttended / 20) * 100);
+        const isPass = (totalAttended >= 16);
+
+        const tr = document.createElement('tr');
+        tr.className = (idx % 2 === 1) ? 'bg-gray-50/70 hover:bg-brand-50/50 transition' : 'bg-white hover:bg-brand-50/50 transition';
+        tr.innerHTML = `
+          <td class="py-2 px-2 text-center text-brand-500 font-mono sticky left-0 bg-inherit z-10 border-r border-gray-200">${idx + 1}</td>
+          <td class="py-2 px-2 text-center font-mono font-bold text-brand-700 sticky left-10 bg-inherit z-10 border-r border-gray-200">${m.id}</td>
+          <td class="py-2 px-3 font-semibold text-brand-900 sticky left-28 bg-inherit z-10 border-r border-gray-200 whitespace-nowrap">${m.name}</td>
+          <td class="py-2 px-2 text-center font-bold text-gray-700 border-r border-gray-200">${m.class}</td>
+          ${weekTds}
+          <td class="py-2 px-1 text-center font-bold font-mono text-emerald-700 bg-emerald-50/30 border-r border-gray-200">${countP}</td>
+          <td class="py-2 px-1 text-center font-bold font-mono text-amber-700 bg-amber-50/30 border-r border-gray-200">${countL}</td>
+          <td class="py-2 px-1 text-center font-bold font-mono text-blue-700 bg-blue-50/30 border-r border-gray-200">${countLe}</td>
+          <td class="py-2 px-1 text-center font-bold font-mono text-rose-700 bg-rose-50/30 border-r border-gray-200">${countA}</td>
+          <td class="py-2 px-1 text-center font-bold font-mono text-purple-700 bg-purple-50/30 border-r border-gray-200">${countAct}</td>
+          <td class="py-2 px-1 text-center font-bold font-mono border-r border-gray-200">${pct}%</td>
+          <td class="py-2 px-1.5 text-center">
+            ${isPass 
+              ? '<span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300">ผ</span>'
+              : '<span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-rose-100 text-rose-800 border border-rose-300">มผ</span>'}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    const repSearchInput = document.getElementById('repSearchInput');
+    if (repSearchInput) repSearchInput.addEventListener('input', renderReportUI);
+
+    // Export 20-Week Attendance CSV
+    const btnExportReportCsv = document.getElementById('btnExportReportCsv');
+    if (btnExportReportCsv) {
+      btnExportReportCsv.addEventListener('click', () => {
+        if (members.length === 0) return showToast('ยังไม่มีข้อมูลสมาชิกสำหรับส่งออก', 'warn');
+        const attData = loadAttendanceData();
+        const sortedMembers = sortMembersByRoom(members);
+
+        let csv = '\uFEFFลำดับ,เลขประจำตัว,ชื่อ - สกุล,ระดับชั้น,';
+        for (let w = 1; w <= 20; w++) {
+          csv += `สัปดาห์ที่ ${w} (${WEEKS_DATA[w-1].date}),`;
+        }
+        csv += 'มา,สาย,ลา,ขาด,กิจกรรม,ร้อยละเวลาเรียน,ผลการประเมิน 80%\n';
+
+        sortedMembers.forEach((m, idx) => {
+          const sid = String(m.id).trim();
+          const rec = attData.records[sid] || {};
+          let p = 0, l = 0, le = 0, a = 0, act = 0;
+          let weekCols = '';
+
+          for (let w = 1; w <= 20; w++) {
+            const st = rec[w] || '-';
+            weekCols += `"${st}",`;
+            if (st === 'มา') p++;
+            else if (st === 'สาย') l++;
+            else if (st === 'ลา') le++;
+            else if (st === 'ขาด') a++;
+            else if (st === 'กิจกรรม') act++;
+          }
+
+          const totalAttended = p + act + l;
+          const pct = Math.round((totalAttended / 20) * 100);
+          const evalResult = (totalAttended >= 16) ? 'ผ่าน (ผ)' : 'ไม่ผ่าน (มผ)';
+
+          csv += `"${idx + 1}","'${m.id}","${m.name}","${m.class}",${weekCols}"${p}","${l}","${le}","${a}","${act}","${pct}%","${evalResult}"\n`;
+        });
+
+        downloadBlob(csv, `แบบบันทึกเวลาเรียน20สัปดาห์_${currentClub}_สีชมพูศึกษา_${new Date().toISOString().slice(0,10)}.csv`);
+      });
+    }
+
+    // Print Official Attendance Matrix Report
+    function prepareAndPrintAttendanceReport() {
+      const meta = getClubMeta(currentClub);
+      const attData = loadAttendanceData();
+      const sortedMembers = sortMembersByRoom(members);
+
+      if (sortedMembers.length === 0) {
+        showToast('ยังไม่มีสมาชิกในชุมนุมนี้สำหรับพิมพ์รายงาน', 'warn');
+        return;
+      }
+
+      const pTitle = document.getElementById('printAttClubTitle');
+      if (pTitle) pTitle.innerText = `รายงานเวลาเรียนและกิจกรรมชุมนุม ${currentClub.toUpperCase()} (เกณฑ์ 80%)`;
+      const pSub = document.getElementById('printAttClubSubtitle');
+      if (pSub) pSub.innerText = `กลุ่มสาระฯ ${meta.dept} • ครูที่ปรึกษา: ${meta.advisor || '-'} • ภาคเรียนที่ 2 ปีการศึกษา 2569 (20 สัปดาห์)`;
+      const pAdv = document.getElementById('printAttAdvisorName');
+      if (pAdv) pAdv.innerText = `( ${meta.advisor || 'ครูที่ปรึกษาชุมนุม'} )`;
+
+      const headerRow = document.getElementById('printAttHeaderRow');
+      if (headerRow) {
+        let pHeader = `
+          <th class="py-1.5 px-1.5 text-center w-8 border-r border-gray-400">ลำดับ</th>
+          <th class="py-1.5 px-3 text-left border-r border-gray-400">ชื่อ - สกุล</th>
+        `;
+        for (let w = 1; w <= 20; w++) {
+          pHeader += `<th class="py-1 px-0.5 text-center w-5 border-r border-gray-400 font-mono text-[9px]">${w}</th>`;
+        }
+        pHeader += `
+          <th class="py-1 px-0.5 text-center w-6 border-r border-gray-400 font-bold text-[9px]">มา</th>
+          <th class="py-1 px-0.5 text-center w-6 border-r border-gray-400 font-bold text-[9px]">สาย</th>
+          <th class="py-1 px-0.5 text-center w-6 border-r border-gray-400 font-bold text-[9px]">ลา</th>
+          <th class="py-1 px-0.5 text-center w-6 border-r border-gray-400 font-bold text-[9px]">ขาด</th>
+          <th class="py-1 px-0.5 text-center w-6 border-r border-gray-400 font-bold text-[9px]">กิจ</th>
+          <th class="py-1 px-1 text-center w-8 border-r border-gray-400 font-bold text-[9px]">%</th>
+          <th class="py-1 px-1.5 text-center w-10 font-bold text-[9px]">ผล</th>
+        `;
+        headerRow.innerHTML = pHeader;
+      }
+
+      const tbody = document.getElementById('printAttTableBody');
+      if (tbody) {
+        tbody.innerHTML = '';
+        sortedMembers.forEach((m, idx) => {
+          const sid = String(m.id).trim();
+          const rec = attData.records[sid] || {};
+          let p = 0, l = 0, le = 0, a = 0, act = 0;
+          let weekTds = '';
+
+          for (let w = 1; w <= 20; w++) {
+            const st = rec[w] || '';
+            let sym = '';
+            if (st === 'มา') { sym = '/'; p++; }
+            else if (st === 'สาย') { sym = 'ส'; l++; }
+            else if (st === 'ลา') { sym = 'ล'; le++; }
+            else if (st === 'ขาด') { sym = 'ข'; a++; }
+            else if (st === 'กิจกรรม') { sym = 'ก'; act++; }
+            weekTds += `<td class="py-1 px-0.5 text-center border-r border-gray-400 font-mono">${sym}</td>`;
+          }
+
+          const totalAttended = p + act + l;
+          const pct = Math.round((totalAttended / 20) * 100);
+          const isPass = (totalAttended >= 16);
+
+          const tr = document.createElement('tr');
+          tr.className = (idx % 2 === 1) ? 'bg-gray-50' : 'bg-white';
+          tr.innerHTML = `
+            <td class="py-1 px-1 text-center border-r border-gray-400 font-mono">${idx + 1}</td>
+            <td class="py-1 px-3 text-left border-r border-gray-400 font-semibold whitespace-nowrap">${m.name}</td>
+            ${weekTds}
+            <td class="py-1 px-0.5 text-center border-r border-gray-400 font-mono font-bold">${p}</td>
+            <td class="py-1 px-0.5 text-center border-r border-gray-400 font-mono font-bold">${l}</td>
+            <td class="py-1 px-0.5 text-center border-r border-gray-400 font-mono font-bold">${le}</td>
+            <td class="py-1 px-0.5 text-center border-r border-gray-400 font-mono font-bold">${a}</td>
+            <td class="py-1 px-0.5 text-center border-r border-gray-400 font-mono font-bold">${act}</td>
+            <td class="py-1 px-1 text-center border-r border-gray-400 font-mono font-bold">${pct}%</td>
+            <td class="py-1 px-1 text-center font-bold ${isPass ? 'text-emerald-700' : 'text-rose-700'}">${isPass ? 'ผ' : 'มผ'}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      // Show ONLY printAttSection, hide printRegSection (ขึ้นหน้าใหม่แยกต่างหากสมบูรณ์แบบ)
+      const prReg = document.getElementById('printRegSection');
+      const prAtt = document.getElementById('printAttSection');
+      if (prReg) {
+        prReg.style.setProperty('display', 'none', 'important');
+      }
+      if (prAtt) {
+        prAtt.style.setProperty('display', 'block', 'important');
+      }
+      window.print();
+    }
+
+    const btnPrintReport = document.getElementById('btnPrintReport');
+    if (btnPrintReport) btnPrintReport.addEventListener('click', prepareAndPrintAttendanceReport);
+
+    // Adjust top main print button to print relevant page
+    const topBtnPrint = document.getElementById('btnPrint');
+    if (topBtnPrint) {
+      topBtnPrint.addEventListener('click', (e) => {
+        if (currentMainTab === 'att' || currentMainTab === 'report') {
+          e.stopImmediatePropagation();
+          prepareAndPrintAttendanceReport();
+        } else {
+          const prReg = document.getElementById('printRegSection');
+          const prAtt = document.getElementById('printAttSection');
+          if (prReg) prReg.style.display = 'block';
+          if (prAtt) prAtt.style.display = 'none';
+        }
+      });
+    }
+
+    // Sync member badge count
+    function updateMemberNavBadge() {
+      const badge = document.getElementById('navBadgeMembers');
+      if (badge) badge.innerText = `${members.length} คน`;
+    }
+
+
     window.addEventListener('DOMContentLoaded', async () => {
       initDatabase();
+      initWeekSelector();
       renderDeptPills();
       // Initially show Science & Tech with Trader selected as first option
       populateClubSelect(false);
       loadLocalMembers();
       handleStudentSearch('');
+      updateReportKPIs();
       
       // Auto-sync dynamic clubs list from Google Sheets
       await fetchClubsList();
       await fetchMembersFromSheet(true);
+      updateMemberNavBadge();
     });
   </script>
 </body>
