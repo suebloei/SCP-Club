@@ -3519,33 +3519,59 @@
     }
 
     // Save Attendance & Topic
+// Save Attendance & Topic (Matrix Format W1-W20)
     const btnSaveAttendance = document.getElementById('btnSaveAttendance');
     if (btnSaveAttendance) {
-      btnSaveAttendance.addEventListener('click', () => {
+      btnSaveAttendance.addEventListener('click', async () => {
         const attData = loadAttendanceData();
         const activityInput = document.getElementById('attActivityInput');
         if (activityInput) {
           attData.activities[selectedWeek] = activityInput.value.trim();
         }
-        saveAttendanceData(attData);
-        playSound('success');
-        showToast(`บันทึกผลการเช็คชื่อสัปดาห์ที่ ${selectedWeek} เรียบร้อย`);
 
-        // Background sync to Google Sheets (Approach 1: Att_<ClubName>)
-        fetch(WEB_APP_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            action: 'saveAttendance',
-            club: currentClub,
-            week: selectedWeek,
-            activity: attData.activities[selectedWeek] || '',
-            attendance: attData
-          })
-        }).then(() => {
-          console.log(`Saved attendance for ${currentClub} to Google Sheets`);
-        }).catch(e => console.warn('Sync attendance failed:', e));
+        // รวบรวมสถานะการมาเรียนของนักเรียนทุกคนในสัปดาห์ปัจจุบัน
+        const currentWeekRecords = {};
+        members.forEach(m => {
+          const sid = String(m.id).trim();
+          const checkedRadio = document.querySelector(`input[name="att_${sid}_w${selectedWeek}"]:checked`);
+          currentWeekRecords[sid] = checkedRadio ? checkedRadio.value : 'มา'; // ค่าเริ่มต้นเป็น "มา"
+          
+          // บันทึกลงหน่วยความจำชั่วคราวในเครื่องด้วย
+          if (!attData.records[sid]) attData.records[sid] = {};
+          attData.records[sid][selectedWeek] = currentWeekRecords[sid];
+        });
+
+        saveAttendanceData(attData);
+
+        const saveBtn = document.getElementById('btnSaveAttendance');
+        const originalText = saveBtn.innerHTML;
+        saveBtn.disabled = true;
+        saveBtn.innerText = 'กำลังบันทึกลงชีต...';
+
+        try {
+          // ส่งข้อมูลกิจกรรมและสถานะการมาเรียนไปยัง Google Sheets
+          await fetch(WEB_APP_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'saveAttendance',
+              club: currentClub,
+              week: selectedWeek,
+              activity: attData.activities[selectedWeek] || '',
+              records: currentWeekRecords
+            })
+          });
+
+          playSound('success');
+          showToast(`บันทึกผลการเช็คชื่อสัปดาห์ที่ ${selectedWeek} ลง Google Sheets เรียบร้อย`);
+          await fetchAttendanceFromSheet(true);
+        } catch (e) {
+          showToast('บันทึกลงชีตล้มเหลว กรุณาลองใหม่อีกครั้ง', 'error');
+        } finally {
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = originalText;
+        }
       });
     }
 
