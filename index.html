@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <link rel="icon" type="image/png" href="logo.png">
   <link rel="apple-touch-icon" href="logo.png">
   <title>ระบบรับสมัครสมาชิกกิจกรรมชุมนุม - โรงเรียนสีชมพูศึกษา</title>
@@ -61,6 +61,60 @@
   </script>
 
   <style>
+
+    /* Safe area and responsive orientation support */
+    :root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sar: env(safe-area-inset-right, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+      --sal: env(safe-area-inset-left, 0px);
+    }
+
+    body {
+      padding-top: max(0.75rem, var(--sat));
+      padding-right: max(0.75rem, var(--sar));
+      padding-bottom: max(1rem, var(--sab));
+      padding-left: max(0.75rem, var(--sal));
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+    }
+
+    /* Touch-friendly scrolling with inertia */
+    .overflow-x-auto, .overflow-y-auto {
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+
+    /* Mobile landscape optimizations (max-height <= 550px) */
+    @media (max-height: 550px) and (orientation: landscape) {
+      body {
+        padding: max(0.5rem, var(--sat)) max(0.75rem, var(--sar)) max(0.5rem, var(--sab)) max(0.75rem, var(--sal));
+      }
+      header.glass-nav {
+        padding: 0.75rem 1rem !important;
+        gap: 0.75rem !important;
+      }
+      header .w-16, header .w-20 {
+        width: 2.75rem !important;
+        height: 2.75rem !important;
+      }
+      #dashboardModal .glass-card {
+        max-height: 96vh !important;
+        padding: 0.85rem !important;
+      }
+      .grid.grid-cols-2.sm\:grid-cols-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 0.5rem !important;
+      }
+    }
+
+    /* Tablet and Split-screen adaptability */
+    @media (min-width: 640px) and (max-width: 1024px) {
+      .glass-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+    }
+
     body {
       background-color: #fff5f8;
       background-image: 
@@ -222,7 +276,7 @@
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
         </svg>
-        <span>1. รับสมัครกิจกรรม</span>
+        <span>1. รับสมัคร</span>
         <span id="navBadgeMembers" class="px-2 py-0.5 rounded-full text-[10px] bg-white/20 text-white font-mono">0 คน</span>
       </button>
 
@@ -230,7 +284,7 @@
         <svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <span>2. เช็คชื่อการมาเรียน (20 สัปดาห์)</span>
+        <span>2. เช็คชื่อ</span>
         <span class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800 font-bold">29 ต.ค. 69</span>
       </button>
 
@@ -238,7 +292,7 @@
         <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
-        <span>3. รายงานและสถิติ (เกณฑ์ 80%)</span>
+        <span>3. รายงาน</span>
         <span id="navBadgePassPct" class="px-2 py-0.5 rounded-full text-[10px] bg-blue-100 text-blue-800 font-bold">สรุปผล</span>
       </button>
     </div>
@@ -406,8 +460,8 @@
           <div class="flex items-center gap-2.5">
             <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
             <div>
-              <p class="font-bold text-brand-800">ระบบคลาวด์ Google Sheets พร้อมใช้งาน</p>
-              <p class="text-[11px] text-brand-600 font-medium">ดึงและบันทึกข้อมูลอัตโนมัติ</p>
+              <p class="font-bold text-brand-800">บันทึกคลาวด์ Google Sheets เรียลไทม์ (No LocalStorage)</p>
+              <p class="text-[11px] text-brand-600 font-medium">เชื่อมต่อและอัปเดตข้อมูลบน Google Sheets 100%</p>
             </div>
           </div>
           <button id="btnSyncAll" class="px-3 py-1.5 rounded-xl bg-white hover:bg-brand-100 text-brand-700 text-xs font-bold border border-brand-200 shadow-sm transition active:scale-95">ซิงค์ชีต</button>
@@ -1217,8 +1271,10 @@
   <!-- Application Logic -->
   <script>
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyfYIZY_aSg7VGCbwYuXH7jdni6F_2ZNGEExnc1aMenvmY6fQDTdZE2SJHqat53phI/exec';
-    const STORAGE_KEY_BASE = 'sichompu_club_members_2569';
     const TOTAL_SCHOOL_STUDENTS = 1895;
+    // In-memory runtime cache (No LocalStorage) - Single Source of Truth via Google Sheets
+    let memoryClubMembers = {};
+    let memoryAttendance = {};
 
     // Helper: Clean club name by stripping "ชุมนุม " prefix
     function cleanClubName(str) {
@@ -1394,7 +1450,7 @@
       if (autoSelectFirst && clubs.length > 0) {
         currentClub = clubs[0].name;
         clubSelect.value = currentClub;
-        localStorage.setItem('sichompu_current_club', currentClub);
+        
         updateClubUI();
         loadLocalMembers();
         fetchMembersFromSheet(true);
@@ -1650,7 +1706,7 @@
         currentClub = cleanClubName(e.target.value);
       }
       
-      localStorage.setItem('sichompu_current_club', currentClub);
+      
       updateClubUI();
       loadLocalMembers();
       await fetchMembersFromSheet(true);
@@ -1768,21 +1824,16 @@
     }
 
     function loadLocalMembers() {
-      try {
-        const clubStorageKey = `${STORAGE_KEY_BASE}_${encodeURIComponent(currentClub)}`;
-        const saved = localStorage.getItem(clubStorageKey);
-        members = saved ? normalizeMembers(JSON.parse(saved)) : [];
-      } catch (e) {
-        members = [];
-      }
+      const clean = cleanClubName(currentClub);
+      members = memoryClubMembers[clean] ? normalizeMembers(memoryClubMembers[clean]) : [];
       renderMembersTable();
       renderUnassignedTable();
       updateStats();
     }
 
     function saveLocalMembers() {
-      const clubStorageKey = `${STORAGE_KEY_BASE}_${encodeURIComponent(currentClub)}`;
-      localStorage.setItem(clubStorageKey, JSON.stringify(members));
+      const clean = cleanClubName(currentClub);
+      memoryClubMembers[clean] = [...members];
       renderMembersTable();
       renderUnassignedTable();
       updateStats();
@@ -2081,12 +2132,10 @@
       };
 
       if (isTransfer && oldClubName) {
-        try {
-          const oldStorageKey = `${STORAGE_KEY_BASE}_${encodeURIComponent(oldClubName)}`;
-          let oldList = JSON.parse(localStorage.getItem(oldStorageKey) || '[]');
-          oldList = oldList.filter(m => String(m.id).trim() !== currentFoundStudent.id);
-          localStorage.setItem(oldStorageKey, JSON.stringify(oldList));
-        } catch(e) {}
+        const cleanOld = cleanClubName(oldClubName);
+        if (memoryClubMembers[cleanOld]) {
+          memoryClubMembers[cleanOld] = memoryClubMembers[cleanOld].filter(m => String(m.id).trim() !== currentFoundStudent.id);
+        }
       }
 
       members.unshift(newMember);
@@ -2189,12 +2238,17 @@
       if (syncText) syncText.innerText = isAuto ? 'กำลังซิงค์...' : 'กำลังดึง...';
 
       try {
-        const res = await fetch(`${WEB_APP_URL}?action=getMembers&club=${encodeURIComponent(currentClub)}`);
+        const clean = cleanClubName(currentClub);
+        const res = await fetch(`${WEB_APP_URL}?action=getMembers&club=${encodeURIComponent(clean)}`);
         const json = await res.json();
         if (json.status === 'success' && Array.isArray(json.data)) {
           members = normalizeMembers(json.data);
-          saveLocalMembers();
-          if (!isAuto) showToast(`ดึงข้อมูลสำเร็จ ${json.data.length} รายการ (${currentClub})`);
+          memoryClubMembers[clean] = [...members];
+          renderMembersTable();
+          renderUnassignedTable();
+          updateStats();
+          if (typeof updateMemberNavBadge === 'function') updateMemberNavBadge();
+          if (!isAuto) showToast(`ดึงข้อมูลสำเร็จ ${json.data.length} รายการ (${clean})`);
         }
 
         const resAll = await fetch(`${WEB_APP_URL}?action=getAllRegistered`);
@@ -2204,12 +2258,31 @@
           renderUnassignedTable();
           updateStats();
         }
+
+        // Sync attendance directly from sheets
+        await fetchAttendanceFromSheet(true);
       } catch (e) {
         console.error('Fetch error:', e);
         if (!isAuto) showToast('การดึงข้อมูลขัดข้อง (กรุณาตรวจสอบสิทธิ์ Web App)', 'error');
       } finally {
         if (syncIcon) syncIcon.classList.remove('animate-spin');
         if (syncText) syncText.innerText = 'ดึงจากชีต';
+      }
+    }
+
+    async function fetchAttendanceFromSheet(isAuto = false) {
+      try {
+        const clean = cleanClubName(currentClub);
+        const res = await fetch(`${WEB_APP_URL}?action=getAttendance&club=${encodeURIComponent(clean)}`);
+        const json = await res.json();
+        if (json.status === 'success' && json.data) {
+          memoryAttendance[clean] = json.data;
+          if (currentMainTab === 'att') renderAttendanceUI();
+          if (currentMainTab === 'report') renderReportUI();
+          updateReportKPIs();
+        }
+      } catch (e) {
+        console.warn('Fetch attendance failed:', e);
       }
     }
 
@@ -2911,7 +2984,7 @@
 
     window.switchToClubFromDashboard = function(clubName) {
       currentClub = cleanClubName(clubName);
-      localStorage.setItem('sichompu_current_club', currentClub);
+      
       const meta = getClubMeta(currentClub);
       selectedDeptFilter = meta.dept || 'all';
       renderDeptPills();
@@ -3135,21 +3208,18 @@
       return closestWeek;
     }
 
-    // Attendance data storage key per club
-    function getAttStorageKey() {
-      return `sichompu_club_attendance_${encodeURIComponent(cleanClubName(currentClub))}_2569`;
-    }
-
+    // Attendance in-memory runtime cache (No LocalStorage)
     function loadAttendanceData() {
-      try {
-        const raw = localStorage.getItem(getAttStorageKey());
-        if (raw) return JSON.parse(raw);
-      } catch (e) {}
-      return { activities: {}, records: {} };
+      const clean = cleanClubName(currentClub);
+      if (!memoryAttendance[clean]) {
+        memoryAttendance[clean] = { activities: {}, records: {} };
+      }
+      return memoryAttendance[clean];
     }
 
     function saveAttendanceData(attData) {
-      localStorage.setItem(getAttStorageKey(), JSON.stringify(attData));
+      const clean = cleanClubName(currentClub);
+      memoryAttendance[clean] = attData;
       updateReportKPIs();
     }
 
@@ -3228,7 +3298,7 @@
           const firstInList = attClubSelect.value;
           if (firstInList) {
             currentClub = cleanClubName(firstInList);
-            localStorage.setItem('sichompu_current_club', currentClub);
+            
             updateClubUI();
             loadLocalMembers();
             renderAttendanceUI();
@@ -3240,7 +3310,7 @@
       if (attClubSelect) {
         attClubSelect.addEventListener('change', async (e) => {
           currentClub = cleanClubName(e.target.value);
-          localStorage.setItem('sichompu_current_club', currentClub);
+          
           updateClubUI();
           loadLocalMembers();
           renderAttendanceUI();
@@ -3255,7 +3325,7 @@
           const firstInList = repClubSelect.value;
           if (firstInList) {
             currentClub = cleanClubName(firstInList);
-            localStorage.setItem('sichompu_current_club', currentClub);
+            
             updateClubUI();
             loadLocalMembers();
             renderReportUI();
@@ -3267,7 +3337,7 @@
       if (repClubSelect) {
         repClubSelect.addEventListener('change', async (e) => {
           currentClub = cleanClubName(e.target.value);
-          localStorage.setItem('sichompu_current_club', currentClub);
+          
           updateClubUI();
           loadLocalMembers();
           renderReportUI();
