@@ -85,26 +85,212 @@
       overscroll-behavior: contain;
     }
 
-    /* Mobile landscape optimizations (max-height <= 550px) */
-    @media (max-height: 550px) and (orientation: landscape) {
+    /* =========================================================================
+       Smart Phone Android & Mobile Landscape Optimizations
+       Targeting Android & iOS devices in landscape mode (height <= 500px, orientation: landscape)
+       ========================================================================= */
+    @media (orientation: landscape) and (max-height: 500px) {
       body {
-        padding: max(0.5rem, var(--sat)) max(0.75rem, var(--sar)) max(0.5rem, var(--sab)) max(0.75rem, var(--sal));
+        padding-top: max(0.35rem, var(--sat)) !important;
+        padding-bottom: max(0.5rem, var(--sab)) !important;
+        padding-left: max(0.5rem, var(--sal)) !important;
+        padding-right: max(0.5rem, var(--sar)) !important;
       }
+      .max-w-6xl {
+        max-width: 100% !important;
+        space-y: 0.75rem !important;
+      }
+      .space-y-5 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-y-reverse: 0 !important;
+        margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse))) !important;
+        margin-bottom: calc(0.75rem * var(--tw-space-y-reverse)) !important;
+      }
+      .space-y-4 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-y-reverse: 0 !important;
+        margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse))) !important;
+        margin-bottom: calc(0.5rem * var(--tw-space-y-reverse)) !important;
+      }
+
+      /* Compact Top Header */
       header.glass-nav {
-        padding: 0.75rem 1rem !important;
-        gap: 0.75rem !important;
+        padding: 0.5rem 0.85rem !important;
+        gap: 0.5rem !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
       }
-      header .w-16, header .w-20 {
-        width: 2.75rem !important;
-        height: 2.75rem !important;
+      header.glass-nav .w-16, 
+      header.glass-nav .w-20 {
+        width: 2.25rem !important;
+        height: 2.25rem !important;
+        min-width: 2.25rem !important;
+        border-radius: 0.6rem !important;
+        padding: 2px !important;
       }
-      #dashboardModal .glass-card {
-        max-height: 96vh !important;
-        padding: 0.85rem !important;
+      header.glass-nav .text-center {
+        text-align: left !important;
       }
+      h1#displayClubTitle {
+        font-size: 1.15rem !important;
+        margin-top: 0 !important;
+      }
+      header.glass-nav p {
+        display: none !important;
+      }
+      header.glass-nav .flex-wrap {
+        gap: 0.35rem !important;
+      }
+      header.glass-nav button {
+        padding: 0.35rem 0.65rem !important;
+        font-size: 0.75rem !important;
+        border-radius: 0.75rem !important;
+      }
+
+      /* Navigation Tabs */
+      .glass-card.rounded-2xl.p-2 {
+        padding: 0.35rem !important;
+      }
+      .glass-card.rounded-2xl.p-2 button {
+        padding: 0.4rem 0.85rem !important;
+        font-size: 0.75rem !important;
+      }
+
+      /* Learning Area Filter Bar */
+      #deptPillContainer {
+        padding-bottom: 2px !important;
+      }
+      #deptPillContainer button {
+        padding: 0.25rem 0.65rem !important;
+        font-size: 0.7rem !important;
+      }
+
+      /* KPI Stats Cards - 4 Columns side by side */
       .grid.grid-cols-2.sm\:grid-cols-4 {
         grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
         gap: 0.5rem !important;
+      }
+      .grid.grid-cols-2.sm\:grid-cols-4 .glass-card {
+        padding: 0.5rem 0.75rem !important;
+        border-radius: 1rem !important;
+      }
+      .grid.grid-cols-2.sm\:grid-cols-4 .text-3xl,
+      .grid.grid-cols-2.sm\:grid-cols-4 .text-4xl {
+        font-size: 1.35rem !important;
+        line-height: 1.5rem !important;
+      }
+      .grid.grid-cols-2.sm\:grid-cols-4 p,
+      .grid.grid-cols-2.sm\:grid-cols-4 .mt-3 {
+        margin-top: 0.25rem !important;
+      }
+
+      /* 2-Column Side-by-Side Layout in Landscape */
+      .grid.grid-cols-1.lg\:grid-cols-12 {
+        display: grid !important;
+        grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+        gap: 0.75rem !important;
+        align-items: stretch !important;
+      }
+      .grid.grid-cols-1.lg\:grid-cols-12 > .lg\:col-span-5 {
+        grid-column: span 5 / span 5 !important;
+      }
+      .grid.grid-cols-1.lg\:grid-cols-12 > .lg\:col-span-7 {
+        grid-column: span 7 / span 7 !important;
+      }
+
+      /* Form & Preview in Left Column */
+      .lg\:col-span-5.glass-card,
+      .lg\:col-span-7.glass-card {
+        padding: 0.75rem !important;
+        border-radius: 1.25rem !important;
+      }
+      #previewCard {
+        min-height: 95px !important;
+        padding: 0.5rem 0.75rem !important;
+      }
+      #previewCard .w-12 {
+        width: 2.25rem !important;
+        height: 2.25rem !important;
+        font-size: 0.9rem !important;
+      }
+      #studentSearchInput {
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+        font-size: 0.85rem !important;
+      }
+      #btnRegister {
+        padding: 0.55rem 1rem !important;
+        font-size: 0.85rem !important;
+      }
+
+      /* Tables Scroll Container Height */
+      .overflow-x-auto.rounded-2xl {
+        max-height: 48vh !important;
+        overflow-y: auto !important;
+      }
+      table th, table td {
+        padding: 0.35rem 0.5rem !important;
+        font-size: 0.7rem !important;
+      }
+
+      /* Attendance Module Landscape Adaptations */
+      #moduleAttendance .glass-card {
+        padding: 0.75rem !important;
+      }
+      #moduleAttendance .w-12 {
+        width: 2.25rem !important;
+        height: 2.25rem !important;
+        font-size: 1rem !important;
+      }
+      #attActivityInput {
+        padding: 0.4rem 0.65rem !important;
+        font-size: 0.75rem !important;
+      }
+
+      /* Report Module Landscape Adaptations */
+      #moduleReport .glass-card {
+        padding: 0.75rem !important;
+      }
+      .overflow-y-auto.max-h-\[600px\] {
+        max-height: 52vh !important;
+      }
+
+      /* Modals inside Landscape */
+      #dashboardModal {
+        padding: 0.35rem !important;
+      }
+      #dashboardModal .glass-card {
+        max-height: 98vh !important;
+        padding: 0.65rem 0.85rem !important;
+        border-radius: 1.25rem !important;
+      }
+      #dashboardModal .w-11 {
+        width: 2rem !important;
+        height: 2rem !important;
+        font-size: 0.9rem !important;
+      }
+      #dashboardModal .grid-cols-2.sm\:grid-cols-4 {
+        gap: 0.35rem !important;
+      }
+      #dashboardModal .grid-cols-2.sm\:grid-cols-4 .p-3 {
+        padding: 0.35rem !important;
+      }
+      #dashboardModal .text-xl, 
+      #dashboardModal .text-2xl {
+        font-size: 1.15rem !important;
+      }
+      #dashboardModal table th, 
+      #dashboardModal table td {
+        padding: 0.3rem 0.45rem !important;
+        font-size: 0.68rem !important;
+      }
+      #dashChartsViewSection .h-52,
+      #dashChartsViewSection .h-56,
+      #dashChartsViewSection .h-60 {
+        height: 180px !important;
+      }
+      footer {
+        padding-top: 0.25rem !important;
+        padding-bottom: 0.25rem !important;
       }
     }
 
@@ -156,10 +342,23 @@
         display: none !important; 
       }
       .print-only { 
-        display: block !important; 
+        display: none !important; 
+      }
+      body.print-mode-reg #printRegSection {
+        display: block !important;
         width: 100% !important;
         padding: 0 !important;
         margin: 0 !important;
+        page-break-before: avoid !important;
+        break-before: avoid !important;
+      }
+      body.print-mode-att #printAttSection {
+        display: block !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        page-break-before: avoid !important;
+        break-before: avoid !important;
       }
       table {
         border-collapse: collapse !important;
@@ -182,16 +381,34 @@
         page-break-inside: avoid !important;
         break-inside: avoid !important;
       }
-      .print-att-section {
-        page-break-before: always !important;
-        break-before: page !important;
+      .cover-page {
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      .activity-page {
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      .member-page {
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      .matrix-page {
+        page-break-before: auto !important;
+        break-before: auto !important;
       }
       @page {
         size: A4 portrait;
         margin: 6mm 10mm 6mm 10mm;
       }
     }
-    .print-only { display: none; }
+    .print-only { display: none !important; }
 
     ::-webkit-scrollbar { width: 7px; height: 7px; }
     ::-webkit-scrollbar-track { background: #ffeef3; }
@@ -853,7 +1070,7 @@
               <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
               </svg>
-              <span>พิมพ์แบบบันทึกเวลาเรียน</span>
+              <span>พิมพ์เล่ม กพ.001</span>
             </button>
           </div>
         </div>
@@ -986,57 +1203,295 @@
   </div>
 
   
-    <!-- Official Printable Format for Attendance Report -->
-    <div class="print-only print-att-section space-y-3 bg-white text-gray-900 font-sans" id="printAttSection" style="display:none;">
-      <div class="border-b-2 border-brand-500 pb-2 flex items-center justify-between gap-4">
-        <div class="flex items-center gap-3">
-          <img src="logo.png" alt="โลโก้โรงเรียนสีชมพูศึกษา" class="w-12 h-12 object-contain rounded-full border border-gray-200 p-0.5" onerror="this.style.display='none'">
-          <div>
-            <div class="flex items-center gap-2 mb-0.5">
-              <span class="text-[10.5px] font-bold px-2 py-0.5 rounded-full bg-pink-100 text-pink-800 border border-pink-200">
-                🌸 โรงเรียนสีชมพูศึกษา
-              </span>
-              <span class="text-[10.5px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200 font-medium">
-                รายงานเวลาเรียนและกิจกรรมชุมนุม (เกณฑ์ 80%)
-              </span>
+    <!-- Official Printable Format for Attendance Report (เล่ม กพ.001 ครบ 4 หน้าตามลำดับ) -->
+    <div class="print-only print-att-section space-y-4 bg-white text-gray-900 font-sans" id="printAttSection" style="display:none;">
+      
+      <!-- ================= PAGE 1: หน้าปกแบบบันทึกผลการประเมิน กพ.001 ================= -->
+      <div class="cover-page flex flex-col justify-between" style="page-break-after: always; break-after: page;">
+        
+        <!-- ส่วนหัวหน้าปก ตราโรงเรียน และชื่อหน่วยงาน -->
+        <div class="text-center space-y-1 pt-2">
+          <div class="flex justify-center mb-2">
+            <img src="logo.png" alt="ตราโรงเรียนสีชมพูศึกษา" class="w-20 h-20 object-contain mx-auto" onerror="this.style.display='none'">
+          </div>
+          <h2 class="text-xl font-extrabold text-gray-900 tracking-wide">แบบบันทึกผลการประเมินกิจกรรมพัฒนาผู้เรียน</h2>
+          <p class="text-xs font-bold text-gray-700">(กพ.001)</p>
+          <h3 class="text-lg font-bold text-gray-900 mt-1">โรงเรียนสีชมพูศึกษา</h3>
+          <p class="text-xs text-gray-800">ตำบลวังเพิ่ม อำเภอสีชมพู จังหวัดขอนแก่น</p>
+          <p class="text-xs text-gray-800">สังกัดองค์การบริหารส่วนจังหวัดขอนแก่น</p>
+        </div>
+
+        <!-- ข้อมูลภาคเรียนและกิจกรรม -->
+        <div class="text-xs space-y-1.5 pt-3 border-t-2 border-gray-400 mt-2">
+          <div class="flex justify-between font-bold text-gray-900">
+            <span>ภาคเรียนที่จัดกิจกรรม: <strong>2</strong></span>
+            <span>ปีการศึกษา: <strong>2569</strong></span>
+          </div>
+          <div class="font-bold text-gray-900">
+            ชื่อกิจกรรม: <strong id="coverClubName" class="text-sm text-brand-900 font-extrabold">ชุมนุม TRADER</strong>
+          </div>
+          <div class="font-bold text-gray-900">
+            ประเภท: <strong>กิจกรรมพัฒนาผู้เรียน (กิจกรรมชุมนุม)</strong>
+          </div>
+        </div>
+
+        <!-- ส่วนสรุปผลการอนุมัติและตาราง -->
+        <div class="pt-2 text-xs">
+          <p class="font-bold text-gray-900 mb-1">ได้เสนอผลการเข้าร่วมกิจกรรมเพื่อโปรดพิจารณาอนุมัติดังนี้</p>
+          <p class="text-center font-bold text-sm text-gray-900 mb-1.5">การอนุมัติผลการประเมินกิจกรรมพัฒนาผู้เรียน</p>
+          <table class="w-full text-center text-xs border border-gray-600 border-collapse">
+            <thead>
+              <tr class="bg-gray-100 font-bold border-b border-gray-600">
+                <th class="py-2 px-2 border-r border-gray-600 w-1/4">จำนวนนักเรียน (คน)</th>
+                <th class="py-2 px-2 border-r border-gray-600 w-1/4 text-emerald-800 font-bold">ผ่าน (ผ)</th>
+                <th class="py-2 px-2 border-r border-gray-600 w-1/4 text-rose-800 font-bold">ไม่ผ่าน (มผ)</th>
+                <th class="py-2 px-2 w-1/4">หมายเหตุ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="font-bold text-sm">
+                <td class="py-2 px-2 border-r border-gray-600 font-mono text-base" id="coverStatTotal">0</td>
+                <td class="py-2 px-2 border-r border-gray-600 font-mono text-base text-emerald-700" id="coverStatPass">0</td>
+                <td class="py-2 px-2 border-r border-gray-600 font-mono text-base text-rose-700" id="coverStatFail">0</td>
+                <td class="py-2 px-2 font-normal text-xs">-</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ลายเซ็นผู้เกี่ยวข้อง 4 ส่วน -->
+        <div class="pt-3 text-xs space-y-5">
+          <!-- แถวที่ 1: ครูที่ปรึกษาชุมนุม และ หัวหน้ากิจกรรมชุมนุม -->
+          <div class="grid grid-cols-2 gap-4 text-center">
+            <div>
+              <p class="font-bold mb-8">ครูที่ปรึกษาชุมนุม</p>
+              <p>ลงชื่อ............................................................</p>
+              <p class="font-bold mt-1 text-gray-900" id="coverAdvisorName">( นายนพคุณ สืบเลย )</p>
             </div>
-            <h1 class="text-lg font-extrabold text-brand-900 tracking-tight" id="printAttClubTitle">
-              ชุมนุม TRADER
-            </h1>
-            <p class="text-[10.5px] text-gray-600" id="printAttClubSubtitle">
-              ภาคเรียนที่ 2 ปีการศึกษา 2569 • 20 สัปดาห์ (เริ่มต้น 29 ตุลาคม 2569)
-            </p>
+            <div>
+              <p class="font-bold mb-8">หัวหน้ากิจกรรมชุมนุม</p>
+              <p>ลงชื่อ............................................................</p>
+              <p class="font-bold mt-1 text-gray-900">( นายปัญญา คำสะไมล์ )</p>
+            </div>
+          </div>
+
+          <!-- แถวที่ 2: หัวหน้ากิจกรรมพัฒนาผู้เรียน และ หัวหน้ากลุ่มบริหารงานวิชาการ -->
+          <div class="grid grid-cols-2 gap-4 text-center pt-1">
+            <div>
+              <p class="font-bold mb-8">หัวหน้ากิจกรรมพัฒนาผู้เรียน</p>
+              <p>ลงชื่อ............................................................</p>
+              <p class="font-bold mt-1 text-gray-900">( นายสิทธิศักดิ์ สิงห์โสภา )</p>
+            </div>
+            <div>
+              <p class="font-bold mb-8">หัวหน้ากลุ่มบริหารงานวิชาการ</p>
+              <p>ลงชื่อ............................................................</p>
+              <p class="font-bold mt-1 text-gray-900">( นางสาวอารญา ผุยเบ้า )</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- กรอบอนุมัติท้ายหน้าปก (รอง ผอ. & ผอ.) -->
+        <div class="border-2 border-gray-700 rounded-xl p-3 text-xs mt-3">
+          <div class="grid grid-cols-2 divide-x-2 divide-gray-400">
+            <!-- ซ้าย: เรียนเสนอเพื่อพิจารณา -->
+            <div class="text-center pr-3 space-y-1">
+              <p class="font-extrabold text-gray-900">เรียนเสนอเพื่อพิจารณา</p>
+              <div class="pt-6">
+                <p>ลงชื่อ............................................................</p>
+                <p class="font-bold mt-1 text-gray-900">( นางสุภาวดี ภาระดี )</p>
+                <p class="text-[11px] text-gray-700">รองผู้อำนวยการกลุ่มบริหารงานวิชาการ</p>
+                <p class="text-[11px] text-gray-600 mt-1">วันที่ ...... เดือน ..................... พ.ศ. ........</p>
+              </div>
+            </div>
+            <!-- ขวา: ผลการอนุมัติของผู้อำนวยการ -->
+            <div class="text-center pl-3 space-y-1">
+              <div class="flex justify-center items-center gap-6 font-extrabold text-gray-900">
+                <span class="flex items-center gap-1">[ &nbsp; ] อนุมัติ</span>
+                <span class="flex items-center gap-1">[ &nbsp; ] ไม่อนุมัติ</span>
+              </div>
+              <div class="pt-6">
+                <p>ลงชื่อ............................................................</p>
+                <p class="font-bold mt-1 text-gray-900">( นางศุภลักษณ์ ดียิ่ง )</p>
+                <p class="text-[11px] text-gray-700">ผู้อำนวยการโรงเรียนสีชมพูศึกษา</p>
+                <p class="text-[11px] text-gray-600 mt-1">วันที่ ...... เดือน ..................... พ.ศ. ........</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ================= PAGE 2: กิจกรรมแต่ละสัปดาห์ทั้ง 20 สัปดาห์ ================= -->
+      <div class="activity-page flex flex-col justify-between" style="page-break-after: always; break-after: page;">
+        <div>
+          <!-- ส่วนหัวหน้ากิจกรรม -->
+          <div class="border-b-2 border-brand-500 pb-2 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <img src="logo.png" alt="โลโก้โรงเรียนสีชมพูศึกษา" class="w-12 h-12 object-contain rounded-full border border-gray-200 p-0.5" onerror="this.style.display='none'">
+              <div>
+                <div class="flex items-center gap-2 mb-0.5">
+                  <span class="text-[10.5px] font-bold px-2 py-0.5 rounded-full bg-pink-100 text-pink-800 border border-pink-200">
+                    🌸 โรงเรียนสีชมพูศึกษา
+                  </span>
+                  <span class="text-[10.5px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium">
+                    บันทึกแผนและผลการจัดกิจกรรมการเรียนรู้ (20 สัปดาห์)
+                  </span>
+                </div>
+                <h1 class="text-base font-extrabold text-brand-900 tracking-tight" id="printActClubTitle">
+                  ชุมนุม TRADER
+                </h1>
+                <p class="text-[10.5px] text-gray-600" id="printActClubSubtitle">
+                  ภาคเรียนที่ 2 ปีการศึกษา 2569 • 20 สัปดาห์ (เริ่มต้น 29 ตุลาคม 2569)
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ตารางกิจกรรม 20 สัปดาห์ -->
+          <table class="w-full text-[10.5px] border border-gray-500 border-collapse mt-2.5">
+            <thead>
+              <tr class="bg-pink-100/90 text-brand-900 font-bold border-b border-gray-500">
+                <th class="py-1.5 px-2 text-center w-14 border-r border-gray-500">สัปดาห์ที่</th>
+                <th class="py-1.5 px-3 text-center w-32 border-r border-gray-500">วัน/เดือน/ปี</th>
+                <th class="py-1.5 px-4 text-left border-r border-gray-500">กิจกรรม / เนื้อหาการจัดกิจกรรมการเรียนรู้</th>
+                <th class="py-1.5 px-3 text-center w-24">หมายเหตุ</th>
+              </tr>
+            </thead>
+            <tbody id="printActTableBody" class="divide-y divide-gray-300"></tbody>
+          </table>
+        </div>
+
+        <!-- ท้ายหน้ากิจกรรม 20 สัปดาห์ ลายเซ็นครูที่ปรึกษา -->
+        <div class="pt-3 flex justify-end signature-box">
+          <div class="text-[11px] text-gray-800 font-sans">
+            <div class="flex items-center">
+              <span class="whitespace-nowrap">ลงชื่อ</span>
+              <span class="inline-block border-b border-dotted border-gray-600 w-48 mx-1.5"></span>
+              <span class="whitespace-nowrap">ครูที่ปรึกษาชุมนุม</span>
+            </div>
+            <div class="flex items-center mt-1.5">
+              <span class="whitespace-nowrap invisible" aria-hidden="true">ลงชื่อ</span>
+              <span class="inline-block w-48 mx-1.5 text-center font-bold text-gray-900" id="printActAdvisorName">
+                ( นายนพคุณ สืบเลย )
+              </span>
+              <span class="whitespace-nowrap invisible" aria-hidden="true">ครูที่ปรึกษาชุมนุม</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Printable 20-Week Attendance Table (แสดงเฉพาะ ลำดับ, ชื่อ - สกุล, สัปดาห์ 1-20 และสรุปผล ผ/มผ) -->
-      <table class="w-full text-[9.5px] border border-gray-400 border-collapse">
-        <thead>
-          <tr class="bg-pink-100/90 text-brand-900 font-bold border-b border-gray-400" id="printAttHeaderRow"></tr>
-        </thead>
-        <tbody id="printAttTableBody" class="divide-y divide-gray-300"></tbody>
-      </table>
-
-      <!-- Bottom Signatures for Attendance Report (จัดตำแหน่งชื่อให้อยู่ตรงกึ่งกลางแนวเส้นจุดไข่ปลา) -->
-      <div class="pt-3 flex justify-end signature-box">
-        <div class="text-[11px] text-gray-800 font-sans">
-          <div class="flex items-center">
-            <span class="whitespace-nowrap">ลงชื่อ</span>
-            <span class="inline-block border-b border-dotted border-gray-600 w-48 mx-1.5"></span>
-            <span class="whitespace-nowrap">ครูที่ปรึกษาชุมนุม</span>
+      <!-- ================= PAGE 3: รายชื่อสมาชิกในชุมนุม ================= -->
+      <div class="member-page flex flex-col justify-between" style="page-break-after: always; break-after: page;">
+        <div>
+          <!-- ส่วนหัวหน้ารายชื่อสมาชิก -->
+          <div class="border-b-2 border-brand-500 pb-2 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <img src="logo.png" alt="โลโก้โรงเรียนสีชมพูศึกษา" class="w-12 h-12 object-contain rounded-full border border-gray-200 p-0.5" onerror="this.style.display='none'">
+              <div>
+                <div class="flex items-center gap-2 mb-0.5">
+                  <span class="text-[10.5px] font-bold px-2 py-0.5 rounded-full bg-pink-100 text-pink-800 border border-pink-200">
+                    🌸 โรงเรียนสีชมพูศึกษา
+                  </span>
+                  <span class="text-[10.5px] px-2 py-0.5 rounded-full bg-brand-50 text-brand-800 border border-brand-200 font-medium">
+                    แบบบัญชีรายชื่อสมาชิกกิจกรรมชุมนุม
+                  </span>
+                </div>
+                <h1 class="text-base font-extrabold text-brand-900 tracking-tight" id="printMemClubTitle">
+                  ชุมนุม TRADER
+                </h1>
+                <p class="text-[10.5px] text-gray-600" id="printMemClubSubtitle">
+                  ภาคเรียนที่ 2 ปีการศึกษา 2569 • กิจกรรมพัฒนาผู้เรียน (กิจกรรมชุมนุม)
+                </p>
+              </div>
+            </div>
           </div>
-          <div class="flex items-center mt-1.5">
-            <span class="whitespace-nowrap invisible" aria-hidden="true">ลงชื่อ</span>
-            <span class="inline-block w-48 mx-1.5 text-center font-bold text-gray-900" id="printAttAdvisorName">
-              ( นายนพคุณ สืบเลย )
-            </span>
-            <span class="whitespace-nowrap invisible" aria-hidden="true">ครูที่ปรึกษาชุมนุม</span>
+
+          <!-- ตารางรายชื่อสมาชิก (ลำดับ, เลขประจำตัว, ชื่อ - สกุล, ชั้น, หมายเหตุ) -->
+          <table class="w-full text-xs border border-gray-400 border-collapse mt-2.5">
+            <thead>
+              <tr class="bg-pink-100/90 text-brand-900 font-bold border-b border-gray-400">
+                <th class="py-2 px-2 text-center w-12 border-r border-gray-400">ลำดับ</th>
+                <th class="py-2 px-3 text-center w-28 border-r border-gray-400">เลขประจำตัว</th>
+                <th class="py-2 px-4 text-left border-r border-gray-400">ชื่อ - สกุล</th>
+                <th class="py-2 px-3 text-center w-24 border-r border-gray-400">ชั้น</th>
+                <th class="py-2 px-3 text-center w-28">หมายเหตุ</th>
+              </tr>
+            </thead>
+            <tbody id="printMemTableBody" class="divide-y divide-gray-300"></tbody>
+          </table>
+        </div>
+
+        <!-- ท้ายหน้ารายชื่อสมาชิก ลายเซ็นครูที่ปรึกษา -->
+        <div class="pt-3 flex justify-end signature-box">
+          <div class="text-[11px] text-gray-800 font-sans">
+            <div class="flex items-center">
+              <span class="whitespace-nowrap">ลงชื่อ</span>
+              <span class="inline-block border-b border-dotted border-gray-600 w-48 mx-1.5"></span>
+              <span class="whitespace-nowrap">ครูที่ปรึกษาชุมนุม</span>
+            </div>
+            <div class="flex items-center mt-1.5">
+              <span class="whitespace-nowrap invisible" aria-hidden="true">ลงชื่อ</span>
+              <span class="inline-block w-48 mx-1.5 text-center font-bold text-gray-900" id="printMemAdvisorName">
+                ( นายนพคุณ สืบเลย )
+              </span>
+              <span class="whitespace-nowrap invisible" aria-hidden="true">ครูที่ปรึกษาชุมนุม</span>
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- ================= PAGE 4+: ตารางบันทึกเวลาเรียน 20 สัปดาห์ ================= -->
+      <div class="matrix-page pt-1">
+        <div class="border-b-2 border-brand-500 pb-2 flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <img src="logo.png" alt="โลโก้โรงเรียนสีชมพูศึกษา" class="w-12 h-12 object-contain rounded-full border border-gray-200 p-0.5" onerror="this.style.display='none'">
+            <div>
+              <div class="flex items-center gap-2 mb-0.5">
+                <span class="text-[10.5px] font-bold px-2 py-0.5 rounded-full bg-pink-100 text-pink-800 border border-pink-200">
+                  🌸 โรงเรียนสีชมพูศึกษา
+                </span>
+                <span class="text-[10.5px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200 font-medium">
+                  แบบบันทึกเวลาเรียนและกิจกรรมชุมนุม (กพ.001)
+                </span>
+              </div>
+              <h1 class="text-lg font-extrabold text-brand-900 tracking-tight" id="printAttClubTitle">
+                ชุมนุม TRADER
+              </h1>
+              <p class="text-[10.5px] text-gray-600" id="printAttClubSubtitle">
+                ภาคเรียนที่ 2 ปีการศึกษา 2569 • 20 สัปดาห์ (เกณฑ์ผ่าน &ge; 80%)
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Printable 20-Week Attendance Table -->
+        <table class="w-full text-[9.5px] border border-gray-400 border-collapse mt-2">
+          <thead>
+            <tr class="bg-pink-100/90 text-brand-900 font-bold border-b border-gray-400" id="printAttHeaderRow"></tr>
+          </thead>
+          <tbody id="printAttTableBody" class="divide-y divide-gray-300"></tbody>
+        </table>
+
+        <!-- Bottom Signatures for Attendance Matrix Page -->
+        <div class="pt-3 flex justify-end signature-box">
+          <div class="text-[11px] text-gray-800 font-sans">
+            <div class="flex items-center">
+              <span class="whitespace-nowrap">ลงชื่อ</span>
+              <span class="inline-block border-b border-dotted border-gray-600 w-48 mx-1.5"></span>
+              <span class="whitespace-nowrap">ครูที่ปรึกษาชุมนุม</span>
+            </div>
+            <div class="flex items-center mt-1.5">
+              <span class="whitespace-nowrap invisible" aria-hidden="true">ลงชื่อ</span>
+              <span class="inline-block w-48 mx-1.5 text-center font-bold text-gray-900" id="printAttAdvisorName">
+                ( นายนพคุณ สืบเลย )
+              </span>
+              <span class="whitespace-nowrap invisible" aria-hidden="true">ครูที่ปรึกษาชุมนุม</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
-
 
   <!-- School Overview Dashboard Modal (76 ชุมนุม) -->
   <div id="dashboardModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/60 backdrop-blur-sm no-print transition-all">
@@ -2604,7 +3059,10 @@
         printBody.appendChild(tr);
       });
 
+      document.body.classList.remove('print-mode-att');
+      document.body.classList.add('print-mode-reg');
       window.print();
+      setTimeout(() => document.body.classList.remove('print-mode-reg'), 500);
     });
 
 
@@ -3814,23 +4272,83 @@
       });
     }
 
-    // Print Official Attendance Matrix Report
+    // Print Official Attendance Matrix Report (เล่ม กพ.001 ครบ 4 หน้าตามลำดับ)
     function prepareAndPrintAttendanceReport() {
       const meta = getClubMeta(currentClub);
       const attData = loadAttendanceData();
       const sortedMembers = sortMembersByRoom(members);
 
       if (sortedMembers.length === 0) {
-        showToast('ยังไม่มีสมาชิกในชุมนุมนี้สำหรับพิมพ์รายงาน', 'warn');
+        showToast('ยังไม่มีสมาชิกในชุมนุมนี้สำหรับพิมพ์รายงาน กพ.001', 'warn');
         return;
       }
 
+      const clubTitleText = `ชุมนุม ${currentClub.toUpperCase()}`;
+      const advisorText = `( ${meta.advisor || 'ครูที่ปรึกษาชุมนุม'} )`;
+
+      // 1. หน้า 1: ปก กพ.001
+      const cClub = document.getElementById('coverClubName');
+      if (cClub) cClub.innerText = clubTitleText;
+      const cAdv = document.getElementById('coverAdvisorName');
+      if (cAdv) cAdv.innerText = advisorText;
+
+      // 2. หน้า 2: กิจกรรมแต่ละสัปดาห์ทั้ง 20 สัปดาห์
+      const actTitle = document.getElementById('printActClubTitle');
+      if (actTitle) actTitle.innerText = clubTitleText;
+      const actSub = document.getElementById('printActClubSubtitle');
+      if (actSub) actSub.innerText = `กลุ่มสาระฯ ${meta.dept} • ครูที่ปรึกษา: ${meta.advisor || '-'} • ภาคเรียนที่ 2 ปีการศึกษา 2569 (20 สัปดาห์)`;
+      const actAdv = document.getElementById('printActAdvisorName');
+      if (actAdv) actAdv.innerText = advisorText;
+
+      const actTbody = document.getElementById('printActTableBody');
+      if (actTbody) {
+        actTbody.innerHTML = '';
+        WEEKS_DATA.forEach(w => {
+          const actContent = (attData.activities && attData.activities[w.week]) ? attData.activities[w.week] : '-';
+          const tr = document.createElement('tr');
+          tr.className = (w.week % 2 === 1) ? 'bg-gray-50' : 'bg-white';
+          tr.innerHTML = `
+            <td class="py-1 px-1.5 text-center font-bold font-mono border-r border-gray-400">${w.week}</td>
+            <td class="py-1 px-2 text-center whitespace-nowrap border-r border-gray-400 font-medium">${w.date}</td>
+            <td class="py-1 px-3 text-left border-r border-gray-400 font-medium">${actContent}</td>
+            <td class="py-1 px-2 text-center text-gray-500 font-medium">-</td>
+          `;
+          actTbody.appendChild(tr);
+        });
+      }
+
+      // 3. หน้า 3: รายชื่อสมาชิกในชุมนุม (เลขประจำตัว, ชื่อ-สกุล, ชั้น, หมายเหตุ)
+      const memTitle = document.getElementById('printMemClubTitle');
+      if (memTitle) memTitle.innerText = clubTitleText;
+      const memSub = document.getElementById('printMemClubSubtitle');
+      if (memSub) memSub.innerText = `กลุ่มสาระฯ ${meta.dept} • ครูที่ปรึกษา: ${meta.advisor || '-'} • สมาชิกทั้งหมด ${sortedMembers.length} คน`;
+      const memAdv = document.getElementById('printMemAdvisorName');
+      if (memAdv) memAdv.innerText = advisorText;
+
+      const memTbody = document.getElementById('printMemTableBody');
+      if (memTbody) {
+        memTbody.innerHTML = '';
+        sortedMembers.forEach((m, idx) => {
+          const tr = document.createElement('tr');
+          tr.className = (idx % 2 === 1) ? 'bg-gray-50' : 'bg-white';
+          tr.innerHTML = `
+            <td class="py-1 px-2 text-center border-r border-gray-400 font-mono">${idx + 1}</td>
+            <td class="py-1 px-3 text-center border-r border-gray-400 font-mono font-bold">${m.id}</td>
+            <td class="py-1 px-4 text-left border-r border-gray-400 font-semibold">${m.name}</td>
+            <td class="py-1 px-3 text-center border-r border-gray-400 font-bold text-pink-700">${m.class}</td>
+            <td class="py-1 px-2 text-center text-gray-400 text-[10px]">-</td>
+          `;
+          memTbody.appendChild(tr);
+        });
+      }
+
+      // 4. หน้า 4+: ตารางบันทึกเวลาเรียน 20 สัปดาห์ (Attendance Matrix)
       const pTitle = document.getElementById('printAttClubTitle');
-      if (pTitle) pTitle.innerText = `รายงานเวลาเรียนและกิจกรรมชุมนุม ${currentClub.toUpperCase()} (เกณฑ์ 80%)`;
+      if (pTitle) pTitle.innerText = clubTitleText;
       const pSub = document.getElementById('printAttClubSubtitle');
-      if (pSub) pSub.innerText = `กลุ่มสาระฯ ${meta.dept} • ครูที่ปรึกษา: ${meta.advisor || '-'} • ภาคเรียนที่ 2 ปีการศึกษา 2569 (20 สัปดาห์)`;
+      if (pSub) pSub.innerText = `กลุ่มสาระฯ ${meta.dept} • ครูที่ปรึกษา: ${meta.advisor || '-'} • ภาคเรียนที่ 2 ปีการศึกษา 2569 (เกณฑ์ผ่าน >= 80%)`;
       const pAdv = document.getElementById('printAttAdvisorName');
-      if (pAdv) pAdv.innerText = `( ${meta.advisor || 'ครูที่ปรึกษาชุมนุม'} )`;
+      if (pAdv) pAdv.innerText = advisorText;
 
       const headerRow = document.getElementById('printAttHeaderRow');
       if (headerRow) {
@@ -3853,6 +4371,8 @@
         headerRow.innerHTML = pHeader;
       }
 
+      let totalPassCover = 0;
+      let totalFailCover = 0;
       const tbody = document.getElementById('printAttTableBody');
       if (tbody) {
         tbody.innerHTML = '';
@@ -3876,6 +4396,8 @@
           const totalAttended = p + act + l;
           const pct = Math.round((totalAttended / 20) * 100);
           const isPass = (totalAttended >= 16);
+          if (isPass) totalPassCover++;
+          else totalFailCover++;
 
           const tr = document.createElement('tr');
           tr.className = (idx % 2 === 1) ? 'bg-gray-50' : 'bg-white';
@@ -3895,16 +4417,19 @@
         });
       }
 
-      // Show ONLY printAttSection, hide printRegSection (ขึ้นหน้าใหม่แยกต่างหากสมบูรณ์แบบ)
-      const prReg = document.getElementById('printRegSection');
-      const prAtt = document.getElementById('printAttSection');
-      if (prReg) {
-        prReg.style.setProperty('display', 'none', 'important');
-      }
-      if (prAtt) {
-        prAtt.style.setProperty('display', 'block', 'important');
-      }
+      // อัปเดตสถิติในหน้า 1 (ปก กพ.001)
+      const cTot = document.getElementById('coverStatTotal');
+      if (cTot) cTot.innerText = sortedMembers.length;
+      const cPass = document.getElementById('coverStatPass');
+      if (cPass) cPass.innerText = totalPassCover;
+      const cFail = document.getElementById('coverStatFail');
+      if (cFail) cFail.innerText = totalFailCover;
+
+      // ส่งคำสั่งพิมพ์โดยเปิด Print Dialog ทันที (หน้าจอเว็บจะไม่แสดงข้อมูลใดๆ เพิ่มเติม)
+      document.body.classList.remove('print-mode-reg');
+      document.body.classList.add('print-mode-att');
       window.print();
+      setTimeout(() => document.body.classList.remove('print-mode-att'), 500);
     }
 
     const btnPrintReport = document.getElementById('btnPrintReport');
@@ -3917,11 +4442,6 @@
         if (currentMainTab === 'att' || currentMainTab === 'report') {
           e.stopImmediatePropagation();
           prepareAndPrintAttendanceReport();
-        } else {
-          const prReg = document.getElementById('printRegSection');
-          const prAtt = document.getElementById('printAttSection');
-          if (prReg) prReg.style.display = 'block';
-          if (prAtt) prAtt.style.display = 'none';
         }
       });
     }
