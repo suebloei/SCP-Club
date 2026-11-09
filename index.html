@@ -536,23 +536,23 @@
     </header>
 
     <!-- Main Module Navigation Tabs (รับสมัคร / เช็คชื่อ / รายงาน) -->
-    <div class="glass-card rounded-2xl p-2 shadow-pink-soft no-print flex items-center justify-center sm:justify-start gap-2 border-2 border-brand-200 overflow-x-auto">
-      <button id="btnMainTabReg" type="button" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center gap-2 bg-gradient-to-r from-brand-500 to-rose-500 text-white shadow-md shadow-brand-500/25 whitespace-nowrap active:scale-95">
-        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div class="glass-card rounded-2xl p-1.5 sm:p-2 shadow-pink-soft no-print grid grid-cols-3 sm:flex sm:items-center sm:justify-start gap-1 sm:gap-2 border-2 border-brand-200">
+      <button id="btnMainTabReg" type="button" class="px-2 py-2.5 sm:px-5 rounded-xl text-[11px] sm:text-sm font-extrabold transition flex items-center justify-center gap-1.5 bg-gradient-to-r from-brand-500 to-rose-500 text-white shadow-md shadow-brand-500/25 whitespace-nowrap active:scale-95">
+        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
         </svg>
         <span>1. รับสมัคร</span>
       </button>
 
-      <button id="btnMainTabAtt" type="button" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 text-brand-700 hover:text-brand-900 hover:bg-brand-50 whitespace-nowrap active:scale-95">
-        <svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button id="btnMainTabAtt" type="button" class="px-2 py-2.5 sm:px-5 rounded-xl text-[11px] sm:text-sm font-bold transition flex items-center justify-center gap-1.5 text-brand-700 hover:text-brand-900 hover:bg-brand-50 whitespace-nowrap active:scale-95">
+        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         <span>2. เช็คชื่อ</span>
       </button>
 
-      <button id="btnMainTabReport" type="button" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 text-brand-700 hover:text-brand-900 hover:bg-brand-50 whitespace-nowrap active:scale-95">
-        <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button id="btnMainTabReport" type="button" class="px-2 py-2.5 sm:px-5 rounded-xl text-[11px] sm:text-sm font-bold transition flex items-center justify-center gap-1.5 text-brand-700 hover:text-brand-900 hover:bg-brand-50 whitespace-nowrap active:scale-95">
+        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
         <span>3. รายงาน</span>
@@ -931,26 +931,26 @@
       <!-- Week Selector & Activity Banner -->
       <div class="glass-card rounded-3xl p-5 sm:p-6 shadow-pink-soft space-y-4 border-t-4 border-t-emerald-500">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3 border-b border-brand-100">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-emerald-500/25">
+          <div class="flex items-start sm:items-center gap-2.5 sm:gap-3 w-full md:w-auto">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center font-bold text-base sm:text-lg shadow-md shadow-emerald-500/25">
               📅
             </div>
-            <div class="space-y-1.5">
-              <div class="flex flex-wrap items-center gap-2">
-                <div class="flex items-center gap-1.5 bg-emerald-50/90 px-2.5 py-1 rounded-xl border border-emerald-200 shadow-sm">
-                  <label for="attDeptSelect" class="text-xs font-bold text-emerald-950 whitespace-nowrap">กลุ่มสาระฯ:</label>
-                  <select id="attDeptSelect" class="bg-white border border-emerald-300 rounded-lg py-1 px-2 text-xs font-bold text-brand-900 focus:outline-none focus:border-emerald-500 shadow-sm cursor-pointer"></select>
+            <div class="space-y-1.5 flex-1 min-w-0">
+              <div class="grid grid-cols-1 sm:flex sm:flex-wrap items-stretch sm:items-center gap-1.5 sm:gap-2 w-full">
+                <div class="flex items-center gap-1.5 bg-emerald-50/90 px-2.5 py-1 rounded-xl border border-emerald-200 shadow-sm min-w-0">
+                  <label for="attDeptSelect" class="text-xs font-bold text-emerald-950 shrink-0">กลุ่มสาระฯ:</label>
+                  <select id="attDeptSelect" class="bg-white border border-emerald-300 rounded-lg py-1 px-2 text-xs font-bold text-brand-900 focus:outline-none focus:border-emerald-500 shadow-sm cursor-pointer flex-1 min-w-0 truncate"></select>
                 </div>
-                <div class="flex items-center gap-1.5 bg-emerald-50/90 px-2.5 py-1 rounded-xl border border-emerald-200 shadow-sm">
-                  <label for="attClubSelect" class="text-xs font-bold text-emerald-950 whitespace-nowrap">ชุมนุม:</label>
-                  <select id="attClubSelect" class="bg-white border-2 border-emerald-400 rounded-lg py-1 px-2.5 text-xs sm:text-sm font-extrabold text-brand-900 focus:outline-none focus:border-emerald-600 shadow-sm cursor-pointer"></select>
+                <div class="flex items-center gap-1.5 bg-emerald-50/90 px-2.5 py-1 rounded-xl border border-emerald-200 shadow-sm min-w-0">
+                  <label for="attClubSelect" class="text-xs font-bold text-emerald-950 shrink-0">ชุมนุม:</label>
+                  <select id="attClubSelect" class="bg-white border-2 border-emerald-400 rounded-lg py-1 px-2 text-xs sm:text-sm font-extrabold text-brand-900 focus:outline-none focus:border-emerald-600 shadow-sm cursor-pointer flex-1 min-w-0 truncate"></select>
                 </div>
                 <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 hidden md:inline" id="attClubDeptLabel">
                   กลุ่มสาระฯ วิทยาศาสตร์และเทคโนโลยี
                 </span>
                 <span class="text-xs text-brand-600 font-medium hidden lg:inline">• ภาคเรียนที่ 2/2569 (20 สัปดาห์)</span>
               </div>
-              <h2 class="text-xl sm:text-2xl font-extrabold text-brand-900 tracking-tight">
+              <h2 class="text-base sm:text-2xl font-extrabold text-brand-900 tracking-tight leading-snug">
                 บันทึกการเช็คชื่อการมาเรียน
               </h2>
             </div>
@@ -1063,26 +1063,26 @@
       <!-- Report Header & KPI Cards -->
       <div class="glass-card rounded-3xl p-5 sm:p-6 shadow-pink-soft space-y-4 border-t-4 border-t-blue-500">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3 border-b border-brand-100">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-blue-500/25">
+          <div class="flex items-start sm:items-center gap-2.5 sm:gap-3 w-full md:w-auto">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 text-white flex items-center justify-center font-bold text-base sm:text-lg shadow-md shadow-blue-500/25">
               📊
             </div>
-            <div class="space-y-1.5">
-              <div class="flex flex-wrap items-center gap-2">
-                <div class="flex items-center gap-1.5 bg-blue-50/90 px-2.5 py-1 rounded-xl border border-blue-200 shadow-sm">
-                  <label for="repDeptSelect" class="text-xs font-bold text-blue-950 whitespace-nowrap">กลุ่มสาระฯ:</label>
-                  <select id="repDeptSelect" class="bg-white border border-blue-300 rounded-lg py-1 px-2 text-xs font-bold text-brand-900 focus:outline-none focus:border-blue-500 shadow-sm cursor-pointer"></select>
+            <div class="space-y-1.5 flex-1 min-w-0">
+              <div class="grid grid-cols-1 sm:flex sm:flex-wrap items-stretch sm:items-center gap-1.5 sm:gap-2 w-full">
+                <div class="flex items-center gap-1.5 bg-blue-50/90 px-2.5 py-1 rounded-xl border border-blue-200 shadow-sm min-w-0">
+                  <label for="repDeptSelect" class="text-xs font-bold text-blue-950 shrink-0">กลุ่มสาระฯ:</label>
+                  <select id="repDeptSelect" class="bg-white border border-blue-300 rounded-lg py-1 px-2 text-xs font-bold text-brand-900 focus:outline-none focus:border-blue-500 shadow-sm cursor-pointer flex-1 min-w-0 truncate"></select>
                 </div>
-                <div class="flex items-center gap-1.5 bg-blue-50/90 px-2.5 py-1 rounded-xl border border-blue-200 shadow-sm">
-                  <label for="repClubSelect" class="text-xs font-bold text-blue-950 whitespace-nowrap">ชุมนุม:</label>
-                  <select id="repClubSelect" class="bg-white border-2 border-blue-400 rounded-lg py-1 px-2.5 text-xs sm:text-sm font-extrabold text-brand-900 focus:outline-none focus:border-blue-600 shadow-sm cursor-pointer"></select>
+                <div class="flex items-center gap-1.5 bg-blue-50/90 px-2.5 py-1 rounded-xl border border-blue-200 shadow-sm min-w-0">
+                  <label for="repClubSelect" class="text-xs font-bold text-blue-950 shrink-0">ชุมนุม:</label>
+                  <select id="repClubSelect" class="bg-white border-2 border-blue-400 rounded-lg py-1 px-2 text-xs sm:text-sm font-extrabold text-brand-900 focus:outline-none focus:border-blue-600 shadow-sm cursor-pointer flex-1 min-w-0 truncate"></select>
                 </div>
                 <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-100 text-blue-800 border border-blue-200 hidden md:inline" id="repClubDeptLabel">
                   กลุ่มสาระฯ วิทยาศาสตร์และเทคโนโลยี
                 </span>
                 <span class="text-xs text-brand-600 font-medium hidden lg:inline">• เกณฑ์ผ่าน: &ge; 80% (16/20 สัปดาห์)</span>
               </div>
-              <h2 class="text-xl sm:text-2xl font-extrabold text-brand-900 tracking-tight">
+              <h2 class="text-base sm:text-2xl font-extrabold text-brand-900 tracking-tight leading-snug">
                 รายงานสรุปเวลาเรียนและการประเมินผลกิจกรรมชุมนุม
               </h2>
             </div>
@@ -2008,7 +2008,7 @@
       clubs.forEach(c => {
         const opt = document.createElement('option');
         opt.value = c.name;
-        opt.innerText = `${c.name} (${c.dept})`;
+        opt.innerText = c.name;
         attClubSelect.appendChild(opt);
       });
 
@@ -2039,7 +2039,7 @@
       clubs.forEach(c => {
         const opt = document.createElement('option');
         opt.value = c.name;
-        opt.innerText = `${c.name} (${c.dept})`;
+        opt.innerText = c.name;
         repClubSelect.appendChild(opt);
       });
 
@@ -2693,6 +2693,13 @@
     }
 
     btnRegister.addEventListener('click', registerCurrentStudent);
+
+        // Screen Orientation Auto-unlock for Android PWA
+    window.addEventListener('load', () => {
+      if (window.screen && window.screen.orientation && typeof window.screen.orientation.unlock === 'function') {
+        window.screen.orientation.unlock().catch(() => {});
+      }
+    });
 
     window.quickAssignStudent = function(id) {
       const student = studentMap.get(String(id).trim());
